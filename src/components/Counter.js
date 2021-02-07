@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 
 
-import {INCREASE_COUNTER, DECREASE_COUNTER} from '../store/actions/counter';
+import {INCREASE_COUNTER, DECREASE_COUNTER, RESET_COUNTER} from '../store/actions/counter';
 
 class Counter extends Component<Props> {
 
@@ -21,6 +21,9 @@ class Counter extends Component<Props> {
                         <Text>Decrease</Text>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity>
+                    <Text onPress={() => this.props.resetCounter()}>Reset</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -36,7 +39,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch) {
     return {
         increaseCounter: () => dispatch({type: INCREASE_COUNTER}),
-        decreaseCounter: () => dispatch({type: DECREASE_COUNTER})
+        decreaseCounter: () => dispatch({type: DECREASE_COUNTER}),
+        resetCounter: () => dispatch({type: RESET_COUNTER})
     }
 }
 
