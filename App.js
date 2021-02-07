@@ -13,5 +13,4 @@ const App: () => React$Node = () => {
         </SafeAreaView>
   )
 }
-
 export default App;
