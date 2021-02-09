@@ -4,30 +4,27 @@ import {
     Text, StyleSheet,
 
 } from 'react-native';
-import Counter from '../components/Counter';
 
 
 
 
-const Home = () => {
+const Profile = () => {
 
     return(
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Counter/>
-            <Text>Home!</Text>
+            <Text>Profile!</Text>
         </View>
     )
 }
 
 
 
-export default Home;
-
+export default Profile;
 
 // const styles = StyleSheet.create({
 //     container: {
 //         height: 200,
-//         flex: 1,
+//         // flex: ,
 //         justifyContent: 'center',
 //         alignItems: 'center',
 //         backgroundColor: '#F5FCFF',

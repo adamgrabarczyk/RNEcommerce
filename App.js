@@ -1,20 +1,27 @@
 import React from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
+import {Text, View, SafeAreaView, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-import  Home from './src/screens/Home'
-import  Counter from './src/components/Counter'
+
+import TabNavigator from './src/TabNavigator';
 
 const App: () => React$Node = () => {
     return (
         <NavigationContainer>
-        <SafeAreaView>
-  <View>
-      <Counter/>
-      <Text>dupa</Text>
-    </View>
-        </SafeAreaView>
+
+<TabNavigator/>
+
         </NavigationContainer>
   )
 }
 export default App;
+
+// const styles = StyleSheet.create({
+//     container: {
+//         height: 200,
+//         // flex: ,
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         backgroundColor: '#F5FCFF',
+//     }
+// })
