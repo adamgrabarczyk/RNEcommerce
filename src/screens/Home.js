@@ -24,12 +24,3 @@ const Home = () => {
 export default Home;
 
 
-// const styles = StyleSheet.create({
-//     container: {
-//         height: 200,
-//         flex: 1,
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         backgroundColor: '#F5FCFF',
-//     }
-// })

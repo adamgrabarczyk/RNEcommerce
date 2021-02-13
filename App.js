@@ -16,12 +16,3 @@ const App: () => React$Node = () => {
 }
 export default App;
 
-// const styles = StyleSheet.create({
-//     container: {
-//         height: 200,
-//         // flex: ,
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         backgroundColor: '#F5FCFF',
-//     }
-// })
