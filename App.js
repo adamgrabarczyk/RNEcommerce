@@ -3,7 +3,7 @@ import {Text, View, SafeAreaView, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-import TabNavigator from './src/TabNavigator';
+import TabNavigator from './src/navigation/TabNavigator';
 
 const App: () => React$Node = () => {
     return (
