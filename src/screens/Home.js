@@ -5,6 +5,7 @@ import {
 
 } from 'react-native';
 import Counter from '../components/Counter';
+import ProductOverviewScreen from './shop/ProductOverviewScreen';
 
 
 
@@ -19,6 +20,8 @@ const Home = ({ navigation }) => {
                 title="Go to Details"
                 onPress={() => navigation.navigate('Details')}
             />
+
+            <ProductOverviewScreen/>
         </View>
     )
 }

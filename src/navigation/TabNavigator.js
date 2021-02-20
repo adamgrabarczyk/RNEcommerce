@@ -1,14 +1,14 @@
 
 import React from 'react';
-import {View} from 'react-native';
+import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 import Favourite from '../screens/Favourite';
 import DetailsScreen from '../screens/shop/DetailsScreen'
+import Colors from '../constans/Colors';
 
 
 
@@ -18,7 +18,17 @@ const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen name="Home" component={Home} />
+            <HomeStack.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    headerStyle: {
+                    backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+                },
+                    headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
+
+                }}
+            />
             <HomeStack.Screen name="Details" component={DetailsScreen} />
         </HomeStack.Navigator>
     );
