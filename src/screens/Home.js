@@ -2,9 +2,8 @@ import React from 'react';
 import {
     View,
     Text, StyleSheet,Button
-
 } from 'react-native';
-import Counter from '../components/Counter';
+
 import ProductOverviewScreen from './shop/ProductOverviewScreen';
 
 
@@ -13,8 +12,7 @@ import ProductOverviewScreen from './shop/ProductOverviewScreen';
 const Home = ({ navigation }) => {
 
     return(
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Counter/>
+        <View style={{  justifyContent: 'center', alignItems: 'center' }}>
             <Text>Home!</Text>
             <Button
                 title="Go to Details"
@@ -26,6 +24,11 @@ const Home = ({ navigation }) => {
     )
 }
 
+// const styles = StyleSheet.create({
+//
+//     product: {
+//     }
+// }
 
 
 export default Home;

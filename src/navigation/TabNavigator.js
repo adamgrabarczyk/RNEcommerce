@@ -26,6 +26,7 @@ function HomeStackScreen() {
                     backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                 },
                     headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
+                    headerTitle: 'All Products'
 
                 }}
             />
