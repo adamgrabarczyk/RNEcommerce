@@ -5,7 +5,7 @@ import ProductItem from '../../components/shop/ProductItem';
 
 
 
-const ProductsOverviewScreen = props => {
+const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     return (
         <FlatList
@@ -17,8 +17,10 @@ const ProductsOverviewScreen = props => {
                     title={itemData.item.title}
                     price={itemData.item.price}
                     description={itemData.item.description}
-                    onViewDetail={()=>{alert(itemData.item.imageUrl)}}
-                    onAddToCart={()=>{}}/>
+                    onViewDetail={() => {
+                        props.navigation.navigate('ProductDetails');
+                    }}
+                    onAddToCart={()=>{alert(itemData.item.imageUrl)}}/>
             )}
         />
     );

@@ -8,6 +8,7 @@ import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 import Favourite from '../screens/Favourite';
 import DetailsScreen from '../screens/shop/DetailsScreen'
+import ProductDetails from '../screens/shop/ProductDetails'
 import Colors from '../constans/Colors';
 
 
@@ -31,6 +32,7 @@ function HomeStackScreen() {
                 }}
             />
             <HomeStack.Screen name="Details" component={DetailsScreen} />
+            <HomeStack.Screen name="ProductDetails" component={ProductDetails} />
         </HomeStack.Navigator>
     );
 }

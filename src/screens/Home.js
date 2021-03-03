@@ -9,7 +9,7 @@ import ProductOverviewScreen from './shop/ProductOverviewScreen';
 
 
 
-const Home = ({ navigation }) => {
+const Home = (props, { navigation }) => {
 
     return(
         <View style={{  justifyContent: 'center', alignItems: 'center' }}>
@@ -19,7 +19,12 @@ const Home = ({ navigation }) => {
                 onPress={() => navigation.navigate('Details')}
             />
 
-            <ProductOverviewScreen/>
+            <Button
+                title="ProductDetails"
+                onPress={() => navigation.navigate('ProductDetails')}
+            />
+
+            <ProductOverviewScreen {...props}/>
         </View>
     )
 }
