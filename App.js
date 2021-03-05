@@ -1,16 +1,18 @@
 import React from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
+import {Text, View, SafeAreaView, StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
-import  Home from './src/screens/Home'
-import  Counter from './src/components/Counter'
+
+import TabNavigator from './src/navigation/TabNavigator';
 
 const App: () => React$Node = () => {
     return (
-        <SafeAreaView>
-  <View>
-      <Counter/>
-    </View>
-        </SafeAreaView>
+        <NavigationContainer>
+
+<TabNavigator/>
+
+        </NavigationContainer>
   )
 }
 export default App;
+

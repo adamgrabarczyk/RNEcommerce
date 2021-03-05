@@ -1,115 +1,41 @@
 import React from 'react';
-import { connect } from  'react-redux';
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
     View,
-    Text,
-    StatusBar,
+    Text, StyleSheet,Button
 } from 'react-native';
 
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import Counter from '../components/Counter';
-
-const Home = props => (
-        <>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
-                    <Header />
-                    {/*<Counter/>*/}
-                    {global.HermesInternal == null ? null : (
-                        <View style={styles.engine}>
-                            <Text style={styles.footer}>Engine: Hermes</Text>
-                        </View>
-                    )}
-                    <View style={styles.body}>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Step One Adam!</Text>
-                            <Text style={styles.sectionDescription}>
-                                Edit <Text style={styles.highlight}>{props}</Text> to change this
-                                screen and then come back to see your edits.
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>See Your Changes</Text>
-                            <Text style={styles.sectionDescription}>
-                                <ReloadInstructions />
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Debug</Text>
-                            <Text style={styles.sectionDescription}>
-                                <DebugInstructions />
-                            </Text>
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <Text style={styles.sectionTitle}>Learn More</Text>
-                            <Text style={styles.sectionDescription}>
-                                Read the docs to discover what to do next:
-                            </Text>
-                        </View>
-                        <LearnMoreLinks />
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </>
-    );
+import ProductOverviewScreen from './shop/ProductOverviewScreen';
 
 
-const styles = StyleSheet.create({
-    scrollView: {
-        backgroundColor: Colors.lighter,
-    },
-    engine: {
-        position: 'absolute',
-        right: 0,
-    },
-    body: {
-        backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: Colors.black,
-    },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400',
-        color: Colors.dark,
-    },
-    highlight: {
-        fontWeight: '700',
-    },
-    footer: {
-        color: Colors.dark,
-        fontSize: 12,
-        fontWeight: '600',
-        padding: 4,
-        paddingRight: 12,
-        textAlign: 'right',
-    },
-});
 
 
-const mapStateToProps = state => {
-    const {note} = state;
-    return {note}
+const Home = (props, { navigation }) => {
+
+    return(
+        <View style={{  justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Home!</Text>
+            <Button
+                title="Go to Details"
+                onPress={() => navigation.navigate('Details')}
+            />
+
+            <Button
+                title="ProductDetails"
+                onPress={() => navigation.navigate('ProductDetails')}
+            />
+
+            <ProductOverviewScreen {...props}/>
+        </View>
+    )
 }
 
+// const styles = StyleSheet.create({
+//
+//     product: {
+//     }
+// }
 
-export default connect(mapStateToProps)(Home);
+
+export default Home;
+
+
