@@ -1,13 +1,22 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform} from 'react-native';
 import Colors from '../../constans/Colors';
 
 
 
 const ProductItem = props => {
+
+    let TouchableCmp = TouchableOpacity;
+
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
+        TouchableCmp = TouchableNativeFeedback;
+    }
+
     return(
-        <TouchableOpacity onPress={props.onViewDetail }>
         <View style={styles.product}>
+            <View style={styles.touchable}>
+        <TouchableCmp onPress={props.onViewDetail } useForeground>
+            <View>
            <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: props.image }} />
            </View>
@@ -19,8 +28,10 @@ const ProductItem = props => {
                 <TouchableOpacity onPress={props.onViewDetail}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                 <TouchableOpacity onPress={props.onAddToCart}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
             </View>
+            </View>
+        </TouchableCmp>
+            </View>
         </View>
-        </TouchableOpacity>
     );
 
 };
@@ -37,7 +48,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 300,
         width: 350,
-        margin: 20
+        margin: 20,
+        overflow: 'hidden'
+    },
+    touchable: {
+
+        overflow: 'hidden',
+        borderRadius: 10
     },
     image: {
         width: '100%',
