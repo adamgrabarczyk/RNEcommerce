@@ -6,6 +6,7 @@ import Colors from '../../constans/Colors';
 
 const ProductItem = props => {
     return(
+        <TouchableOpacity onPress={props.onViewDetail }>
         <View style={styles.product}>
            <View style={styles.imageContainer}>
             <Image style={styles.image} source={{ uri: props.image }} />
@@ -19,6 +20,7 @@ const ProductItem = props => {
                 <TouchableOpacity onPress={props.onAddToCart}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
             </View>
         </View>
+        </TouchableOpacity>
     );
 
 };
