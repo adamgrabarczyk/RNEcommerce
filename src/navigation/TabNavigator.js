@@ -11,6 +11,7 @@ import DetailsScreen from '../screens/shop/DetailsScreen'
 import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import Colors from '../constans/Colors';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -78,7 +79,54 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator  = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    if (route.name === 'Home') {
+                        return (
+                            <Ionicons
+                                name={
+                                    focused
+                                        ? 'home'
+                                        : 'home-outline'
+                                }
+                                size={size}
+                                color={color}
+                            />
+                        );
+                    } else if (route.name === 'Search') {
+                        return (
+                            <Ionicons
+                                name={focused ? 'search' : 'search'}
+                                size={size}
+                                color={color}
+                            />
+                        );
+                    } else if (route.name === 'Favourite') {
+                        return (
+                            <Ionicons
+                                name={focused ? 'star-sharp' : 'star-outline'}
+                                size={size}
+                                color={color}
+                            />
+                        );
+                    } else if (route.name === 'Profile') {
+                        return (
+                            <Ionicons
+                                name={focused ? 'person' : 'person-outline'}
+                                size={size}
+                                color={color}
+                            />
+                        );
+                    }
+                },
+            })}
+            tabBarOptions={{
+                activeTintColor: Colors.primary,
+                inactiveTintColor: 'gray',
+            }}
+
+        >
             <Tab.Screen name={'Home'} component={HomeStackScreen}/>
             <Tab.Screen name={'Search'} component={SearchStackScreen}/>
             <Tab.Screen name={'Favourite'} component={FavouriteStackScreen}/>
