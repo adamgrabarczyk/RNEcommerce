@@ -27,6 +27,13 @@ function HomeStackScreen() {
                     headerStyle: {
                     backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                 },
+                    headerTitleStyle: {
+                      fontFamily: "OpenSans-Regular"
+                    },
+                    headerBackTitleStyle: {
+                        color: 'red',
+                        fontFamily: "OpenSans-SemiBoldItalic"
+                    },
                     headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
                     headerTitle: 'All Products'
 

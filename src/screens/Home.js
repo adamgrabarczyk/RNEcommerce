@@ -14,6 +14,7 @@ const Home = (props, { navigation }) => {
 
     return(
         <View style={{  justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={styles.text}>Home!</Text>
             <Text>Home!</Text>
             <Button
                 title="Go to Details"
@@ -30,11 +31,12 @@ const Home = (props, { navigation }) => {
     )
 }
 
-// const styles = StyleSheet.create({
-//
-//     product: {
-//     }
-// }
+const styles = StyleSheet.create({
+
+    text: {
+        fontFamily: 'OpenSans-SemiBoldItalic'
+    }
+})
 
 
 export default Home;
