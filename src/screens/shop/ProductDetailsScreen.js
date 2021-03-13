@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     },
 
     price: {
+        fontFamily: "OpenSans-SemiBoldItalic",
         fontSize: 20,
         color: '#888',
         textAlign: 'center',
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     },
 
     description: {
+        fontFamily: "OpenSans-Regular",
         fontSize: 14,
         textAlign: 'center',
         marginVertical: 20

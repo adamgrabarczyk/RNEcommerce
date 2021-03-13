@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         height: 300,
         width: 350,
         margin: 20,
-        overflow: 'hidden'
+        // overflow: 'hidden'
     },
     touchable: {
 
@@ -72,10 +72,12 @@ const styles = StyleSheet.create({
         height: '15%'
     },
     title: {
+        fontFamily: "OpenSans-Regular",
         fontSize: 18,
         marginVertical: 4
     },
     price: {
+        fontFamily: 'OpenSans-SemiBoldItalic',
         fontSize: 14,
         color: '#888'
     },
