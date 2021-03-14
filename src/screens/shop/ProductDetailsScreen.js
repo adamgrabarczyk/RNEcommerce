@@ -4,8 +4,9 @@ import {
     Text, StyleSheet,Image, ScrollView, TouchableOpacity
 
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../../constans/Colors';
+import * as cartActions from '../../store/actions/cart';
 
 const ProductDetailsScreen = (props, {route, navigation}) => {
 
@@ -13,11 +14,16 @@ const ProductDetailsScreen = (props, {route, navigation}) => {
 
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
 
+    const dispatch = useDispatch;
 return (
     <ScrollView style={styles.container}>
         <Image style={styles.image} source={{uri: selectedProduct.imageUrl}}/>
         <View style={styles.actions}>
-        <TouchableOpacity style={styles.button} onPress={() => {}}><Text style={{color: Colors.primary}}>Add to cart</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => {
+            dispatch(cartActions.addToCart(selectedProduct))
+        }}>
+            <Text style={{color: Colors.primary}}>Add to cart</Text>
+        </TouchableOpacity>
         </View>
         <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
         <Text style={styles.description}>{selectedProduct.description}</Text>
