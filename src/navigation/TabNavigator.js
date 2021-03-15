@@ -10,14 +10,15 @@ import Favourite from '../screens/Favourite';
 import DetailsScreen from '../screens/shop/DetailsScreen'
 import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import Colors from '../constans/Colors';
-
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
+import HeaderButton from '../components/UI/HeaderButton'
+import CartScreen from '../screens/shop/CartScreen';
 
 const HomeStack = createStackNavigator();
 
-function HomeStackScreen() {
+function HomeStackScreen({navigation}) {
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen
@@ -35,7 +36,16 @@ function HomeStackScreen() {
                         fontFamily: "OpenSans-SemiBoldItalic"
                     },
                     headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
-                    headerTitle: 'All Products'
+                    headerTitle: 'All Products',
+                    headerRight: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                        <Item
+                            title='cart'
+                            iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                            onPress={() => {navigation.navigate('CartScreen')} }
+                            />
+                        </HeaderButtons>
+                    )
 
                 }}
             />
@@ -45,6 +55,7 @@ function HomeStackScreen() {
                               options={({ route }) => ({ title: route.params.productTitle })}
 
             />
+            <HomeStack.Screen name="CartScreen" component={CartScreen} />
         </HomeStack.Navigator>
     );
 }
