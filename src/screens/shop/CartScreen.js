@@ -26,7 +26,7 @@ const CartScreen = props => {
     <View style={styles.cartScreen}>
         <View style={styles.summary}>
             <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text></Text>
-            <TouchableOpacity  onPress={() => {alert('duppa')}} disabled={cartItems.length === 0}>
+            <TouchableOpacity  onPress={() => {alert('')}} disabled={cartItems.length === 0}>
                 <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order now</Text>
             </TouchableOpacity>
         </View>
