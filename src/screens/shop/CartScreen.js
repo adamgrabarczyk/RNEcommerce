@@ -1,18 +1,33 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity, Button} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../../constans/Colors';
 
 const CartScreen = props => {
 
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
+    const cartItems = useSelector(state => {
+        const transformedCartItems = [];
+
+        for (const key in state.cart.items) {
+            transformedCartItems.push({
+                productId: key,
+                productTitle: state.cart.items[key].productTitle,
+                productPrice: state.cart.items[key].productPrice,
+                quantity: state.cart.items[key].quantity,
+                sum: state.cart.items[key].sum
+            })
+        }
+
+        return transformedCartItems
+    })
 
     return(
     <View style={styles.cartScreen}>
         <View style={styles.summary}>
-            <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount}</Text></Text>
-            <TouchableOpacity onPress={() => {}}>
-                <Text>Order now</Text>
+            <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text></Text>
+            <TouchableOpacity  onPress={() => {alert('duppa')}} disabled={cartItems.length === 0}>
+                <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order now</Text>
             </TouchableOpacity>
         </View>
         <View>
@@ -50,6 +65,14 @@ const styles = StyleSheet.create({
 
     amount: {
         color: Colors.accent
+    },
+
+    orderButton: {
+        color: Colors.primary
+    },
+
+    orderButtonDisabled: {
+        color: 'grey'
     }
 
 
