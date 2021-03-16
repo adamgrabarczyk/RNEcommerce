@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, FlatList, StyleSheet, TouchableOpacity, Button} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../../constans/Colors';
+import CartItem from '../../components/shop/CartItem';
 
 const CartScreen = props => {
 
@@ -31,7 +32,17 @@ const CartScreen = props => {
             </TouchableOpacity>
         </View>
         <View>
-            <Text>Cart Items</Text>
+            <FlatList
+            data={cartItems}
+            key={item => item.productId}
+            renderItem={itemData => <CartItem
+                quantity={itemData.item.quantity}
+                title={itemData.item.productTitle}
+                amount={itemData.item.sum}
+                onRemove={() => {}}
+
+            />}
+            />
         </View>
     </View>
     )
