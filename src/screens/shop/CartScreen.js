@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../../constans/Colors';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart'
+import * as orderActions from '../../store/actions/orders'
 
 const CartScreen = props => {
 
@@ -29,7 +30,9 @@ const CartScreen = props => {
     <View style={styles.cartScreen}>
         <View style={styles.summary}>
             <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text></Text>
-            <TouchableOpacity  onPress={() => {alert('')}} disabled={cartItems.length === 0}>
+            <TouchableOpacity  onPress={() => {
+                dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+            }} disabled={cartItems.length === 0}>
                 <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order now</Text>
             </TouchableOpacity>
         </View>
