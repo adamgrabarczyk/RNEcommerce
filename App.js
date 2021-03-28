@@ -1,16 +1,13 @@
 import React from 'react';
-import {Text, View, SafeAreaView, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-import TabNavigator from './src/navigation/TabNavigator';
+import DrawerNav from './src/navigation/DrawerNavigator';
 
 const App: () => React$Node = () => {
     return (
         <NavigationContainer>
-
-<TabNavigator/>
-
+            <DrawerNav/>
         </NavigationContainer>
   )
 }

@@ -1,8 +1,8 @@
-
 import React from 'react';
 import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
@@ -15,6 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HeaderButton from '../components/UI/HeaderButton'
 import CartScreen from '../screens/shop/CartScreen';
+import OrderScreen from '../screens/shop/OrderScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -37,6 +38,15 @@ function HomeStackScreen({navigation}) {
                     },
                     headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
                     headerTitle: 'All Products',
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <Item
+                                title='Menu'
+                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                                onPress={() => {navigation.toggleDrawer()} }
+                            />
+                        </HeaderButtons>
+                    ),
                     headerRight: () => (
                         <HeaderButtons HeaderButtonComponent={HeaderButton}>
                         <Item
@@ -60,35 +70,108 @@ function HomeStackScreen({navigation}) {
     );
 }
 
+
+const OrderStack = createStackNavigator();
+
+function OrderStackScreen({navigation}) {
+    return (
+        <OrderStack.Navigator>
+            <OrderStack.Screen
+                name="Order"
+                component={OrderScreen}
+                options={{
+                    headerTitleStyle: {
+                        fontFamily: "OpenSans-Regular"
+                    },
+                    headerBackTitleStyle: {
+                        color: 'red',
+                        fontFamily: "OpenSans-SemiBoldItalic"
+                    },
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <Item
+                                title='Menu'
+                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                                onPress={() => {navigation.toggleDrawer()} }
+                            />
+                        </HeaderButtons>
+                    )
+
+                }}
+            />
+        </OrderStack.Navigator>
+    );
+}
+
 const SearchStack = createStackNavigator();
 
-function SearchStackScreen() {
+function SearchStackScreen({navigation}) {
     return (
         <SearchStack.Navigator>
-            <SearchStack.Screen name="Search" component={Search} />
-            {/*<ProfileStack.Screen name="Details" component={DetailsScreen} />*/}
+            <SearchStack.Screen
+                name="Search"
+                component={Search}
+                options={{
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <Item
+                                title='Menu'
+                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                                onPress={() => {navigation.toggleDrawer()} }
+                            />
+                        </HeaderButtons>
+                    )
+                }}
+            />
         </SearchStack.Navigator>
     );
 }
 
+
 const FavouriteStack = createStackNavigator();
 
-function FavouriteStackScreen() {
+function FavouriteStackScreen({navigation}) {
     return (
         <FavouriteStack.Navigator>
-            <FavouriteStack.Screen name="Favourite" component={Favourite} />
-            {/*<ProfileStack.Screen name="Details" component={DetailsScreen} />*/}
+            <FavouriteStack.Screen
+                name="Favourite"
+                component={Favourite}
+                options={{
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <Item
+                                title='Menu'
+                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                                onPress={() => {navigation.toggleDrawer()} }
+                            />
+                        </HeaderButtons>
+                    )
+                }}
+            />
         </FavouriteStack.Navigator>
     );
 }
 
 const ProfileStack = createStackNavigator();
 
-function ProfileStackScreen() {
+function ProfileStackScreen({navigation}) {
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="Profile" component={Profile} />
-            {/*<ProfileStack.Screen name="Details" component={DetailsScreen} />*/}
+            <ProfileStack.Screen
+                name="Profile"
+                component={Profile}
+                options={{
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                            <Item
+                                title='Menu'
+                                iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                                onPress={() => {navigation.toggleDrawer()} }
+                            />
+                        </HeaderButtons>
+                    )
+                }}
+            />
         </ProfileStack.Navigator>
     );
 }
@@ -120,6 +203,14 @@ const TabNavigator  = () => {
                                 color={color}
                             />
                         );
+                    } else if (route.name === 'Order') {
+                        return (
+                            <Ionicons
+                                name={focused && Platform.OS === 'android' ? 'md-cart' : 'ios-cart' }
+                                size={size}
+                                color={color}
+                            />
+                        );
                     } else if (route.name === 'Favourite') {
                         return (
                             <Ionicons
@@ -147,6 +238,7 @@ const TabNavigator  = () => {
         >
             <Tab.Screen name={'Home'} component={HomeStackScreen}/>
             <Tab.Screen name={'Search'} component={SearchStackScreen}/>
+            <Tab.Screen name={'Order'} component={OrderStackScreen}/>
             <Tab.Screen name={'Favourite'} component={FavouriteStackScreen}/>
             <Tab.Screen name={'Profile'} component={ProfileStackScreen}/>
         </Tab.Navigator>

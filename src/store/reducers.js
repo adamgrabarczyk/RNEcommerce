@@ -6,8 +6,8 @@ import {combineReducers} from "redux";
 
 
 export const reducers = combineReducers({
-   counter: reducer,
-     products: productReducer,
+    counter: reducer,
+    products: productReducer,
     cart: cartReducer,
     orders: ordersReducer,
     isLoading: (state = {}) => state,
