@@ -15,11 +15,12 @@ const OrderItem = props => {
             <TouchableOpacity>
                 <Text style={styles.detailButton} onPress={() => {
                     setShowDetails(prevState => !prevState)
-                }}>Show Details</Text>
+                }}>{showDetails ? 'Hide Details' : 'Show Details'}</Text>
             </TouchableOpacity>
-            {showDetails && <View>
+            {showDetails && <View style={styles.detailItems}>
                 {props.items.map(carItem => (
                     <CartItem
+                        key={carItem.productId}
                         quantity={carItem.quantity}
                         amount={carItem.sum}
                         title={carItem.productTitle}
@@ -62,6 +63,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'OpenSans-SemiBoldItalic',
         color: '#888'
+    },
+
+    detailItems: {
+      width: '100%'
     },
 
     detailButton: {
