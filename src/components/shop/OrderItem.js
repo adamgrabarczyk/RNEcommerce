@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 
 import CartItem from './CartItem'
 
 const OrderItem = props => {
+    const [showDetails, setShowDetails] = useState(false);
     return(
         <View style={styles.orderItem}>
             <View style={styles.summary}>
@@ -12,9 +13,22 @@ const OrderItem = props => {
             <Text style={styles.date}>{props.date}</Text>
             </View>
             <TouchableOpacity>
-                <Text style={styles.detailButton}>Show Details</Text>
+                <Text style={styles.detailButton} onPress={() => {
+                    setShowDetails(prevState => !prevState)
+                }}>Show Details</Text>
             </TouchableOpacity>
+            {showDetails && <View>
+                {props.items.map(carItem => (
+                    <CartItem
+                        quantity={carItem.quantity}
+                        amount={carItem.sum}
+                        title={carItem.productTitle}
+                    />
+                )
+                )}
+            </View>}
         </View>
+
     )
 };
 
