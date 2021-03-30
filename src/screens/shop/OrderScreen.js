@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
+import OrderItem from '../../components/shop/OrderItem';
+
 const OrderScreen = props => {
 
     const orders = useSelector(state => state.orders.orders);
@@ -10,7 +12,11 @@ const OrderScreen = props => {
 <FlatList
     data={orders}
     keyExtractor={item => item.id}
-    renderItem={itemData => <Text>{itemData.item.totalAmount}</Text>}
+    renderItem={itemData => (
+        <OrderItem
+            amount={itemData.item.totalAmount}
+            date={itemData.item.readableDate}
+        />)}
 />
     );
 };
