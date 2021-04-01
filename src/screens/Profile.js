@@ -1,19 +1,17 @@
 import React from 'react';
-import {
-    View,
-    Text, StyleSheet,
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import ProfileScreen from './Profile/Home';
+import SettingsScreen from './Profile/Settings';
 
-} from 'react-native';
-
-
-
+const Tab = createMaterialTopTabNavigator();
 
 const Profile = () => {
 
     return(
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile!</Text>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen name="Home" component={ProfileScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
     )
 }
 
