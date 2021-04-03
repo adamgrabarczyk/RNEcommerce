@@ -1,14 +1,24 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
+import Colors from '../../constans/Colors';
 
 
 
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch();
+
+    const selectItemHandler = (id, title) => {
+        props.navigation.navigate('ProductDetails', {
+            productId: id,
+            productTitle: title
+
+        });
+    }
+
     return (
         <FlatList
             data={products}
@@ -19,16 +29,17 @@ const ProductsOverviewScreen = (props) => {
                     title={itemData.item.title}
                     price={itemData.item.price}
                     description={itemData.item.description}
-                    onViewDetail={() => {
-                        props.navigation.navigate('ProductDetails', {
-                            productId: itemData.item.id,
-                            productTitle: itemData.item.title
-
-                        });
+                    onSelect={() => {
+                        selectItemHandler(itemData.item.id, itemData.item.title);
                     }}
-                    onAddToCart={()=>{
+                    >
+                    <TouchableOpacity onPress={ () => {
+                        selectItemHandler(itemData.item.id, itemData.item.title);
+                    }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
                         dispatch(cartActions.addToCart(itemData.item));
-                    }}/>
+                    }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
+                </ProductItem>
             )}
         />
     );
@@ -36,3 +47,11 @@ const ProductsOverviewScreen = (props) => {
 
 
 export default ProductsOverviewScreen;
+
+
+const styles = StyleSheet.create({
+
+    actionsButton: {
+        color: Colors.accent
+    }
+});
