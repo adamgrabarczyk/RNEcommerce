@@ -3,7 +3,9 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 import Colors from '../../constans/Colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -36,6 +38,16 @@ const ProductsOverviewScreen = (props) => {
                     <TouchableOpacity onPress={ () => {
                         selectItemHandler(itemData.item.id, itemData.item.title);
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={ () => {
+                        dispatch(productActions.addToFav(itemData.item.id));
+                        // alert(itemData.item.id)
+                    } }>
+                        <Ionicons
+                            name={'star-outline'}
+                            size={23}
+                            color={Colors.primary}
+                        />
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         dispatch(cartActions.addToCart(itemData.item));
                     }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>

@@ -10,15 +10,16 @@ import Colors from '../constans/Colors';
 
 const Favourite = props => {
 
-   const userProducts = useSelector(state => state.products.userProducts)
+   const userProducts = useSelector(state => state.products.userProducts);
+   const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
 
     return(
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             {/*<Counter/>*/}
-            {/*<Text>Fav Tab</Text>*/}
+            <Text onPress={() => {console.log(userFavProducts)}}>Fav Tab</Text>
 
             <FlatList
-            data={userProducts}
+            data={userFavProducts}
             keyExtractor={item => item.id}
             renderItem={itemData => (
                 <ProductItem
