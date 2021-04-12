@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
+    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
 
     const selectItemHandler = (id, title) => {
@@ -24,7 +25,7 @@ const ProductsOverviewScreen = (props) => {
     return (
         <FlatList
             data={products}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
                 <ProductItem
                     image={itemData.item.imageUrl}
@@ -38,16 +39,32 @@ const ProductsOverviewScreen = (props) => {
                     <TouchableOpacity onPress={ () => {
                         selectItemHandler(itemData.item.id, itemData.item.title);
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        dispatch(productActions.addToFav(itemData.item.id));
-                        // alert(itemData.item.id)
-                    } }>
-                        <Ionicons
-                            name={'star-outline'}
-                            size={23}
-                            color={Colors.primary}
-                        />
-                    </TouchableOpacity>
+                    { userFavProducts.find(product => product.id === itemData.item.id) ?
+                        <TouchableOpacity onPress={() => {
+                            console.log(itemData.item.title);
+                            console.log(itemData.item.id);
+                            console.log(userFavProducts.find(product => product.id === itemData.item.id));
+                        }}>
+                            <Ionicons
+                                name={'star-sharp'}
+                                size={23}
+                                color={Colors.primary}
+                            />
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={() => {
+                            dispatch(productActions.addToFav(itemData.item.id.toString()));
+                            // console.log(itemData.item.id);
+                            // console.log(userFavProducts.filter(product => product.id))
+                        }}>
+                            <Ionicons
+                                name={'star-outline'}
+                                size={23}
+                                color={Colors.primary}
+                            />
+                        </TouchableOpacity>
+
+                    }
                     <TouchableOpacity onPress={() => {
                         dispatch(cartActions.addToCart(itemData.item));
                     }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>

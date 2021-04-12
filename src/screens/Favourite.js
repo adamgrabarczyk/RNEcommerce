@@ -20,7 +20,7 @@ const Favourite = props => {
 
             <FlatList
             data={userFavProducts}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
                 <ProductItem
                     image={itemData.item.imageUrl}

@@ -6,19 +6,26 @@ import {
 
 
 import ProductOverviewScreen from './shop/ProductOverviewScreen';
+import {useSelector} from 'react-redux';
 
 
 
 
 const Home = (props, { navigation }) => {
 
+    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+
     return(
         <View style={{  justifyContent: 'center', alignItems: 'center' }}>
             <Text style={styles.text}>Home!</Text>
             <Text>Home!</Text>
             <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate('Details')}
+                title="show fav"
+                onPress={() => {
+                    console.log('undar table from home')
+                    console.log(userFavProducts)
+                }
+                }
             />
 
             <Button
