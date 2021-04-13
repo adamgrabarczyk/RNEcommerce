@@ -41,9 +41,7 @@ const ProductsOverviewScreen = (props) => {
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                     { userFavProducts.find(product => product.id === itemData.item.id) ?
                         <TouchableOpacity onPress={() => {
-                            console.log(itemData.item.title);
-                            console.log(itemData.item.id);
-                            console.log(userFavProducts.find(product => product.id === itemData.item.id));
+                            dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
                         }}>
                             <Ionicons
                                 name={'star-sharp'}
@@ -54,9 +52,7 @@ const ProductsOverviewScreen = (props) => {
                         :
                         <TouchableOpacity onPress={() => {
                             dispatch(productActions.addToFav(itemData.item.id.toString()));
-                            // console.log(itemData.item.id);
-                            // console.log(userFavProducts.filter(product => product.id))
-                        }}>
+                       }}>
                             <Ionicons
                                 name={'star-outline'}
                                 size={23}

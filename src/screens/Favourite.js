@@ -1,21 +1,18 @@
 import React from 'react';
-import {View, Text, FlatList, Platform, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import ProductItem from '../components/shop/ProductItem';
-import * as cartActions from '../store/actions/cart';
 import Colors from '../constans/Colors';
 
 
 
 const Favourite = props => {
 
-   const userProducts = useSelector(state => state.products.userProducts);
    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
 
     return(
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            {/*<Counter/>*/}
             <Text onPress={() => {console.log(userFavProducts)}}>Fav Tab</Text>
 
             <FlatList

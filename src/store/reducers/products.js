@@ -1,5 +1,6 @@
 import PRODUCT from '../../data/dummy-data';
-import {ADD_TO_FAV} from '../actions/products';
+import {ADD_TO_FAV, DELETE_FROM_FAV} from '../actions/products';
+
 
 const initialState = {
     availableProducts: PRODUCT,
@@ -32,6 +33,15 @@ export default (state = initialState, action) => {
                     ...state,
                     favoriteUserProducts: AddNewOrNext
                 }
+        case DELETE_FROM_FAV:
+            const selectedProductId = action.pid;
+
+            const updatedFav = state.favoriteUserProducts.filter(product => product.id !== selectedProductId);
+
+            return {
+                ...state,
+                favoriteUserProducts: updatedFav
+            }
 
 
     }
