@@ -1,16 +1,17 @@
 import React from 'react';
 import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import ProductItem from '../components/shop/ProductItem';
 import Colors from '../constans/Colors';
+import * as productActions from '../store/actions/products';
 
 
 
 const Favourite = props => {
 
    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
-
+    const dispatch = useDispatch();
     return(
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text onPress={() => {console.log(userFavProducts)}}>Fav Tab</Text>
@@ -29,7 +30,7 @@ const Favourite = props => {
 
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                     <TouchableOpacity onPress={() => {
-
+                        dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
                     }}><Text style={styles.actionsButton} >Delete</Text></TouchableOpacity>
                 </ProductItem>
             )}
