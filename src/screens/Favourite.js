@@ -13,10 +13,10 @@ const Favourite = props => {
    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
     return(
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text onPress={() => {console.log(userFavProducts)}}>Fav Tab</Text>
 
-            <FlatList
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        {   userFavProducts.length > 0 ?
+        <FlatList
             data={userFavProducts}
             keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
@@ -24,18 +24,25 @@ const Favourite = props => {
                     image={itemData.item.imageUrl}
                     title={itemData.item.title}
                     price={itemData.item.price}
-                    onSelect={() => {}}
+                    onSelect={() => {
+                    }}
                 >
-                    <TouchableOpacity onPress={ () => {
+                    <TouchableOpacity onPress={() => {
 
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
-                    }}><Text style={styles.actionsButton} >Delete</Text></TouchableOpacity>
+                    }}><Text style={styles.actionsButton}>Delete</Text></TouchableOpacity>
                 </ProductItem>
             )}
-            />
-        </View>
+        />
+            :
+            <View>
+                <Text>nie masz polubionych produktów</Text>
+            </View>
+        }
+    </View>
+
     )
 }
 
