@@ -1,7 +1,11 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, View, Text, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import {useSelector} from 'react-redux';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Colors from '../constans/Colors';
 
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
@@ -9,17 +13,16 @@ import Search from '../screens/Search';
 import Favourite from '../screens/Favourite';
 import DetailsScreen from '../screens/shop/DetailsScreen'
 import ProductDetails from '../screens/shop/ProductDetailsScreen'
-import Colors from '../constans/Colors';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import HeaderButton from '../components/UI/HeaderButton'
 import CartScreen from '../screens/shop/CartScreen';
 import OrderScreen from '../screens/shop/OrderScreen';
 
+
 const HomeStack = createStackNavigator();
 
+
 function HomeStackScreen({navigation}) {
+
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen
@@ -179,6 +182,7 @@ function ProfileStackScreen({navigation}) {
 const Tab = createBottomTabNavigator();
 
 const TabNavigator  = () => {
+    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -213,11 +217,22 @@ const TabNavigator  = () => {
                         );
                     } else if (route.name === 'Favourite') {
                         return (
+                            <View>
                             <Ionicons
                                 name={focused ? 'star-sharp' : 'star-outline'}
                                 size={size}
                                 color={color}
                             />
+                                { userFavProducts.length > 0 ?
+                                    <View style={styles.FavValueContainer}>
+                                    <Text style={styles.FavValue}>{userFavProducts.length}</Text>
+                                    </View>
+                                        :
+                                    <View>
+                                    <Text style={styles.FavValueEmpty}></Text>
+                                    </View>
+                                }
+                            </View>
                         );
                     } else if (route.name === 'Profile') {
                         return (
@@ -245,3 +260,29 @@ const TabNavigator  = () => {
     )
 }
 export default TabNavigator;
+
+const styles = StyleSheet.create({
+
+    FavValueContainer: {
+        width: 20,
+        height: 20,
+        position: 'absolute',
+        top: -5,
+        left: 20,
+        borderRadius: 10,
+        backgroundColor: Colors.accent,
+        textAlign: 'center'
+    },
+    FavValue: {
+        color: 'white',
+        borderRadius: 50,
+        textAlign: 'center'
+},
+
+    FavValueEmpty: {
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        position: 'absolute'
+    }
+});
