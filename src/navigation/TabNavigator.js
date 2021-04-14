@@ -183,6 +183,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator  = () => {
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+    const orders = useSelector(state => state.orders.orders);
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -209,11 +210,22 @@ const TabNavigator  = () => {
                         );
                     } else if (route.name === 'Order') {
                         return (
+                            <View>
                             <Ionicons
                                 name={focused && Platform.OS === 'android' ? 'md-cart' : 'ios-cart' }
                                 size={size}
                                 color={color}
                             />
+                                { orders.length > 0 ?
+                                    <View style={styles.valueContainer}>
+                                        <Text style={styles.value}>{orders.length}</Text>
+                                    </View>
+                                    :
+                                    <View>
+                                        <Text style={styles.valueEmpty}></Text>
+                                    </View>
+                                }
+                            </View>
                         );
                     } else if (route.name === 'Favourite') {
                         return (
@@ -224,8 +236,8 @@ const TabNavigator  = () => {
                                 color={color}
                             />
                                 { userFavProducts.length > 0 ?
-                                    <View style={styles.FavValueContainer}>
-                                    <Text style={styles.FavValue}>{userFavProducts.length}</Text>
+                                    <View style={styles.valueContainer}>
+                                    <Text style={styles.value}>{userFavProducts.length}</Text>
                                     </View>
                                         :
                                     <View>
@@ -263,7 +275,7 @@ export default TabNavigator;
 
 const styles = StyleSheet.create({
 
-    FavValueContainer: {
+    valueContainer: {
         width: 20,
         height: 20,
         position: 'absolute',
@@ -273,13 +285,13 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.accent,
         textAlign: 'center'
     },
-    FavValue: {
+    value: {
         color: 'white',
         borderRadius: 50,
         textAlign: 'center'
 },
 
-    FavValueEmpty: {
+    valueEmpty: {
         width: 20,
         height: 20,
         borderRadius: 10,
