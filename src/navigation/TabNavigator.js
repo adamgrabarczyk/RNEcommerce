@@ -23,6 +23,23 @@ const HomeStack = createStackNavigator();
 
 function HomeStackScreen({navigation}) {
 
+    const cartItems = useSelector(state => {
+        const transformedCartItems = [];
+
+        for (const key in state.cart.items) {
+            transformedCartItems.push({
+                productId: key,
+                productTitle: state.cart.items[key].productTitle,
+                productPrice: state.cart.items[key].productPrice,
+                quantity: state.cart.items[key].quantity,
+                sum: state.cart.items[key].sum
+            });
+        }
+
+        return transformedCartItems.sort((a, b) =>
+            a.productId > b.productId ? 1 : -1 );
+    });
+
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen
@@ -57,6 +74,15 @@ function HomeStackScreen({navigation}) {
                             iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
                             onPress={() => {navigation.navigate('CartScreen')} }
                             />
+                            { cartItems.length > 0 ?
+                                <View style={styles.cartValueContainer}>
+                                    <Text style={styles.value}>{cartItems.length}</Text>
+                                </View>
+                                :
+                                <View>
+                                    <Text style={styles.valueEmpty}></Text>
+                                </View>
+                            }
                         </HeaderButtons>
                     )
 
@@ -241,7 +267,7 @@ const TabNavigator  = () => {
                                     </View>
                                         :
                                     <View>
-                                    <Text style={styles.FavValueEmpty}></Text>
+                                    <Text style={styles.valueEmpty}></Text>
                                     </View>
                                 }
                             </View>
@@ -281,6 +307,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -5,
         left: 20,
+        borderRadius: 10,
+        backgroundColor: Colors.accent,
+        textAlign: 'center'
+    },
+    cartValueContainer: {
+        width: 18,
+        height: 18,
+        position: 'absolute',
+        top: -5,
+        left: 30,
         borderRadius: 10,
         backgroundColor: Colors.accent,
         textAlign: 'center'
