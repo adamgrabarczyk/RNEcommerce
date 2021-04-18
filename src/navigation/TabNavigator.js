@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, View, Text, StyleSheet} from 'react-native';
+import {Platform, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
@@ -16,6 +16,7 @@ import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import HeaderButton from '../components/UI/HeaderButton'
 import CartScreen from '../screens/shop/CartScreen';
 import OrderScreen from '../screens/shop/OrderScreen';
+import SearchBar from '../components/shop/SearchBar';
 
 
 const HomeStack = createStackNavigator();
@@ -149,7 +150,20 @@ function SearchStackScreen({navigation}) {
                                 onPress={() => {navigation.toggleDrawer()} }
                             />
                         </HeaderButtons>
+                    ),
+
+                    headerTitle: () => (
+                        <View style={styles.searchBarContainer}>
+                        <SearchBar/>
+                            <TouchableOpacity
+                                style={styles.cancelButton}
+                                onPress={() => alert('hallo')}
+                            >
+                                <Text style={styles.cancelButtonText}>anuluj</Text>
+                            </TouchableOpacity>
+                        </View>
                     )
+
                 }}
             />
         </SearchStack.Navigator>
@@ -332,5 +346,19 @@ const styles = StyleSheet.create({
         height: 20,
         borderRadius: 10,
         position: 'absolute'
+    },
+    searchBarContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginLeft: Platform.OS === 'android' ? 0 : 30
+    },
+    cancelButton: {
+        marginTop: 15,
+        marginLeft: 10
+    },
+    cancelButtonText: {
+        fontSize: 15,
+        color: Colors.primary,
+        width: 50
     }
 });
