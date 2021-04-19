@@ -1,15 +1,16 @@
 import React, { useState,  } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Colors from '../../constans/Colors';
-import * as productActions from '../../store/actions/search';
+import * as searchActions from '../../store/actions/search';
 
 
 
 const SearchBar = props => {
-    const [phrase, onChangePhrase] = React.useState(null);
+    const phrase = useSelector(state => state.search);
     const dispatch = useDispatch();
+
 
     return(
         <View style={styles.searchInputContainer}>
@@ -17,12 +18,11 @@ const SearchBar = props => {
                 style={styles.searchInput}
                 placeholder='szukaj'
                 value={phrase}
-                onChangeText={onChangePhrase}
-                // onFocus={this.props.handleInputFocus}
-                // onBlur={this.props.handleInputBlur}
+                onChangeText={
+                    phrase => dispatch(searchActions.getPhrase(phrase))
+                }
                 returnKeyType="go"
             />
-            <Text>{phrase}</Text>
         </View>
 
     )
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         color: 'red',
         marginVertical: 16,
         marginTop: 10,
-        // marginLeft:
     }
 
 

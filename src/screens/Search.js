@@ -4,7 +4,6 @@ import {
     Text, StyleSheet, FlatList, TouchableOpacity,
 
 } from 'react-native';
-import Counter from '../components/Counter';
 import {useDispatch, useSelector} from 'react-redux';
 import ProductItem from '../components/shop/ProductItem';
 import * as productActions from '../store/actions/products';
@@ -31,7 +30,9 @@ const Search = (props) => {
 
     return (
         <View>
-            <Text>{phrase}</Text>
+            <Text onPress={() => {
+                console.log(phrase)
+            }}>{phrase.searchPhrase}</Text>
         <FlatList
             data={products}
             keyExtractor={item => item.id.toString()}
