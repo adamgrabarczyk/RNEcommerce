@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-    View,
-    Text, StyleSheet, FlatList, TouchableOpacity,
+    Text, StyleSheet, TouchableOpacity, ScrollView
 
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -29,56 +28,64 @@ const Search = (props) => {
     }
 
     return (
-        <View>
+        <ScrollView>
             <Text onPress={() => {
                 console.log(phrase)
             }}>{phrase.searchPhrase}</Text>
             <Text>{phrase.inputFocus.toString()}</Text>
-        <FlatList
-            data={products}
-            keyExtractor={item => item.id.toString()}
-            renderItem={itemData => (
-                <ProductItem
-                    image={itemData.item.imageUrl}
-                    title={itemData.item.title}
-                    price={itemData.item.price}
-                    description={itemData.item.description}
-                    onSelect={() => {
-                        selectItemHandler(itemData.item.id, itemData.item.title);
-                    }}
-                >
-                    <TouchableOpacity onPress={ () => {
-                        selectItemHandler(itemData.item.id, itemData.item.title);
-                    }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
-                    { userFavProducts.find(product => product.id === itemData.item.id) ?
-                        <TouchableOpacity onPress={() => {
-                            dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
-                        }}>
-                            <Ionicons
-                                name={'star-sharp'}
-                                size={23}
-                                color={Colors.primary}
-                            />
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => {
-                            dispatch(productActions.addToFav(itemData.item.id.toString()));
-                        }}>
-                            <Ionicons
-                                name={'star-outline'}
-                                size={23}
-                                color={Colors.primary}
-                            />
-                        </TouchableOpacity>
 
-                    }
-                    <TouchableOpacity onPress={() => {
-                        dispatch(cartActions.addToCart(itemData.item));
-                    }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
-                </ProductItem>
+
+            {
+                products.filter(
+                product => (
+                    phrase.searchPhrase === '' ? true
+                        :
+                        product.title.toLowerCase().includes(phrase.searchPhrase.toLowerCase())
+                )
+            ).map(
+                product => (
+                    <ProductItem
+                        image={product.imageUrl}
+                        title={product.title}
+                        price={product.price}
+                        description={product.description}
+                        onSelect={() => {
+                            selectItemHandler(product.id, product.title);
+                        }}
+                    >
+                        <TouchableOpacity onPress={ () => {
+                            selectItemHandler(product.id, product.title);
+                        }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
+                        { userFavProducts.find(prod => prod.id === product.id) ?
+                            <TouchableOpacity onPress={() => {
+                                dispatch(productActions.deleteFromFav(product.id.toString()));
+                            }}>
+                                <Ionicons
+                                    name={'star-sharp'}
+                                    size={23}
+                                    color={Colors.primary}
+                                />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => {
+                                dispatch(productActions.addToFav(product.id.toString()));
+                            }}>
+                                <Ionicons
+                                    name={'star-outline'}
+                                    size={23}
+                                    color={Colors.primary}
+                                />
+                            </TouchableOpacity>
+
+                        }
+                        <TouchableOpacity onPress={() => {
+                            dispatch(cartActions.addToCart(product));
+                        }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
+                    </ProductItem>
+                )
             )}
-        />
-        </View>
+
+        </ScrollView>
     );
 }
 
