@@ -40,8 +40,17 @@ const Search = (props) => {
                 product => (
                     phrase.searchPhrase === '' ? true
                         :
-                        product.title.toLowerCase().includes(phrase.searchPhrase.toLowerCase())
-                )
+                        [
+                            product.title,
+                            product.description
+                        ].map(
+                            phr => phr.toLowerCase()
+                        ).some(
+                            phr => phr.includes(
+                                phrase.searchPhrase.toLowerCase()
+                            )
+                        )
+                       )
             ).map(
                 product => (
                     <ProductItem
