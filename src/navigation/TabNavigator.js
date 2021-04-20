@@ -1,8 +1,8 @@
 import React from 'react';
-import {Platform, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Platform, View, Text, StyleSheet, TouchableOpacity, Keyboard} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
@@ -136,6 +136,8 @@ function OrderStackScreen({navigation}) {
 const SearchStack = createStackNavigator();
 
 function SearchStackScreen({navigation}) {
+    const dispatch = useDispatch();
+    const focus = useSelector(state => state.search);
     return (
         <SearchStack.Navigator>
             <SearchStack.Screen
@@ -155,12 +157,23 @@ function SearchStackScreen({navigation}) {
                     headerTitle: () => (
                         <View style={styles.searchBarContainer}>
                         <SearchBar/>
+                            {
+                            focus.inputFocus === true ?
                             <TouchableOpacity
                                 style={styles.cancelButton}
-                                onPress={() => alert('hallo')}
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    dispatch({type: 'RESET_INPUT'})
+
+                                }}
                             >
                                 <Text style={styles.cancelButtonText}>anuluj</Text>
                             </TouchableOpacity>
+                                :
+                                <View style={styles.cancelButton}>
+                                <Text style={styles.cancelButtonTextHide}>anuluj</Text>
+                                </View>
+                        }
                         </View>
                     )
 
@@ -360,5 +373,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: Colors.primary,
         width: 50
+    },
+    cancelButtonTextHide: {
+        fontSize: 15,
+        color: 'transparent',
+        width: 50
     }
+
 });

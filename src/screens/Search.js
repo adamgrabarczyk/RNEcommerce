@@ -33,6 +33,7 @@ const Search = (props) => {
             <Text onPress={() => {
                 console.log(phrase)
             }}>{phrase.searchPhrase}</Text>
+            <Text>{phrase.inputFocus.toString()}</Text>
         <FlatList
             data={products}
             keyExtractor={item => item.id.toString()}

@@ -17,7 +17,13 @@ const SearchBar = props => {
             <TextInput
                 style={styles.searchInput}
                 placeholder='szukaj'
-                value={phrase}
+                value={phrase.searchPhrase}
+                onFocus={() => {dispatch({ type: 'IS_FOCUSED' })
+                            console.log(phrase.inputFocus)
+                }}
+                onBlur={() => {dispatch({ type: 'IS_NOT_FOCUSED' })
+                    console.log(phrase.inputFocus)
+                }}
                 onChangeText={
                     phrase => dispatch(searchActions.getPhrase(phrase))
                 }
