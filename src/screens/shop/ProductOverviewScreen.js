@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
@@ -13,6 +13,10 @@ const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(productActions.fetchProducts());
+    }, [dispatch])
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetails', {
