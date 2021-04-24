@@ -6,7 +6,7 @@ import {Platform} from 'react-native';
 
 
 const CustomHeaderButton= props => {
-    return <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} color={Platform.OS === 'android' ? '#fff' : Colors.primary} />
+    return <HeaderButton {...props} IconComponent={Ionicons} iconSize={25} color={Platform.OS === 'android' ? '#fff' : Colors.primary} />
 }
 
 export default CustomHeaderButton;

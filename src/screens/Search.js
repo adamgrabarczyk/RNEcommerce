@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Text, StyleSheet, TouchableOpacity, ScrollView, View, ActivityIndicator, FlatList
+    Text, StyleSheet, TouchableOpacity, ScrollView, View, ActivityIndicator, FlatList, Platform,
 
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -42,6 +42,21 @@ const Search = (props) => {
 
     return (
         <ScrollView>
+            <View style={styles.filterButtonContainer}>
+            <TouchableOpacity
+                style={styles.filterButton}
+            onPress={() => alert('pokaz filtry')}
+            >
+                <Ionicons
+                    name={Platform.OS === 'android' ? 'options' : 'ios-options'}
+                    size={25}
+                    color={Colors.primary}
+                />
+                <Text style={styles.filter}>filtry</Text>
+            </TouchableOpacity>
+            </View>
+
+
             <Text onPress={() => {
                 console.log(phrase)
             }}>{phrase.searchPhrase}</Text>
@@ -133,5 +148,25 @@ const styles = StyleSheet.create({
 
     actionsButton: {
         color: Colors.accent
+    },
+
+    filterButtonContainer: {
+        width: 450,
+        height: 35,
+        backgroundColor: 'white',
+
+    },
+
+    filterButton: {
+        marginTop: 3,
+        marginLeft: 15,
+        flexDirection: 'row'
+    },
+
+    filter: {
+        marginLeft: 20,
+        marginTop: 4,
+        color: Colors.primary,
+        fontSize: 17
     }
 });
