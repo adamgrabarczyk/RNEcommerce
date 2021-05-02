@@ -12,6 +12,15 @@ const Favourite = props => {
 
    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
+
+    const selectItemHandler = (id, title) => {
+        props.navigation.navigate('ProductDetails', {
+            productId: id,
+            productTitle: title
+
+        });
+    }
+
     return(
 
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -28,7 +37,7 @@ const Favourite = props => {
                     }}
                 >
                     <TouchableOpacity onPress={() => {
-
+                        selectItemHandler(itemData.item.id, itemData.item.name);
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         dispatch(productActions.deleteFromFav(itemData.item.id.toString()));

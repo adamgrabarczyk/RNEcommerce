@@ -14,7 +14,7 @@ const ProductDetailsScreen = (props, {route, navigation}) => {
 
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId));
 
-    const dispatch = useDispatch;
+    const dispatch = useDispatch();
 return (
     <ScrollView style={styles.container}>
         <Image style={styles.image} source={{uri: selectedProduct.image}}/>
@@ -25,7 +25,7 @@ return (
             <Text style={{color: Colors.primary}}>Add to cart</Text>
         </TouchableOpacity>
         </View>
-        <Text style={styles.price}>${selectedProduct.price} PLN</Text>
+        <Text style={styles.price}>{selectedProduct.price} PLN</Text>
         <Text style={styles.description}>{selectedProduct.desc}</Text>
     </ScrollView>
 )
