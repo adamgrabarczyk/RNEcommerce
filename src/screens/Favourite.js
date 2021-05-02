@@ -16,8 +16,8 @@ const Favourite = props => {
        {   userFavProducts.length > 0 ?
    <FavouriteOverviewScreen {...props}/>
             :
-            <View style={styles.noFavText}>
-                <Text>nie masz polubionych produktów</Text>
+            <View style={styles.noFavTextContainer}>
+                <Text style={styles.noFavText}>nie masz polubionych produktów</Text>
             </View>
         }
 </View>
@@ -37,8 +37,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
 },
 
-    noFavText: {
+    noFavTextContainer: {
         textAlign: 'center'
+    },
+
+    noFavText: {
+
     }
 });
 

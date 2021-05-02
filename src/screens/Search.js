@@ -26,10 +26,10 @@ const Search = (props) => {
 
 
 
-    const selectItemHandler = (id, title) => {
+    const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
             productId: id,
-            productTitle: title
+            productTitle: name
 
         });
     }
@@ -67,8 +67,8 @@ const Search = (props) => {
                     phrase.searchPhrase === '' ? true
                         :
                         [
-                            product.title,
-                            product.description
+                            product.name,
+                            product.desc
                         ].map(
                             phr => phr.toLowerCase()
                         ).some(

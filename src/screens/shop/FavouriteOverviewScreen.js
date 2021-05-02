@@ -13,10 +13,10 @@ const FavouriteOverviewScreen = (props) => {
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
 
-    const selectItemHandler = (id, title) => {
+    const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
             productId: id,
-            productTitle: title
+            productTitle: name
 
         });
     }

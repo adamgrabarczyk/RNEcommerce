@@ -204,6 +204,11 @@ function FavouriteStackScreen({navigation}) {
                     )
                 }}
             />
+            <FavouriteStack.Screen name="ProductDetails"
+                              component={ProductDetails}
+                              options={({ route }) => ({ title: route.params.productTitle })}
+
+            />
         </FavouriteStack.Navigator>
     );
 }

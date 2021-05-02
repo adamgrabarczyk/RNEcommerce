@@ -18,10 +18,10 @@ const ProductsOverviewScreen = (props) => {
         dispatch(productActions.fetchProducts());
     }, [dispatch]);
 
-    const selectItemHandler = (id, title) => {
+    const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
             productId: id,
-            productTitle: title
+            productTitle: name
 
         });
     }
@@ -33,9 +33,8 @@ const ProductsOverviewScreen = (props) => {
             renderItem={itemData => (
                 <ProductItem
                     image={itemData.item.image}
-                    title={itemData.item.name}
+                    name={itemData.item.name}
                     price={itemData.item.price}
-                    description={itemData.item.desc}
                     onSelect={() => {
                         selectItemHandler(itemData.item.id, itemData.item.name);
                     }}

@@ -23,6 +23,7 @@ const ProductItem = props => {
                <View style={styles.details}>
             <Text style={styles.title}>{props.name}</Text>
             <Text style={styles.price}>{props.price} PLN</Text>
+            <Text style={styles.price}>{props.desc}</Text>
            </View>
             <View style={styles.actions}>
                 {props.children}
