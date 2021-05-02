@@ -21,8 +21,8 @@ const Favourite = props => {
             keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
                 <ProductItem
-                    image={itemData.item.imageUrl}
-                    title={itemData.item.title}
+                    image={itemData.item.image}
+                    title={itemData.item.name}
                     price={itemData.item.price}
                     onSelect={() => {
                     }}

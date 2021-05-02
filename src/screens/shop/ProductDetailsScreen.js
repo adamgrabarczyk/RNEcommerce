@@ -17,7 +17,7 @@ const ProductDetailsScreen = (props, {route, navigation}) => {
     const dispatch = useDispatch;
 return (
     <ScrollView style={styles.container}>
-        <Image style={styles.image} source={{uri: selectedProduct.imageUrl}}/>
+        <Image style={styles.image} source={{uri: selectedProduct.image}}/>
         <View style={styles.actions}>
         <TouchableOpacity style={styles.button} onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct))
@@ -25,8 +25,8 @@ return (
             <Text style={{color: Colors.primary}}>Add to cart</Text>
         </TouchableOpacity>
         </View>
-        <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
-        <Text style={styles.description}>{selectedProduct.description}</Text>
+        <Text style={styles.price}>${selectedProduct.price} PLN</Text>
+        <Text style={styles.description}>{selectedProduct.desc}</Text>
     </ScrollView>
 )
 

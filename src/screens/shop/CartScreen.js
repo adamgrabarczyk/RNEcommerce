@@ -29,7 +29,7 @@ const CartScreen = props => {
     return(
     <View style={styles.cartScreen}>
         <View style={styles.summary}>
-            <Text style={styles.summaryText}>Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text></Text>
+            <Text style={styles.summaryText}>Total: <Text style={styles.amount}>{cartTotalAmount} PLN</Text></Text>
             <TouchableOpacity  onPress={() => {
                 dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
             }} disabled={cartItems.length === 0}>

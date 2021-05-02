@@ -1,11 +1,12 @@
 import PRODUCT from '../../data/dummy-data';
-import {ADD_TO_FAV, DELETE_FROM_FAV} from '../actions/products';
+import {ADD_TO_FAV, DELETE_FROM_FAV, SET_PRODUCTS}  from '../actions/products';
 
 
 const initialState = {
-    availableProducts: PRODUCT,
+    availableProducts: [],
     userProducts: PRODUCT.filter(product => product.ownerId === 'u1'),
-    favoriteUserProducts: []
+    favoriteUserProducts: [],
+    newData: []
 }
 
 
@@ -33,6 +34,8 @@ export default (state = initialState, action) => {
                     ...state,
                     favoriteUserProducts: AddNewOrNext
                 }
+
+
         case DELETE_FROM_FAV:
             const selectedProductId = action.pid;
 
@@ -42,7 +45,12 @@ export default (state = initialState, action) => {
                 ...state,
                 favoriteUserProducts: updatedFav
             }
+        case SET_PRODUCTS:
 
+        return{
+            ...state,
+            availableProducts: action.prod
+        }
 
     }
 

@@ -16,7 +16,7 @@ const ProductsOverviewScreen = (props) => {
 
     useEffect(() => {
         dispatch(productActions.fetchProducts());
-    }, [dispatch])
+    }, [dispatch]);
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate('ProductDetails', {
@@ -32,16 +32,16 @@ const ProductsOverviewScreen = (props) => {
             keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
                 <ProductItem
-                    image={itemData.item.imageUrl}
-                    title={itemData.item.title}
+                    image={itemData.item.image}
+                    title={itemData.item.name}
                     price={itemData.item.price}
-                    description={itemData.item.description}
+                    description={itemData.item.desc}
                     onSelect={() => {
-                        selectItemHandler(itemData.item.id, itemData.item.title);
+                        selectItemHandler(itemData.item.id, itemData.item.name);
                     }}
                     >
                     <TouchableOpacity onPress={ () => {
-                        selectItemHandler(itemData.item.id, itemData.item.title);
+                        selectItemHandler(itemData.item.id, itemData.item.name);
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                     { userFavProducts.find(product => product.id === itemData.item.id) ?
                         <TouchableOpacity onPress={() => {

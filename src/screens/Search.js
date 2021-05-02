@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Text, StyleSheet, TouchableOpacity, ScrollView, View, ActivityIndicator, FlatList, Platform,
+    Text, StyleSheet, TouchableOpacity, ScrollView, View, ActivityIndicator, FlatList, Platform, Image
 
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,18 +17,12 @@ const Search = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const phrase = useSelector(state => state.search);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+    const newData = useSelector(state => state.products.newData);
     const dispatch = useDispatch();
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetch('http://adamgrabarczyk.pl/show/simpleAPI/productJSON.php')
-            .then((response) => response.json())
-            .then((json) => setData(json))
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-    }, []);
 
 
 
@@ -62,19 +56,10 @@ const Search = (props) => {
             }}>{phrase.searchPhrase}</Text>
             <Text>{phrase.inputFocus.toString()}</Text>
 
-            <View style={{ flex: 1, padding: 24 }}>
-                {isLoading ? <ActivityIndicator/> : (
-                    <FlatList
-                        data={data}
-                        keyExtractor={({ id }, index) => id}
-                        renderItem={({ item }) => (
-                            <Text>{item.name}, {item.category_title}</Text>
-                        )}
-                    />
-                )}
-            </View>
 
-
+            <Text onPress={() => {
+                console.log(newData)
+            }}>data</Text>
 
             {
                 products.filter(
@@ -95,16 +80,16 @@ const Search = (props) => {
             ).map(
                 product => (
                     <ProductItem
-                        image={product.imageUrl}
-                        title={product.title}
-                        price={product.price}
-                        description={product.description}
+                        image={product.image}
+                        title={product.name}
+                        price={product.price + ' PLN'}
+                        description={product.desc}
                         onSelect={() => {
-                            selectItemHandler(product.id, product.title);
+                            selectItemHandler(product.id, product.name);
                         }}
                     >
                         <TouchableOpacity onPress={ () => {
-                            selectItemHandler(product.id, product.title);
+                            selectItemHandler(product.id, product.name);
                         }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
                         { userFavProducts.find(prod => prod.id === product.id) ?
                             <TouchableOpacity onPress={() => {
@@ -168,5 +153,11 @@ const styles = StyleSheet.create({
         marginTop: 4,
         color: Colors.primary,
         fontSize: 17
+    },
+
+    image: {
+        width: '100%',
+        height: 300
     }
+
 });
