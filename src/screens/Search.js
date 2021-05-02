@@ -82,7 +82,7 @@ const Search = (props) => {
                     <ProductItem
                         image={product.image}
                         title={product.name}
-                        price={product.price + ' PLN'}
+                        price={product.price}
                         description={product.desc}
                         onSelect={() => {
                             selectItemHandler(product.id, product.name);

@@ -11,7 +11,8 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             const addedProduct = action.product;
-            const prodPrice = addedProduct.price;
+            const prodPriceString = addedProduct.price;
+            const prodPrice = parseInt(prodPriceString, 10);
             const prodTitle = addedProduct.title;
 
             let updatedOrNewCartItem;
