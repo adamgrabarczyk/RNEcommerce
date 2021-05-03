@@ -7,11 +7,13 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../../constans/Colors';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProductDetailsScreen = (props, {route, navigation}) => {
 
     const { productId } = props.route.params;
-
+    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId));
 
     const dispatch = useDispatch();
@@ -24,6 +26,30 @@ return (
         }}>
             <Text style={{color: Colors.primary}}>Add to cart</Text>
         </TouchableOpacity>
+            <View>
+                { userFavProducts.find(product => product.id === selectedProduct.id) ?
+                    <TouchableOpacity onPress={() => {
+                        dispatch(productActions.deleteFromFav(selectedProduct.id.toString()));
+                    }}>
+                        <Ionicons
+                            name={'star-sharp'}
+                            size={23}
+                            color={Colors.primary}
+                        />
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress={() => {
+                        dispatch(productActions.addToFav(selectedProduct.id.toString()));
+                    }}>
+                        <Ionicons
+                            name={'star-outline'}
+                            size={23}
+                            color={Colors.primary}
+                        />
+                    </TouchableOpacity>
+
+                }
+            </View>
         </View>
         <Text style={styles.price}>{selectedProduct.price} PLN</Text>
         <Text style={styles.description}>{selectedProduct.desc}</Text>

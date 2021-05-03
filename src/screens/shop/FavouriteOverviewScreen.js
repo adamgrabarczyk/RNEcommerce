@@ -28,7 +28,7 @@ const FavouriteOverviewScreen = (props) => {
                     renderItem={itemData => (
                         <ProductItem
                             image={itemData.item.image}
-                            title={itemData.item.name}
+                            name={itemData.item.name}
                             price={itemData.item.price}
                             onSelect={() => {
                             }}

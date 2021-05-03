@@ -81,7 +81,7 @@ const Search = (props) => {
                 product => (
                     <ProductItem
                         image={product.image}
-                        title={product.name}
+                        name={product.name}
                         price={product.price}
                         description={product.desc}
                         onSelect={() => {
