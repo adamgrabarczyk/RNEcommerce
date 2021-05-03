@@ -28,31 +28,44 @@ const Cart = props => {
         const dispatch = useDispatch();
     return(
     <View style={styles.cartScreen}>
-        <View style={styles.summary}>
-            <Text style={styles.summaryText}>Total: <Text style={styles.amount}>{cartTotalAmount} PLN</Text></Text>
-            <TouchableOpacity  onPress={() => {
-                dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-            }} disabled={cartItems.length === 0}>
-                <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order now</Text>
-            </TouchableOpacity>
-        </View>
-        <View>
-            <FlatList
-            data={cartItems}
-            keyExtractor={item => item.productId}
-            renderItem={itemData =>
-                <CartItem
-                quantity={itemData.item.quantity}
-                name={itemData.item.productTitle}
-                amount={itemData.item.sum}
-                deletable
-                onRemove={() => {
-                    dispatch(cartActions.removeFromCart(itemData.item.productId))
-                }}
+        {
+            cartItems.length > 0 ?
 
-            />}
-            />
-        </View>
+            <View style={styles.cartContainer}>
+                <View style={styles.summary}>
+                    <Text style={styles.summaryText}>Total:
+                        <Text style={styles.amount}>{cartTotalAmount} PLN</Text>
+                    </Text>
+                    <TouchableOpacity onPress={() => {
+                        dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+                    }} disabled={cartItems.length === 0}>
+                        <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order
+                            now</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <FlatList
+                        data={cartItems}
+                        keyExtractor={item => item.productId}
+                        renderItem={itemData =>
+                            <CartItem
+                                quantity={itemData.item.quantity}
+                                name={itemData.item.productTitle}
+                                amount={itemData.item.sum}
+                                deletable
+                                onRemove={() => {
+                                    dispatch(cartActions.removeFromCart(itemData.item.productId))
+                                }}
+
+                            />}
+                    />
+                </View>
+            </View>
+                :
+               <View style={styles.noCartTextContainer}>
+                   <Text style={styles.noCartText}>Koszyk jest pusty</Text>
+               </View>
+        }
     </View>
     )
 }
@@ -60,7 +73,15 @@ const Cart = props => {
 const styles = StyleSheet.create({
 
     cartScreen: {
-        margin: 20
+        margin: 20,
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    cartContainer: {
+      marginTop: 30
     },
 
     summary: {
@@ -93,6 +114,13 @@ const styles = StyleSheet.create({
 
     orderButtonDisabled: {
         color: 'grey'
+    },
+    noCartTextContainer: {
+        textAlign: 'center'
+    },
+
+    noCartText: {
+
     }
 
 
