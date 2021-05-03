@@ -9,7 +9,7 @@ return (
     <View style={styles.cartItem}>
         <View style={styles.itemData}>
             <Text style={styles.quantity}>{props.quantity} </Text>
-            <Text style={styles.mainText}>{props.title}</Text>
+            <Text style={styles.mainText}>{props.name}</Text>
         </View>
         <View style={styles.itemData}>
             <Text style={styles.mainText}>{props.amount + ' PLN'}</Text>

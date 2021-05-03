@@ -23,7 +23,7 @@ const OrderItem = props => {
                         key={carItem.productId}
                         quantity={carItem.quantity}
                         amount={carItem.sum}
-                        title={carItem.productTitle}
+                        name={carItem.productTitle}
                     />
                 )
                 )}

@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
             const addedProduct = action.product;
             const prodPriceString = addedProduct.price;
             const prodPrice = parseInt(prodPriceString, 10);
-            const prodTitle = addedProduct.title;
+            const prodTitle = addedProduct.name;
 
             let updatedOrNewCartItem;
 
