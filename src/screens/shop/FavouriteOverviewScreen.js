@@ -31,7 +31,9 @@ const FavouriteOverviewScreen = (props) => {
                             name={itemData.item.name}
                             price={itemData.item.price}
                             onSelect={() => {
-                            }}
+                                selectItemHandler(itemData.item.id, itemData.item.name);
+                            }
+                            }
                         >
                             <TouchableOpacity onPress={() => {
                                 selectItemHandler(itemData.item.id, itemData.item.name);

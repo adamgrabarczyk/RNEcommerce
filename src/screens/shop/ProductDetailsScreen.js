@@ -21,19 +21,15 @@ return (
     <ScrollView style={styles.container}>
         <Image style={styles.image} source={{uri: selectedProduct.image}}/>
         <View style={styles.actions}>
-        <TouchableOpacity style={styles.button} onPress={() => {
-            dispatch(cartActions.addToCart(selectedProduct))
-        }}>
-            <Text style={{color: Colors.primary}}>Add to cart</Text>
-        </TouchableOpacity>
-            <View>
+            <View style={styles.FavouriteSwitchContainer}>
+                <View style={styles.FavouriteIconWrapper}>
                 { userFavProducts.find(product => product.id === selectedProduct.id) ?
                     <TouchableOpacity onPress={() => {
                         dispatch(productActions.deleteFromFav(selectedProduct.id.toString()));
                     }}>
                         <Ionicons
                             name={'star-sharp'}
-                            size={23}
+                            size={35}
                             color={Colors.primary}
                         />
                     </TouchableOpacity>
@@ -43,15 +39,21 @@ return (
                     }}>
                         <Ionicons
                             name={'star-outline'}
-                            size={23}
+                            size={35}
                             color={Colors.primary}
                         />
                     </TouchableOpacity>
 
                 }
+                </View>
             </View>
         </View>
         <Text style={styles.price}>{selectedProduct.price} PLN</Text>
+        <TouchableOpacity style={styles.button} onPress={() => {
+            dispatch(cartActions.addToCart(selectedProduct))
+        }}>
+            <Text style={styles.buttonText}>Add to cart</Text>
+        </TouchableOpacity>
         <Text style={styles.description}>{selectedProduct.desc}</Text>
     </ScrollView>
 )
@@ -72,7 +74,13 @@ const styles = StyleSheet.create({
     },
 
     button: {
+        backgroundColor: Colors.primary,
+        height: 30,
         alignItems: 'center',
+        justifyContent: 'center'
+    },
+    buttonText: {
+      color: 'white'
     },
 
     price: {
@@ -88,6 +96,23 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         marginVertical: 20
+    },
+
+    FavouriteSwitchContainer: {
+        width: 48,
+        height: 48,
+        position: 'absolute',
+        top: -5,
+        right: 30,
+        borderRadius: 40,
+        borderColor: 'grey',
+        borderWidth: 1,
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+
+    FavouriteIconWrapper: {
+        margin: 2
     }
 
 
