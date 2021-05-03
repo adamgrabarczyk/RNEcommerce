@@ -14,8 +14,8 @@ import Favourite from '../screens/Favourite';
 import DetailsScreen from '../screens/shop/DetailsScreen'
 import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import HeaderButton from '../components/UI/HeaderButton'
-import CartScreen from '../screens/shop/CartScreen';
-import OrderScreen from '../screens/shop/OrderScreen';
+import Cart from '../screens/Cart';
+import OrderScreen from '../screens/Profile/OrderScreen';
 import SearchBar from '../components/shop/SearchBar';
 
 
@@ -73,7 +73,7 @@ function HomeStackScreen({navigation}) {
                         <Item
                             title='cart'
                             iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-                            onPress={() => {navigation.navigate('CartScreen')} }
+                            onPress={() => {navigation.navigate('Cart')} }
                             />
                             { cartItems.length > 0 ?
                                 <View style={styles.cartValueContainer}>
@@ -95,20 +95,20 @@ function HomeStackScreen({navigation}) {
                               options={({ route }) => ({ title: route.params.productTitle })}
 
             />
-            <HomeStack.Screen name="CartScreen" component={CartScreen} />
+            <HomeStack.Screen name="CartScreen" component={Cart} />
         </HomeStack.Navigator>
     );
 }
 
 
-const OrderStack = createStackNavigator();
+const CartStack = createStackNavigator();
 
-function OrderStackScreen({navigation}) {
+function CartStackScreen({navigation}) {
     return (
-        <OrderStack.Navigator>
-            <OrderStack.Screen
-                name="Order"
-                component={OrderScreen}
+        <CartStack.Navigator>
+            <CartStack.Screen
+                name="Cart"
+                component={Cart}
                 options={{
                     headerTitleStyle: {
                         fontFamily: "OpenSans-Regular"
@@ -129,7 +129,7 @@ function OrderStackScreen({navigation}) {
 
                 }}
             />
-        </OrderStack.Navigator>
+        </CartStack.Navigator>
     );
 }
 
@@ -242,6 +242,22 @@ const Tab = createBottomTabNavigator();
 const TabNavigator  = () => {
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const orders = useSelector(state => state.orders.orders);
+    const cartItems = useSelector(state => {
+        const transformedCartItems = [];
+
+        for (const key in state.cart.items) {
+            transformedCartItems.push({
+                productId: key,
+                productTitle: state.cart.items[key].productTitle,
+                productPrice: state.cart.items[key].productPrice,
+                quantity: state.cart.items[key].quantity,
+                sum: state.cart.items[key].sum
+            });
+        }
+
+        return transformedCartItems.sort((a, b) =>
+            a.productId > b.productId ? 1 : -1 );
+    });
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -266,7 +282,7 @@ const TabNavigator  = () => {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'Order') {
+                    } else if (route.name === 'Cart') {
                         return (
                             <View>
                             <Ionicons
@@ -274,9 +290,9 @@ const TabNavigator  = () => {
                                 size={size}
                                 color={color}
                             />
-                                { orders.length > 0 ?
+                                { cartItems.length > 0 ?
                                     <View style={styles.valueContainer}>
-                                        <Text style={styles.value}>{orders.length}</Text>
+                                        <Text style={styles.value}>{cartItems.length}</Text>
                                     </View>
                                     :
                                     <View>
@@ -323,7 +339,7 @@ const TabNavigator  = () => {
         >
             <Tab.Screen name={'Home'} component={HomeStackScreen}/>
             <Tab.Screen name={'Search'} component={SearchStackScreen}/>
-            <Tab.Screen name={'Order'} component={OrderStackScreen}/>
+            <Tab.Screen name={'Cart'} component={CartStackScreen}/>
             <Tab.Screen name={'Favourite'} component={FavouriteStackScreen}/>
             <Tab.Screen name={'Profile'} component={ProfileStackScreen}/>
         </Tab.Navigator>
