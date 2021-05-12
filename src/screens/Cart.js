@@ -60,6 +60,7 @@ const Cart = props => {
                                         dispatch(cartActions.addToCart(selectedProduct));
                                     }
                                 }
+                                add={"+"}
                                 quantity={itemData.item.quantity}
                                 name={itemData.item.productTitle}
                                 amount={itemData.item.sum}
