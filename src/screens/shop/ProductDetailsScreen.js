@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View,
-    Text, StyleSheet,Image, ScrollView, TouchableOpacity
+    Text, StyleSheet,Image, ScrollView, TouchableOpacity, TextInput
 
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,6 +9,7 @@ import Colors from '../../constans/Colors';
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Counter from '../../components/Counter';
 
 const ProductDetailsScreen = (props, {route, navigation}) => {
 
@@ -48,11 +49,14 @@ return (
                 </View>
             </View>
         </View>
-        <Text style={styles.price}>{selectedProduct.price} PLN</Text>
+        <Text style={styles.price} onPress={console.log(productId)}>{selectedProduct.price} PLN</Text>
+        <View style={styles.counterContainer}>
+            <Counter/>
+        </View>
         <TouchableOpacity style={styles.button} onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct))
         }}>
-            <Text style={styles.buttonText}>Add to cart</Text>
+            <Text style={styles.buttonText}>Dodaj do koszyka</Text>
         </TouchableOpacity>
         <Text style={styles.description}>{selectedProduct.desc}</Text>
     </ScrollView>
@@ -113,6 +117,20 @@ const styles = StyleSheet.create({
 
     FavouriteIconWrapper: {
         margin: 2
+    },
+
+    counterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'grey',
+        width: 80,
+        margin: 10
+    },
+
+    counterButton: {
+        margin: 10
     }
 
 

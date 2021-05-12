@@ -25,7 +25,11 @@ const Cart = props => {
         return transformedCartItems.sort((a, b) =>
             a.productId > b.productId ? 1 : -1 );
     });
-        const dispatch = useDispatch();
+
+    const product = useSelector(state => state.products.availableProducts);
+
+
+    const dispatch = useDispatch();
     return(
     <View style={styles.cartScreen}>
         {
@@ -34,7 +38,7 @@ const Cart = props => {
             <View style={styles.cartContainer}>
                 <View style={styles.summary}>
                     <Text style={styles.summaryText}>Total:
-                        <Text style={styles.amount}>{cartTotalAmount} PLN</Text>
+                        <Text style={styles.amount}> {cartTotalAmount} PLN</Text>
                     </Text>
                     <TouchableOpacity onPress={() => {
                         dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
@@ -49,6 +53,13 @@ const Cart = props => {
                         keyExtractor={item => item.productId}
                         renderItem={itemData =>
                             <CartItem
+                                onAdd={
+                                    () => {
+                             const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
+
+                                        dispatch(cartActions.addToCart(selectedProduct));
+                                    }
+                                }
                                 quantity={itemData.item.quantity}
                                 name={itemData.item.productTitle}
                                 amount={itemData.item.sum}

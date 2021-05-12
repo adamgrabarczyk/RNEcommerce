@@ -11,20 +11,12 @@ import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
 
 
-
-
 const Search = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const phrase = useSelector(state => state.search);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const newData = useSelector(state => state.products.newData);
     const dispatch = useDispatch();
-
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-
-
 
     const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
@@ -80,6 +72,7 @@ const Search = (props) => {
             ).map(
                 product => (
                     <ProductItem
+                        key={product.id}
                         image={product.image}
                         name={product.name}
                         price={product.price}

@@ -8,6 +8,9 @@ return (
 
     <View style={styles.cartItem}>
         <View style={styles.itemData}>
+            <Text
+            onPress={props.onAdd}
+            >+ </Text>
             <Text style={styles.quantity}>{props.quantity} </Text>
             <Text style={styles.mainText}>{props.name}</Text>
         </View>

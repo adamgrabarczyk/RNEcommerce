@@ -14,19 +14,21 @@ export default (state = initialState, action) => {
             const prodPriceString = addedProduct.price;
             const prodPrice = parseInt(prodPriceString, 10);
             const prodTitle = addedProduct.name;
+            const prodId = addedProduct.id;
 
             let updatedOrNewCartItem;
 
             if (state.items[addedProduct.id]) {
 
                 updatedOrNewCartItem = new CartItem(
+                    prodId,
                     state.items[addedProduct.id].quantity + 1,
                     prodPrice,
                     prodTitle,
                     state.items[addedProduct.id].sum + prodPrice
                 );
             } else {
-                updatedOrNewCartItem = new CartItem(1, prodPrice, prodTitle, prodPrice);
+                updatedOrNewCartItem = new CartItem(prodId, 1, prodPrice, prodTitle, prodPrice);
             }
             return {
                 ...state,
@@ -40,6 +42,7 @@ export default (state = initialState, action) => {
             if (currentQty > 1) {
 
                 const updatedCartItem = new CartItem(
+                    selectedCartItem,
                     selectedCartItem.quantity - 1,
                     selectedCartItem.productPrice,
                     selectedCartItem.productTitle,
