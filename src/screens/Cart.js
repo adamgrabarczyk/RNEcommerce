@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet, TouchableOpacity, Button} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../constans/Colors';
 import CartItem from '../components/shop/CartItem';
@@ -60,7 +60,7 @@ const Cart = props => {
                                         dispatch(cartActions.addToCart(selectedProduct));
                                     }
                                 }
-                                add={"+"}
+                                add={" + "}
                                 quantity={itemData.item.quantity}
                                 name={itemData.item.productTitle}
                                 amount={itemData.item.sum}
@@ -68,7 +68,7 @@ const Cart = props => {
                                 onRemove={() => {
                                     dispatch(cartActions.removeFromCart(itemData.item.productId))
                                 }}
-
+                                subtractItem={' - '}
                             />}
                     />
                 </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Platform, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CartItem = props => {
@@ -8,13 +8,7 @@ return (
 
     <View style={styles.cartItem}>
         <View style={styles.itemData}>
-            <Text
-            onPress={props.onAdd}
-            >{props.add}</Text>
-            <Text style={styles.quantity}>{props.quantity} </Text>
             <Text style={styles.mainText}>{props.name}</Text>
-        </View>
-        <View style={styles.itemData}>
             <Text style={styles.mainText}>{props.amount + ' PLN'}</Text>
             {props.deletable &&
             (<TouchableOpacity onPress={props.onRemove} style={styles.deleteButton}>
@@ -26,6 +20,36 @@ return (
             </TouchableOpacity> )
             }
         </View>
+        <View style={styles.itemData}>
+            <View
+                style={styles.counterContainer}
+            >
+                <View
+                    style={styles.counterBox}
+                >
+            <Text
+                style={styles.plusMinus}
+                onPress={props.onAdd}
+            >{props.add}</Text>
+                </View>
+            <View
+                // style={styles.inputQty}
+            >
+            <TextInput
+                style={styles.quantity}
+                value={props.quantity.toString()}
+            />
+            </View>
+                <View
+                    style={styles.counterBox}
+                >
+            <Text
+                style={styles.plusMinus}
+                onPress={props.onRemove}
+            >{props.subtractItem}</Text>
+                </View>
+        </View>
+        </View>
     </View>
 )
 
@@ -36,18 +60,20 @@ const styles = StyleSheet.create({
     cartItem: {
         padding: 10,
         backgroundColor: 'white',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         marginHorizontal: 20
     },
     itemData: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        margin: 15,
+        padding: 5,
     },
     quantity: {
-        fontFamily: 'OpenSans-Regular',
-        color: '#888',
-        fontSize: 16
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
     },
 
     mainText: {
@@ -58,6 +84,41 @@ const styles = StyleSheet.create({
 
     deleteButton: {
          marginLeft: 20
+    },
+
+    counterContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 0.5,
+        borderColor: 'black'
+    },
+
+    plusMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black'
+
+    },
+
+    inputQty: {
+        width: 30,
+        textAlign: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: 'black'
+    },
+    counterBox: {
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: 'black'
     }
 
 });
