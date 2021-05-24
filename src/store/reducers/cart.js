@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/cart';
+import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_QUANTITY_FROM_INPUT, INCREASE_QUANTITY_CART_ITEM } from '../actions/cart';
 import CartItem from '../../models/cart-item';
 import {ADD_ORDER} from '../actions/orders';
 
@@ -35,6 +35,69 @@ export default (state = initialState, action) => {
                 items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
                 totalAmount: state.totalAmount + prodPrice
             };
+
+        case CHANGE_QUANTITY_FROM_INPUT:
+            const selectCartItem = state.items[action.pid];
+            const currentItemQty = selectCartItem.quantity;
+
+            const selectedProduct = action.product;
+            const selectedProductId = selectedProduct.id;
+            const qtyFromInput = action.quantity;
+
+            let updateFromInput;
+
+            if (qtyFromInput !== currentItemQty) {
+                const updatedCartItem = new CartItem(
+                    selectCartItem,
+                    qtyFromInput,
+                    selectCartItem.productPrice,
+                    selectCartItem.productTitle,
+                    qtyFromInput * selectCartItem.productPrice
+                );
+                updateFromInput = { ...state.items, [action.pid]: updatedCartItem };
+            }
+
+            console.log(selectedProductId + " reducer " + qtyFromInput);
+            console.log(selectCartItem + ' elo ' + currentItemQty);
+
+            return {
+                ...state,
+                items: updateFromInput,
+                // totalAmount: state.totalAmount - selectedCartItem.productPrice
+
+            }
+
+        case INCREASE_QUANTITY_CART_ITEM:
+            const selCartItem = state.items[action.pid];
+            const currentQtyItem = selCartItem.quantity;
+
+            const selectedProd = action.product;
+            const selectedProdId = selectedProd.id;
+            const qtyCartItem = action.quantity;
+
+            let increaseCartItem;
+
+            if (state.items[selectedProd.id]) {
+                const updatedCartItem = new CartItem(
+                    selCartItem,
+                    parseInt(currentQtyItem, 10) + 1,
+                    selCartItem.productPrice,
+                    selCartItem.productTitle,
+                    state.items[selectedProd.id].sum + selCartItem.productPrice
+                );
+                increaseCartItem = { ...state.items, [action.pid]: updatedCartItem };
+            }
+
+
+            console.log(parseInt(currentQtyItem, 10) +1  + ' lele ' + qtyCartItem + 1);
+
+            return {
+                ...state,
+                items: increaseCartItem,
+                // totalAmount: state.totalAmount - selectedCartItem.productPrice
+
+            }
+
         case REMOVE_FROM_CART:
             const selectedCartItem = state.items[action.pid];
             const currentQty = selectedCartItem.quantity;

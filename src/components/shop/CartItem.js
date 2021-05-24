@@ -1,8 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Platform, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as searchActions from '../../store/actions/search';
 
 const CartItem = props => {
+
+
 
 return (
 
@@ -33,11 +36,12 @@ return (
             >{props.add}</Text>
                 </View>
             <View
-                // style={styles.inputQty}
             >
             <TextInput
                 style={styles.quantity}
                 value={props.quantity.toString()}
+                defaultValue={props.quantity.toString()}
+                onChangeText={props.getValue}
             />
             </View>
                 <View
