@@ -14,7 +14,7 @@ return (
             <Text style={styles.mainText}>{props.name}</Text>
             <Text style={styles.mainText}>{props.amount + ' PLN'}</Text>
             {props.deletable &&
-            (<TouchableOpacity onPress={props.onRemove} style={styles.deleteButton}>
+            (<TouchableOpacity onPress={props.deleteCart} style={styles.deleteButton}>
                 <Ionicons
                     name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
                     size={23}

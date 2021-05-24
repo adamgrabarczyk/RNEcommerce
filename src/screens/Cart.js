@@ -83,6 +83,9 @@ const Cart = props => {
                                     dispatch(cartActions.removeFromCart(itemData.item.productId))
                                 }}
                                 subtractItem={' - '}
+                                deleteCart={() => {
+                                    dispatch(cartActions.deleteCart(itemData.item.productId))
+                                }}
                             />}
                     />
                 </View>
