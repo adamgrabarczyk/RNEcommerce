@@ -4,7 +4,8 @@ import {ADD_ORDER} from '../actions/orders';
 
 const initialState = {
     items: {},
-    totalAmount: 0
+    totalAmount: 0,
+    total: []
 };
 
 export default (state = initialState, action) => {
@@ -57,14 +58,10 @@ export default (state = initialState, action) => {
                 updateFromInput = { ...state.items, [action.pid]: updatedCartItem };
             }
 
-            console.log(selectedProductId + " reducer " + qtyFromInput);
-            console.log(selectCartItem + ' elo ' + currentItemQty);
-
             return {
                 ...state,
                 items: updateFromInput,
-                // totalAmount: state.totalAmount - selectedCartItem.productPrice
-
+                totalAmount: state.totalAmount + (selectCartItem.productPrice * qtyFromInput)
             }
 
         case INCREASE_QUANTITY_CART_ITEM:
@@ -88,13 +85,10 @@ export default (state = initialState, action) => {
                 increaseCartItem = { ...state.items, [action.pid]: updatedCartItem };
             }
 
-
-            console.log(parseInt(currentQtyItem, 10) +1  + ' lele ' + qtyCartItem + 1);
-
             return {
                 ...state,
                 items: increaseCartItem,
-                // totalAmount: state.totalAmount - selectedCartItem.productPrice
+                totalAmount: state.totalAmount + selCartItem.productPrice
 
             }
 
@@ -124,6 +118,7 @@ export default (state = initialState, action) => {
 
         case DELETE_CART:
             const selectedCart = state.items[action.pid];
+            const CartSum = selectedCart.sum;
 
             let updatedCartItem;
             updatedCartItem = { ...state.items };
@@ -131,7 +126,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 items: updatedCartItem,
-                totalAmount: state.totalAmount - selectedCart.productPrice
+                totalAmount: state.totalAmount - CartSum
             };
 
         case ADD_ORDER:

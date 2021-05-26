@@ -14,8 +14,8 @@ export const  addToCart = product => {
      return {type: REMOVE_FROM_CART, pid: productId};
  }
 
-export const  deleteCart = productId => {
-    return {type: DELETE_CART, pid: productId};
+export const  deleteCart = (productId, sum) => {
+    return {type: DELETE_CART, pid: productId, sum: sum};
 }
 
  export const increaseCartItem = (product, quantity, productId) => {

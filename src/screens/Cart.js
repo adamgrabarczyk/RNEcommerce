@@ -5,7 +5,6 @@ import Colors from '../constans/Colors';
 import CartItem from '../components/shop/CartItem';
 import * as cartActions from '../store/actions/cart'
 import * as ordersActions from '../store/actions/orders'
-import * as searchActions from '../store/actions/search';
 
 const Cart = props => {
 
@@ -59,8 +58,7 @@ const Cart = props => {
                              const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
 
                                         dispatch(cartActions.increaseCartItem(selectedProduct, itemData.item.quantity, selectedProduct.id));
-
-                                        console.log(itemData.item.productId + ' com');
+                                        console.log(cartItems);
                                     }
                                 }
                                 add={" + "}
@@ -71,9 +69,6 @@ const Cart = props => {
                                         const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
 
                                         dispatch(cartActions.changeQtyFromInput(selectedProduct, value, itemData.item.productId));
-
-                                        console.log(selectedProduct);
-                                        // console.log(cartItems);
                                     }
                                 }
                                 name={itemData.item.productTitle}
@@ -84,7 +79,7 @@ const Cart = props => {
                                 }}
                                 subtractItem={' - '}
                                 deleteCart={() => {
-                                    dispatch(cartActions.deleteCart(itemData.item.productId))
+                                    dispatch(cartActions.deleteCart(itemData.item.productId, itemData.item.sum))
                                 }}
                             />}
                     />
