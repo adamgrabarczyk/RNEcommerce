@@ -40,11 +40,12 @@ export default (state = initialState, action) => {
         case CHANGE_QUANTITY_FROM_INPUT:
             const selectCartItem = state.items[action.pid];
             const currentItemQty = selectCartItem.quantity;
+            const currentCartAmount = currentItemQty * selectCartItem.productPrice;
 
-            const selectedProduct = action.product;
-            const selectedProductId = selectedProduct.id;
             const qtyFromInput = action.quantity;
 
+            let resetAmount;
+            let updatedAmount;
             let updateFromInput;
 
             if (qtyFromInput !== currentItemQty) {
@@ -56,12 +57,15 @@ export default (state = initialState, action) => {
                     qtyFromInput * selectCartItem.productPrice
                 );
                 updateFromInput = { ...state.items, [action.pid]: updatedCartItem };
+                resetAmount = state.totalAmount - currentCartAmount;
+                updatedAmount = resetAmount + (selectCartItem.productPrice * qtyFromInput);
+
             }
 
             return {
                 ...state,
                 items: updateFromInput,
-                totalAmount: state.totalAmount + (selectCartItem.productPrice * qtyFromInput)
+                totalAmount: updatedAmount
             }
 
         case INCREASE_QUANTITY_CART_ITEM:
@@ -69,8 +73,6 @@ export default (state = initialState, action) => {
             const currentQtyItem = selCartItem.quantity;
 
             const selectedProd = action.product;
-            const selectedProdId = selectedProd.id;
-            const qtyCartItem = action.quantity;
 
             let increaseCartItem;
 
