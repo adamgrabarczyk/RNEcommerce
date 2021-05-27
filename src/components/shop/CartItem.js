@@ -30,10 +30,14 @@ return (
                 <View
                     style={styles.counterBox}
                 >
-            <Text
-                style={styles.plusMinus}
-                onPress={props.onAdd}
-            >{props.add}</Text>
+                    <TouchableOpacity
+                        onPress={props.onRemove}
+                        disabled={props.quantity == 1}
+                    >
+                    <Text
+                        style={styles.plusMinus}
+                    >{props.subtractItem}</Text>
+                    </TouchableOpacity>
                 </View>
             <View
             >
@@ -42,15 +46,20 @@ return (
                 value={props.quantity.toString()}
                 defaultValue={props.quantity.toString()}
                 onChangeText={props.getValue}
+                keyboardType="numeric"
+                placeholder="1"
             />
             </View>
                 <View
                     style={styles.counterBox}
                 >
-            <Text
-                style={styles.plusMinus}
-                onPress={props.onRemove}
-            >{props.subtractItem}</Text>
+                    <TouchableOpacity
+                        onPress={props.onAdd}
+                    >
+                    <Text
+                        style={styles.plusMinus}
+                    >{props.add}</Text>
+                    </TouchableOpacity>
                 </View>
         </View>
         </View>
