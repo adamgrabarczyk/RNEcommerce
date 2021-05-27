@@ -35,7 +35,7 @@ return (
                         disabled={props.quantity == 1}
                     >
                     <Text
-                        style={styles.plusMinus}
+                        style={props.quantity == 1 ? styles.disabledMinus : styles.plusMinus}
                     >{props.subtractItem}</Text>
                     </TouchableOpacity>
                 </View>
@@ -113,6 +113,16 @@ const styles = StyleSheet.create({
         borderLeftWidth: 0.5,
         borderRightWidth: 0.5,
         borderColor: 'black'
+
+    },
+    disabledMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black',
+        color: 'grey'
 
     },
 
