@@ -25,40 +25,45 @@ return (
         </View>
         <View style={styles.itemData}>
             <View
-                style={styles.counterContainer}
+                style={props.counterContainer}
             >
                 <View
-                    style={styles.counterBox}
+                    style={props.counterBox}
                 >
                     <TouchableOpacity
                         onPress={props.onRemove}
                         disabled={props.quantity <= 1}
                     >
                     <Text
-                        style={props.quantity <= 1 ? styles.disabledMinus : styles.plusMinus}
+                        style={props.minus}
                     >{props.subtractItem}</Text>
                     </TouchableOpacity>
                 </View>
             <View
             >
-            <TextInput
-                style={styles.quantity}
-                value={props.quantity.toString()}
-                defaultValue={props.quantity.toString()}
-                onChangeText={props.getValue}
-                keyboardType="number-pad"
-                onBlur={props.checkValue}
-                placeholder="1"
-            />
+                {
+                    props.input == true ?
+                    <TextInput
+                    style={styles.quantity}
+                    value={props.quantity.toString()}
+                    defaultValue={props.quantity.toString()}
+                    onChangeText={props.getValue}
+                    keyboardType="number-pad"
+                    onBlur={props.checkValue}
+                    placeholder="1"
+                    />
+                    :
+                    <Text>{props.quantity.toString()} szt.</Text>
+                }
             </View>
                 <View
-                    style={styles.counterBox}
+                    style={props.counterBox}
                 >
                     <TouchableOpacity
                         onPress={props.onAdd}
                     >
                     <Text
-                        style={styles.plusMinus}
+                        style={props.plus}
                     >{props.add}</Text>
                     </TouchableOpacity>
                 </View>

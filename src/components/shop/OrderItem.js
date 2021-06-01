@@ -24,6 +24,7 @@ const OrderItem = props => {
                         quantity={carItem.quantity}
                         amount={carItem.sum}
                         name={carItem.productTitle}
+                        input={false}
                     />
                 )
                 )}

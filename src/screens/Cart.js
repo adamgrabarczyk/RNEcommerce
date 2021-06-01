@@ -88,6 +88,7 @@ const Cart = props => {
 
                                 }
                                 }
+                                input={true}
                                 name={itemData.item.productTitle}
                                 amount={itemData.item.sum}
                                 deletable
@@ -98,6 +99,10 @@ const Cart = props => {
                                 deleteCart={() => {
                                     dispatch(cartActions.deleteCart(itemData.item.productId, itemData.item.sum))
                                 }}
+                                counterContainer={styles.counterContainer}
+                                counterBox={styles.counterBox}
+                                plus={styles.plusMinus}
+                                minus={itemData.item.quantity <= 1 ? styles.disabledMinus : styles.plusMinus}
                             />}
                     />
                 </View>
@@ -162,6 +167,39 @@ const styles = StyleSheet.create({
 
     noCartText: {
 
+    },
+
+    counterBox: {
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: 'black'
+    },
+
+    plusMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black'
+    },
+    disabledMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black',
+        color: 'grey'
+
+    },
+    counterContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 0.5,
+        borderColor: 'black'
     }
 
 
