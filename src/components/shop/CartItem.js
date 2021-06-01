@@ -32,10 +32,10 @@ return (
                 >
                     <TouchableOpacity
                         onPress={props.onRemove}
-                        disabled={props.quantity == 1}
+                        disabled={props.quantity <= 1}
                     >
                     <Text
-                        style={props.quantity == 1 ? styles.disabledMinus : styles.plusMinus}
+                        style={props.quantity <= 1 ? styles.disabledMinus : styles.plusMinus}
                     >{props.subtractItem}</Text>
                     </TouchableOpacity>
                 </View>
@@ -46,7 +46,8 @@ return (
                 value={props.quantity.toString()}
                 defaultValue={props.quantity.toString()}
                 onChangeText={props.getValue}
-                keyboardType="numeric"
+                keyboardType="number-pad"
+                onBlur={props.checkValue}
                 placeholder="1"
             />
             </View>

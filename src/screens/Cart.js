@@ -67,9 +67,26 @@ const Cart = props => {
 
                                     (value) => {
                                         const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
+                                        const cleanValue = value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '1');
 
-                                        dispatch(cartActions.changeQtyFromInput(selectedProduct, value, itemData.item.productId));
+                                        if (value == 0) {
+                                            const cleanVal = value.replace(/[0]/gi, '1');
+                                            dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanVal, itemData.item.productId));
+                                        }else {
+
+                                        dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanValue, itemData.item.productId));
                                     }
+                                    }
+                                }
+                                checkValue={
+                                    () => {
+                                        const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
+                                        const value = itemData.item.quantity;
+                                        if (value == '') {
+                                            dispatch(cartActions.changeQtyFromInput(selectedProduct, 1, itemData.item.productId));
+                                        }
+
+                                }
                                 }
                                 name={itemData.item.productTitle}
                                 amount={itemData.item.sum}
