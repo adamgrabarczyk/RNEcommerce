@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Platform, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as searchActions from '../../store/actions/search';
+import ItemCounter from './ItemCounter';
 
 const CartItem = props => {
 
@@ -23,52 +24,7 @@ return (
             </TouchableOpacity> )
             }
         </View>
-        <View style={styles.itemData}>
-            <View
-                style={props.counterContainer}
-            >
-                <View
-                    style={props.counterBox}
-                >
-                    <TouchableOpacity
-                        onPress={props.onRemove}
-                        disabled={props.quantity <= 1}
-                    >
-                    <Text
-                        style={props.minus}
-                    >{props.subtractItem}</Text>
-                    </TouchableOpacity>
-                </View>
-            <View
-            >
-                {
-                    props.input == true ?
-                    <TextInput
-                    style={styles.quantity}
-                    value={props.quantity.toString()}
-                    defaultValue={props.quantity.toString()}
-                    onChangeText={props.getValue}
-                    keyboardType="number-pad"
-                    onBlur={props.checkValue}
-                    placeholder="1"
-                    />
-                    :
-                    <Text>{props.quantity.toString()} szt.</Text>
-                }
-            </View>
-                <View
-                    style={props.counterBox}
-                >
-                    <TouchableOpacity
-                        onPress={props.onAdd}
-                    >
-                    <Text
-                        style={props.plus}
-                    >{props.add}</Text>
-                    </TouchableOpacity>
-                </View>
-        </View>
-        </View>
+        <ItemCounter {...props}/>
     </View>
 )
 
