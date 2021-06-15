@@ -28,15 +28,15 @@ const ItemCounter = props => {
                             props.input == true ?
                                 <TextInput
                                     style={styles.quantity}
-                                    value={props.quantity.toString()}
-                                    defaultValue={props.quantity.toString()}
+                                    value={props.quantity}
+                                    defaultValue={props.quantity}
                                     onChangeText={props.getValue}
                                     keyboardType="number-pad"
                                     onBlur={props.checkValue}
                                     placeholder="1"
                                 />
                                 :
-                                <Text>{props.quantity.toString()} szt.</Text>
+                                <Text>{props.quantity} szt.</Text>
                         }
                     </View>
                     <View

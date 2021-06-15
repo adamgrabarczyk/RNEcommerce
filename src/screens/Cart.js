@@ -62,7 +62,7 @@ const Cart = props => {
                                     }
                                 }
                                 add={" + "}
-                                quantity={itemData.item.quantity}
+                                quantity={itemData.item.quantity.toString()}
                                 getValue={
 
                                     (value) => {

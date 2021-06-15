@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text, StyleSheet,Image, ScrollView, TouchableOpacity, TextInput
@@ -10,11 +10,17 @@ import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Counter from '../../components/Counter';
+import CartItem from '../../components/shop/CartItem';
+import ItemCounter from '../../components/shop/ItemCounter';
+
 
 const ProductDetailsScreen = (props, {route, navigation}) => {
 
+    const [count, setCount] = useState(1);
+
     const { productId } = props.route.params;
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+    const product = useSelector(state => state.products.availableProducts);
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId));
 
     const dispatch = useDispatch();
@@ -50,11 +56,42 @@ return (
             </View>
         </View>
         <Text style={styles.price} onPress={console.log(productId)}>{selectedProduct.price} PLN</Text>
-        <View style={styles.counterContainer}>
-            <Counter/>
-        </View>
+
+            <ItemCounter
+            input={true}
+            quantity={isNaN(count) == true ? '1' : count.toString()}
+            add={" + "}
+            subtractItem={' - '}
+            counterContainer={styles.counterContainer}
+            counterBox={styles.counterBox}
+            plus={styles.plusMinus}
+            minus={count <= 1 ? styles.disabledMinus : styles.plusMinus}
+            onAdd={() => {setCount(parseInt(count, 10) + 1)}}
+            onRemove={() => setCount(count - 1)}
+            getValue={
+                (value) => {
+                    const cleanValue = value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, 1);
+
+                    if (value == 0) {
+                        const cleanVal = value.replace(/[0]/gi, 1);
+                        setCount(cleanVal);
+                    } else if(isNaN(value)) {
+                        alert('put number here!')
+                        setCount(1);
+                    } else
+                    setCount(parseInt(cleanValue, 10));
+                }
+            }
+            checkValue={ () => {
+
+                const value =  count;
+                if (value == '') {
+                    setCount(1)}}
+            }
+            />
+        {/*</View>*/}
         <TouchableOpacity style={styles.button} onPress={() => {
-            dispatch(cartActions.addToCart(selectedProduct))
+            dispatch(cartActions.addToCart(selectedProduct, count))
         }}>
             <Text style={styles.buttonText}>Dodaj do koszyka</Text>
         </TouchableOpacity>
@@ -121,18 +158,40 @@ const styles = StyleSheet.create({
 
     counterContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: 'grey',
-        width: 80,
-        margin: 10
+        borderWidth: 0.5,
+        borderColor: 'black'
     },
 
     counterButton: {
         margin: 10
-    }
+    },
 
+    counterBox: {
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: 'black'
+    },
+    plusMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black'
+    },
+    disabledMinus: {
+        textAlign: 'center',
+        width: 30,
+        margin: 10,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black',
+        color: 'grey'
+
+    },
 
 
 });

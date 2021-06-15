@@ -12,6 +12,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
             const addedProduct = action.product;
+            const addedProductQty = action.quantity;
             const prodPriceString = addedProduct.price;
             const prodPrice = parseInt(prodPriceString, 10);
             const prodTitle = addedProduct.name;
@@ -23,18 +24,18 @@ export default (state = initialState, action) => {
 
                 updatedOrNewCartItem = new CartItem(
                     prodId,
-                    state.items[addedProduct.id].quantity + 1,
+                    state.items[addedProduct.id].quantity + addedProductQty,
                     prodPrice,
                     prodTitle,
-                    state.items[addedProduct.id].sum + prodPrice
+                    state.items[addedProduct.id].sum + prodPrice * addedProductQty
                 );
             } else {
-                updatedOrNewCartItem = new CartItem(prodId, 1, prodPrice, prodTitle, prodPrice);
+                updatedOrNewCartItem = new CartItem(prodId, addedProductQty, prodPrice, prodTitle, prodPrice * addedProductQty);
             }
             return {
                 ...state,
                 items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem },
-                totalAmount: state.totalAmount + prodPrice
+                totalAmount: state.totalAmount + prodPrice * addedProductQty
             };
 
         case CHANGE_QUANTITY_FROM_INPUT:
