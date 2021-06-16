@@ -72,6 +72,9 @@ const Cart = props => {
                                         if (value == 0) {
                                             const cleanVal = value.replace(/[0]/gi, '1');
                                             dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanVal, itemData.item.productId));
+                                        }else if(isNaN(value)) {
+                                            dispatch(cartActions.changeQtyFromInput(selectedProduct, 1, itemData.item.productId));
+
                                         }else {
 
                                         dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanValue, itemData.item.productId));
@@ -82,7 +85,7 @@ const Cart = props => {
                                     () => {
                                         const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
                                         const value = itemData.item.quantity;
-                                        if (value == '') {
+                                        if (value == '' || value == ' ' || isNaN(value)) {
                                             dispatch(cartActions.changeQtyFromInput(selectedProduct, 1, itemData.item.productId));
                                         }
 

@@ -74,7 +74,7 @@ return (
 
                     if (value == 0) {
                         const cleanVal = value.replace(/[0]/gi, 1);
-                        setCount(cleanVal);
+                        setCount(cleanVal.trim());
                     } else if(isNaN(value)) {
                         alert('put number here!')
                         setCount(1);
@@ -84,12 +84,11 @@ return (
             }
             checkValue={ () => {
 
-                const value =  count;
-                if (value == '') {
+                const value = count;
+                if (value == '' || value == ' ' || isNaN(value)) {
                     setCount(1)}}
             }
             />
-        {/*</View>*/}
         <TouchableOpacity style={styles.button} onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct, count))
         }}>

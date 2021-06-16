@@ -65,7 +65,7 @@ const ProductsOverviewScreen = (props) => {
 
                     }
                     <TouchableOpacity onPress={() => {
-                        dispatch(cartActions.addToCart(itemData.item));
+                        dispatch(cartActions.addToCart(itemData.item, 1));
                     }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
                 </ProductItem>
             )}
