@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
             let updatedAmount;
             let updateFromInput;
 
-            if (qtyFromInput !== currentItemQty) {
+            if (qtyFromInput !== currentItemQty && isNaN(qtyFromInput) == false ) {
                 const updatedCartItem = new CartItem(
                     selectCartItem,
                     qtyFromInput,

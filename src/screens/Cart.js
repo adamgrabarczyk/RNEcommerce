@@ -33,7 +33,7 @@ const Cart = props => {
     return(
     <View style={styles.cartScreen}>
         {
-            cartItems.length > 0 ?
+            cartItems.length > 0  ?
 
             <View style={styles.cartContainer}>
                 <View style={styles.summary}>
@@ -62,19 +62,17 @@ const Cart = props => {
                                     }
                                 }
                                 add={" + "}
-                                quantity={itemData.item.quantity.toString()}
+                                quantity={isNaN(itemData.item.quantity) == true ? '1' : itemData.item.quantity.toString()}
                                 getValue={
 
                                     (value) => {
                                         const selectedProduct =  product.find(prod => prod.id === itemData.item.productId);
-                                        const cleanValue = value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '1');
+                                        const cleanValue = value.replace(/[- #*;,.<>\{\}\[\]\\\/0]/gi, '1');
 
                                         if (value == 0) {
-                                            const cleanVal = value.replace(/[0]/gi, '1');
-                                            dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanVal, itemData.item.productId));
+                                           alert('wprowadz poprawna liczbe')
                                         }else if(isNaN(value)) {
-                                            dispatch(cartActions.changeQtyFromInput(selectedProduct, 1, itemData.item.productId));
-
+                                            alert('put number here! ' + cleanValue + ' ' + value)
                                         }else {
 
                                         dispatch(cartActions.changeQtyFromInput(selectedProduct, cleanValue, itemData.item.productId));
