@@ -33,13 +33,22 @@ export default (state = initialState, action) => {
 
         case CATEGORY_FILTER:
 
-            let filterName = action.filterName;
+            const filterName = action.filterName;
+            const enabled = action.enabled;
+
+            let handleFilterUpdate;
+
+            const filterUpdate = state.activeFilterNames.filter(
+                name => name !== filterName
+            ).concat(enabled === true ? filterName : []);
+
+            handleFilterUpdate = filterUpdate;
 
             console.log(filterName);
 
         return {
             ...state,
-            activeFilterNames: []
+            activeFilterNames: handleFilterUpdate
             }
 
 
