@@ -10,11 +10,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
 import FilterControls from '../components/shop/FilterControls';
+import search from '../store/reducers/search';
+import products from '../store/reducers/products';
 
 const categoryFilters = [
     {
         name: 'category_electronic',
-        label: 'Elektronika'
+        label: 'Elektronika',
+        subcategory: 'Telewizory'
     },
     {
         name: 'category_sport',
@@ -63,6 +66,8 @@ const filters = {
     category_clothes: product => product.category_title === 'Odziez',
     category_garden: product => product.category_title === 'Ogrod',
     category_toys: product => product.category_title === 'Zabawki',
+
+    subcategory_tv: product => product.subcategory_title == 'Telewizory'
 }
 
 const Search = (props) => {
@@ -84,8 +89,8 @@ const Search = (props) => {
     return (
         <ScrollView>
             <FilterControls
+                activeFilterNames={phrase.activeFilterNames}
             />
-
 
             <Text onPress={() => {
                 console.log(search.activeFilterNames)

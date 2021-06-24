@@ -8,7 +8,8 @@ import {useDispatch} from 'react-redux';
 const categoryFilters = [
     {
         name: 'category_electronic',
-        label: 'Elektronika'
+        label: 'Elektronika',
+        subcategory: 'Telewizory'
     },
     {
         name: 'category_sport',
@@ -74,12 +75,16 @@ const FilterControls = (props) => {
                             {
                                 categoryFilters.map(
                                     filter => {
+
+                                        const isActive = props.activeFilterNames.includes(filter.name)
                                         return(
                                             <TouchableOpacity
                                                 key={filter.name}
-
+                                                active={isActive}
                                                 onPress={
-                                                    () => dispatch(searchActions.categoryFilter(filter.name, true))
+                                                    () => dispatch(searchActions.categoryFilter(filter.name, !isActive),
+                                                            console.log(filter.subcategory)
+                                                    )
                                                     }
                                                 style={styles.filterButton}
                                             >
