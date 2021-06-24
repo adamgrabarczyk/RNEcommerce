@@ -1,10 +1,11 @@
 
-import {IS_FOCUSED, RESET_INPUT, IS_NOT_FOCUSED, GET_PHRASE} from '../actions/search';
+import {IS_FOCUSED, RESET_INPUT, IS_NOT_FOCUSED, GET_PHRASE, CATEGORY_FILTER} from '../actions/search';
 
 
 const initialState = {
     searchPhrase: '',
-    inputFocus: false
+    inputFocus: false,
+    activeFilterNames: []
 }
 
 
@@ -15,10 +16,32 @@ export default (state = initialState, action) => {
 
             const phrase = action.phr;
 
+           let handleSearchPhraseUpdate;
+
+           const searchPhraseUpdate = state.activeFilterNames.filter(
+               phrase => phrase !== 'phrase'
+           ).concat(state.searchPhrase === '' ? [] : 'phrase');
+
+            handleSearchPhraseUpdate = searchPhraseUpdate;
+              console.log(searchPhraseUpdate);
+
             return {
                 ...state,
-                searchPhrase: phrase
+                searchPhrase: phrase,
+                activeFilterNames: handleSearchPhraseUpdate
             }
+
+        case CATEGORY_FILTER:
+
+            let filterName = action.filterName;
+
+            console.log(filterName);
+
+        return {
+            ...state,
+            activeFilterNames: []
+            }
+
 
         case IS_FOCUSED:
 

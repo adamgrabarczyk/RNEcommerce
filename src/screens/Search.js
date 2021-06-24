@@ -9,6 +9,7 @@ import * as productActions from '../store/actions/products';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
+import FilterControls from '../components/shop/FilterControls';
 
 const categoryFilters = [
     {
@@ -43,6 +44,26 @@ const categoryFilters = [
 
 ];
 
+const filters = {
+    phrase: (product, searchPhrase) => [
+        product.name,
+        product.category_title,
+        product.subcategory[0].subcategory_title
+    ].map(
+        phrase => phrase.toLowerCase()
+    ).some(
+        phrase => phrase.includes(
+            searchPhrase.toLowerCase()
+        )
+    ),
+    category_electronic: product => product.category_title === 'Elektronika',
+    category_sport: product => product.category_title === 'Sport',
+    category_car_parts: product => product.category_title === 'Czesci samochodowe',
+    category_decoration: product => product.category_title === 'Dekoracje',
+    category_clothes: product => product.category_title === 'Odziez',
+    category_garden: product => product.category_title === 'Ogrod',
+    category_toys: product => product.category_title === 'Zabawki',
+}
 
 const Search = (props) => {
     const products = useSelector(state => state.products.availableProducts);
@@ -51,7 +72,6 @@ const Search = (props) => {
     const newData = useSelector(state => state.products.newData);
     const dispatch = useDispatch();
 
-    const [modalVisible, setModalVisible] = useState(false);
 
     const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
@@ -63,71 +83,12 @@ const Search = (props) => {
 
     return (
         <ScrollView>
-            <View style={styles.filterButtonContainer}>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
-                    }}
-                >
-                    <View style={styles.centeredView}>
-
-                        <View style={styles.modalView}>
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>X</Text>
-                            </Pressable>
-                            <Text style={styles.modalText}>Filtry</Text>
-                        </View>
-
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalContentText}>Wybierz kategorie</Text>
-                            <View
-                                style={styles.filtersButtonsArea}
-                            >
-
-                                {
-                                    categoryFilters.map(
-                                        filter => {
-                                            return(
-                                                <TouchableOpacity
-                                                    key={filter.name}
-
-                                                    onPress={() => alert(filter.label)}
-                                                    style={styles.filterButton}
-                                                >
-                                                    <Text style={[styles.filterButton2]}>{filter.label}</Text>
-                                                </TouchableOpacity>
-                                            )}
-                                    )
-                                }
-                            </View>
-                        </View>
-                    </View>
-
-                </Modal>
-
-            <TouchableOpacity
-                style={styles.filterButton}
-            onPress={() => setModalVisible(true)}
-            >
-                <Ionicons
-                    name={Platform.OS === 'android' ? 'options' : 'ios-options'}
-                    size={25}
-                    color={Colors.primary}
-                />
-                <Text style={styles.filter}>filtry</Text>
-            </TouchableOpacity>
-            </View>
+            <FilterControls
+            />
 
 
             <Text onPress={() => {
-                console.log(phrase)
+                console.log(search.activeFilterNames)
             }}>{phrase.searchPhrase}</Text>
             <Text>{phrase.inputFocus.toString()}</Text>
 
@@ -138,20 +99,12 @@ const Search = (props) => {
 
             {
                 products.filter(
-                product => (
-                    phrase.searchPhrase === '' ? true
-                        :
-                        [
-                            product.name,
-                            product.desc
-                        ].map(
-                            phr => phr.toLowerCase()
-                        ).some(
-                            phr => phr.includes(
-                                phrase.searchPhrase.toLowerCase()
-                            )
-                        )
-                       )
+                product => phrase.activeFilterNames.map(
+                        filterName => filters[filterName]
+                    ).every(
+                        func => func(product, phrase.searchPhrase)
+                    )
+
             ).map(
                 product => (
                     <ProductItem
