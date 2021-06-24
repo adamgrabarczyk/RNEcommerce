@@ -39,7 +39,11 @@ export default (state = initialState, action) => {
             let handleFilterUpdate;
 
             const filterUpdate = state.activeFilterNames.filter(
-                name => name !== filterName
+                name => {
+                    const selectedFilterNamePrefix = filterName.split('_')[0]
+                    const currentFilterNamePrefix = name.split('_')[0]
+                    return selectedFilterNamePrefix !== currentFilterNamePrefix
+                }
             ).concat(enabled === true ? filterName : []);
 
             handleFilterUpdate = filterUpdate;
