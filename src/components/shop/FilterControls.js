@@ -88,7 +88,7 @@ const FilterControls = (props) => {
                                                     }
                                                 style={styles.filterButton}
                                             >
-                                                <Text style={[styles.filterButton2]}>{filter.label}</Text>
+                                                <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
                                             </TouchableOpacity>
                                         )}
                                 )
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
 
-    filterButton2: {
+    filterButtonText: {
         color: '#4e5354',
         margin: 2,
         fontSize: 18
@@ -224,6 +224,13 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginLeft: -50,
         marginTop: 50
+    },
+
+    activeButton: {
+        color: 'blue',
+    },
+    deactivateButton: {
+        color: '#4e5354',
     }
 
 });

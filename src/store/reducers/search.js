@@ -73,6 +73,7 @@ export default (state = initialState, action) => {
         case RESET_INPUT:
 
             return {
+                ...state,
                 inputFocus: false,
                 searchPhrase: ''
             }
