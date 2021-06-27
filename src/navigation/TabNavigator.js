@@ -138,6 +138,7 @@ const SearchStack = createStackNavigator();
 function SearchStackScreen({navigation}) {
     const dispatch = useDispatch();
     const focus = useSelector(state => state.search);
+    const phrase = useSelector(state => state.search);
     return (
         <SearchStack.Navigator>
             <SearchStack.Screen
@@ -158,7 +159,7 @@ function SearchStackScreen({navigation}) {
                         <View style={styles.searchBarContainer}>
                         <SearchBar/>
                             {
-                            focus.inputFocus === true ?
+                            focus.inputFocus === true || phrase.searchPhrase !== '' ?
                             <TouchableOpacity
                                 style={styles.cancelButton}
                                 onPress={() => {
