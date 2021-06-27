@@ -3,6 +3,7 @@ export const IS_FOCUSED = 'IS_FOCUSED';
 export const IS_NOT_FOCUSED = 'IS_NOT_FOCUSED';
 export const RESET_INPUT = 'RESET_INPUT';
 export const CATEGORY_FILTER = 'CATEGORY_FILTER';
+export const REMOVE_FILTER = 'REMOVE_FILTER';
 
 export const getPhrase = phrase => {
     return {type: GET_PHRASE, phr: phrase}
@@ -15,3 +16,8 @@ export const categoryFilter = (filterName, enabled) => {
 
 }
 
+export const removeFilter = (activeFilterName) => {
+
+    return {type: REMOVE_FILTER, activeFilterName: activeFilterName}
+
+}

@@ -43,6 +43,7 @@ const categoryFilters = [
 const FilterControls = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [activeFilter, setActiveFilter] = useState('');
+    const [activeFilterName, setActiveFilterName] = useState('');
     const dispatch = useDispatch();
 
     let filerLabel;
@@ -91,6 +92,7 @@ const FilterControls = (props) => {
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                             console.log(filter.subcategory);
                                                             setActiveFilter(!isActive ? filter.label : '');
+                                                            setActiveFilterName(!isActive ? filter.name : '');
                                                     }
                                                     }
                                                 style={styles.filterButton}
@@ -126,7 +128,12 @@ const FilterControls = (props) => {
                 >
                     <TouchableOpacity
                         style={styles.removeActiveFilterButton}
-                    onPress={() => alert('halo')}
+                    onPress={
+                        () => {
+                            dispatch(searchActions.removeFilter(activeFilterName));
+                            setActiveFilter('');
+                        }
+                    }
                     >
                     <FontAwesome
                         name={'remove'}
@@ -136,7 +143,6 @@ const FilterControls = (props) => {
                 <Text style={styles.filter}>{activeFilter}</Text>
                     </TouchableOpacity>
                 </View>
-
                         :
                         <View>
                         </View>

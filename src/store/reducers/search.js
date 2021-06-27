@@ -1,5 +1,5 @@
 
-import {IS_FOCUSED, RESET_INPUT, IS_NOT_FOCUSED, GET_PHRASE, CATEGORY_FILTER} from '../actions/search';
+import {IS_FOCUSED, RESET_INPUT, IS_NOT_FOCUSED, GET_PHRASE, CATEGORY_FILTER, REMOVE_FILTER} from '../actions/search';
 
 
 const initialState = {
@@ -56,6 +56,23 @@ export default (state = initialState, action) => {
             activeFilterNames: handleFilterUpdate
             }
 
+        case REMOVE_FILTER:
+
+            const activeFilterName = action.activeFilterName;
+
+            let removeHandleFilterUpdate;
+
+            const removeFilterUpdate = state.activeFilterNames.filter(
+                filter => filter !== activeFilterName
+            );
+                console.log(removeFilterUpdate);
+
+                removeHandleFilterUpdate = removeFilterUpdate;
+
+            return {
+                ...state,
+                activeFilterNames: removeHandleFilterUpdate
+            }
 
         case IS_FOCUSED:
 
