@@ -99,6 +99,15 @@ const Search = (props) => {
 
 
             <Text onPress={() => {
+                console.log(phrase.activeFilterNames)
+            }}>filtry</Text>
+
+
+            <Text onPress={() => {
+                console.log(filters)
+            }}>filtersy</Text>
+
+            <Text onPress={() => {
                 console.log(newData)
             }}>data</Text>
 

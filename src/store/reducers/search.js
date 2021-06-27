@@ -42,13 +42,14 @@ export default (state = initialState, action) => {
                 name => {
                     const selectedFilterNamePrefix = filterName.split('_')[0]
                     const currentFilterNamePrefix = name.split('_')[0]
-                    return selectedFilterNamePrefix !== currentFilterNamePrefix
+                    return selectedFilterNamePrefix !== currentFilterNamePrefix;
                 }
             ).concat(enabled === true ? filterName : []);
 
             handleFilterUpdate = filterUpdate;
 
             console.log(filterName);
+
 
         return {
             ...state,

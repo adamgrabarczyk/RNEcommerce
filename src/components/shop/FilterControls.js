@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constans/Colors';
 import * as searchActions from '../../store/actions/search';
 import {useDispatch} from 'react-redux';
@@ -41,7 +42,10 @@ const categoryFilters = [
 
 const FilterControls = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [activeFilter, setActiveFilter] = useState('');
     const dispatch = useDispatch();
+
+    let filerLabel;
 
     return (
         <View style={styles.filterButtonContainer}>
@@ -76,15 +80,18 @@ const FilterControls = (props) => {
                                 categoryFilters.map(
                                     filter => {
 
+                                        filerLabel = filter.label;
                                         const isActive = props.activeFilterNames.includes(filter.name)
                                         return(
                                             <TouchableOpacity
                                                 key={filter.name}
                                                 active={isActive}
                                                 onPress={
-                                                    () => dispatch(searchActions.categoryFilter(filter.name, !isActive),
-                                                            console.log(filter.subcategory)
-                                                    )
+                                                    () => {
+                                                        dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                            console.log(filter.subcategory);
+                                                            setActiveFilter(!isActive ? filter.label : '');
+                                                    }
                                                     }
                                                 style={styles.filterButton}
                                             >
@@ -99,8 +106,10 @@ const FilterControls = (props) => {
 
             </Modal>
 
-            <TouchableOpacity
+            <View
                 style={styles.filterButton}
+            >
+            <TouchableOpacity
                 onPress={() => setModalVisible(true)}
             >
                 <Ionicons
@@ -108,8 +117,32 @@ const FilterControls = (props) => {
                     size={25}
                     color={Colors.primary}
                 />
-                <Text style={styles.filter}>filtry</Text>
+                <Text style={styles.filterButtonTextPrev}>filtry</Text>
             </TouchableOpacity>
+                {
+                    activeFilter !== '' ?
+                <View
+                    style={styles.activeFilterContainer}
+                >
+                    <TouchableOpacity
+                        style={styles.removeActiveFilterButton}
+                    onPress={() => alert('halo')}
+                    >
+                    <FontAwesome
+                        name={'remove'}
+                        size={20}
+                        color={'#b0b0b0'}
+                    />
+                <Text style={styles.filter}>{activeFilter}</Text>
+                    </TouchableOpacity>
+                </View>
+
+                        :
+                        <View>
+                        </View>
+                }
+            </View>
+
         </View>
     )
 }
@@ -129,6 +162,16 @@ const styles = StyleSheet.create({
 
     },
 
+    removeActiveFilterButton: {
+        marginLeft: 30,
+        marginTop: 4,
+        flexDirection: 'row'
+    },
+
+    activeFilterContainer: {
+        marginLeft: 20,
+    },
+
     filterButton: {
         marginTop: 3,
         marginLeft: 15,
@@ -136,8 +179,13 @@ const styles = StyleSheet.create({
     },
 
     filter: {
-        marginLeft: 20,
-        marginTop: 4,
+        color: Colors.primary,
+        fontSize: 17
+    },
+
+    filterButtonTextPrev:{
+        marginLeft: 30,
+        marginTop: -22,
         color: Colors.primary,
         fontSize: 17
     },
@@ -152,7 +200,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: '100%',
         backgroundColor: "white",
-        // padding: 35,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
