@@ -11,45 +11,12 @@ import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
 import FilterControls from '../components/shop/FilterControls';
 import search from '../store/reducers/search';
-import products from '../store/reducers/products';
 
-const categoryFilters = [
-    {
-        name: 'category_electronic',
-        label: 'Elektronika',
-        subcategory: 'Telewizory'
-    },
-    {
-        name: 'category_sport',
-        label: 'Sport'
-    },
-    {
-        name: 'category_car_parts',
-        label: 'Części samochodowe'
-    },
-    {
-        name: 'category_decoration',
-        label: 'Dekoracje'
-    },
-    {
-        name: 'category_clothes',
-        label: 'Odzież'
-    },
-    {
-        name: 'category_garden',
-        label: 'Ogród'
-    },
-    {
-        name: 'category_toys',
-        label: 'Zabawki'
-    }
-
-
-];
 
 const filters = {
     phrase: (product, searchPhrase) => [
         product.name,
+        product.mark,
         product.category_title,
         product.subcategory[0].subcategory_title
     ].map(
@@ -67,15 +34,24 @@ const filters = {
     category_garden: product => product.category_title === 'Ogrod',
     category_toys: product => product.category_title === 'Zabawki',
 
-    subcategory_tv: product => product.subcategory_title == 'Telewizory'
+    subcategory_tv: product => product.subcategory_title === 'Telewizory',
+
+
+    mark_sony: product => product.mark === 'Sony',
+    mark_brembo: product => product.mark === 'Brembo',
+    mark_haier: product => product.mark === 'Haier',
+    mark_kipsta: product => product.mark === 'Kipsta',
+    mark_samsung: product => product.mark === 'Samsung'
+
+
 }
 
 const Search = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const phrase = useSelector(state => state.search);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
-    const newData = useSelector(state => state.products.newData);
     const dispatch = useDispatch();
+    const activeFilters = useSelector(state => state.search.activeFilters);
 
 
     const selectItemHandler = (id, name) => {
@@ -108,7 +84,7 @@ const Search = (props) => {
             }}>filtersy</Text>
 
             <Text onPress={() => {
-                console.log(newData)
+                console.log(activeFilters)
             }}>data</Text>
 
             {
@@ -157,7 +133,7 @@ const Search = (props) => {
 
                         }
                         <TouchableOpacity onPress={() => {
-                            dispatch(cartActions.addToCart(product));
+                            dispatch(cartActions.addToCart(product, 1));
                         }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
                     </ProductItem>
                 )

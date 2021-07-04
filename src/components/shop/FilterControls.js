@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View, ScrollView, Slider} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constans/Colors';
 import * as searchActions from '../../store/actions/search';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const categoryFilters = [
     {
@@ -40,11 +40,46 @@ const categoryFilters = [
 
 ];
 
+const markFilters = [
+    {
+        name: 'mark_sony',
+        label: 'Sony',
+    },
+    {
+        name: 'mark_brembo',
+        label: 'Brembo'
+    },
+    {
+        name: 'mark_haier',
+        label: 'Haier'
+    },
+    {
+        name: 'mark_kipsta',
+        label: 'Kipsta'
+    },
+    {
+        name: 'mark_samsung',
+        label: 'Samsung'
+    }
+]
+
+
+
 const FilterControls = (props) => {
+    const [slideCompletionValue, setSlideCompletionValue] = useState(0);
+    const [slideCompletionCount, setSlideCompletionCount] = useState(0);
+    const [sliderValue, setSliderValue] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
-    const [activeFilter, setActiveFilter] = useState('');
-    const [activeFilterName, setActiveFilterName] = useState('');
     const dispatch = useDispatch();
+    const phrase = useSelector(state => state.search);
+
+    const activeFil = phrase.activeFilterNames.filter(
+        filter => filter !== 'phrase'
+    );
+
+    const newFil = categoryFilters.concat(markFilters);
+    const filteredKeywords = newFil.filter((word) => activeFil.includes(word.name));
+
 
     let filerLabel;
 
@@ -60,7 +95,6 @@ const FilterControls = (props) => {
                 }}
             >
                 <View style={styles.centeredView}>
-
                     <View style={styles.modalView}>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
@@ -70,8 +104,10 @@ const FilterControls = (props) => {
                         </Pressable>
                         <Text style={styles.modalText}>Filtry</Text>
                     </View>
+                    <Text onPress={() => console.log(filteredKeywords)}>dupa</Text>
 
                     <View style={styles.modalContent}>
+                        <View>
                         <Text style={styles.modalContentText}>Wybierz kategorie</Text>
                         <View
                             style={styles.filtersButtonsArea}
@@ -90,10 +126,7 @@ const FilterControls = (props) => {
                                                 onPress={
                                                     () => {
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
-                                                            console.log(filter.subcategory);
-                                                            setActiveFilter(!isActive ? filter.label : '');
-                                                            setActiveFilterName(!isActive ? filter.name : '');
-                                                    }
+                                                          }
                                                     }
                                                 style={styles.filterButton}
                                             >
@@ -103,6 +136,66 @@ const FilterControls = (props) => {
                                 )
                             }
                         </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.modalContent}>
+                        <View>
+                            <Text style={styles.modalContentText}>Wybierz marke</Text>
+                            <View
+                                style={styles.filtersButtonsArea}
+                            >
+
+                                {
+                                    markFilters.map(
+                                        filter => {
+
+                                            filerLabel = filter.label;
+                                            const isActive = props.activeFilterNames.includes(filter.name)
+                                            return(
+                                                <TouchableOpacity
+                                                    key={filter.name}
+                                                    active={isActive}
+                                                    onPress={
+                                                        () => {
+                                                            dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                        }
+                                                    }
+                                                    style={styles.filterButton}
+                                                >
+                                                    <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
+                                                </TouchableOpacity>
+                                            )}
+                                    )
+                                }
+                            </View>
+                        </View>
+                    </View>
+                    <View
+                   style={styles.priceContainer}
+                    >
+                        <Text style={styles.modalContentText}>Cena</Text>
+                        <Slider
+                            style={styles.slider}
+                            value={sliderValue}
+                            minimumValue={50}
+                            maximumValue={2000}
+                            step={1}
+                            minimumTrackTintColor="#3e8a6f"
+                            maximumTrackTintColor="#3e8a6f"
+                            onValueChange={value => setSliderValue(value)}
+                            onSlidingComplete={value => {
+                                setSlideCompletionValue(value),
+                                    setSlideCompletionCount(slideCompletionCount + 1)
+                            }
+                            }
+                        />
+
+                        <Text>
+                            Completions: {slideCompletionCount} Value:{' '}
+                            {slideCompletionValue + ' '}
+                            Current Value:{' '} {sliderValue}
+                        </Text>
                     </View>
                 </View>
 
@@ -122,29 +215,40 @@ const FilterControls = (props) => {
                 <Text style={styles.filterButtonTextPrev}>filtry</Text>
             </TouchableOpacity>
                 {
-                    activeFilter !== '' ?
-                <View
-                    style={styles.activeFilterContainer}
-                >
-                    <TouchableOpacity
-                        style={styles.removeActiveFilterButton}
-                    onPress={
-                        () => {
-                            dispatch(searchActions.removeFilter(activeFilterName));
-                            setActiveFilter('');
-                        }
-                    }
-                    >
-                    <FontAwesome
-                        name={'remove'}
-                        size={20}
-                        color={'#b0b0b0'}
-                    />
-                <Text style={styles.filter}>{activeFilter}</Text>
-                    </TouchableOpacity>
-                </View>
+                    activeFil.length > 0 ?
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.activeFilterContainer}
+                        >
+                            {
+                                filteredKeywords.map(
+                                    filter =>
+                                        (
+                                            <TouchableOpacity
+                                                style={styles.removeActiveFilterButton}
+                                                onPress={
+                                                    () => {
+                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                    }
+                                                }
+                                            >
+                                                <FontAwesome
+                                                    name={'remove'}
+                                                    size={20}
+                                                    color={'#b0b0b0'}
+                                                />
+                                                <Text style={styles.filter}>{filter.label}</Text>
+                                            </TouchableOpacity>
+                                )
+                                )
+                            }
+                        </ScrollView>
                         :
                         <View>
+                                            <Text></Text>
+
                         </View>
                 }
             </View>
@@ -284,6 +388,17 @@ const styles = StyleSheet.create({
     },
     deactivateButton: {
         color: '#4e5354',
+    },
+
+    priceContainer: {
+        width: 400,
+        alignItems: 'center'
+    },
+
+    slider: {
+        width: 200,
+        height: 40,
+        margin: 25
     }
 
 });
