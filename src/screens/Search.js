@@ -63,12 +63,14 @@ const Search = (props) => {
     }
 
     return (
-        <ScrollView>
+        <View  style={styles.searchTabContainer}>
             <FilterControls
                 activeFilterNames={phrase.activeFilterNames}
             />
-
-            <Text onPress={() => {
+        <ScrollView>
+            <Text
+                style={{marginTop: 15}}
+                onPress={() => {
                 console.log(search.activeFilterNames)
             }}>{phrase.searchPhrase}</Text>
             <Text>{phrase.inputFocus.toString()}</Text>
@@ -140,6 +142,7 @@ const Search = (props) => {
             )}
 
         </ScrollView>
+        </View>
     );
 }
 
@@ -149,6 +152,10 @@ export default Search;
 
 
 const styles = StyleSheet.create({
+
+    searchTabContainer: {
+      flex: 1
+    },
 
     actionsButton: {
         color: Colors.accent

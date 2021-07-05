@@ -10,7 +10,17 @@ const categoryFilters = [
     {
         name: 'category_electronic',
         label: 'Elektronika',
-        subcategory: 'Telewizory'
+        subcategory: [
+            {
+                name: 'subcategory_tv',
+                label: 'Telewizory'
+            },
+
+            {
+                name: 'subcategory_fridge',
+                label: 'Lodówki'
+            }
+        ]
     },
     {
         name: 'category_sport',
@@ -104,8 +114,6 @@ const FilterControls = (props) => {
                         </Pressable>
                         <Text style={styles.modalText}>Filtry</Text>
                     </View>
-                    <Text onPress={() => console.log(filteredKeywords)}>dupa</Text>
-
                     <View style={styles.modalContent}>
                         <View>
                         <Text style={styles.modalContentText}>Wybierz kategorie</Text>
@@ -212,6 +220,10 @@ const FilterControls = (props) => {
                     size={25}
                     color={Colors.primary}
                 />
+                <View
+                    style={activeFil.length > 0 ? styles.activeFilterIcon : styles.noFilters}
+                >
+                </View>
                 <Text style={styles.filterButtonTextPrev}>filtry</Text>
             </TouchableOpacity>
                 {
@@ -225,6 +237,10 @@ const FilterControls = (props) => {
                                 filteredKeywords.map(
                                     filter =>
                                         (
+                                            <View
+                                                key={filter.name}
+                                                style={styles.activeFilterBox}
+                                            >
                                             <TouchableOpacity
                                                 style={styles.removeActiveFilterButton}
                                                 onPress={
@@ -241,6 +257,7 @@ const FilterControls = (props) => {
                                                 />
                                                 <Text style={styles.filter}>{filter.label}</Text>
                                             </TouchableOpacity>
+                                            </View>
                                 )
                                 )
                             }
@@ -265,16 +282,29 @@ const styles = StyleSheet.create({
         color: Colors.accent
     },
 
+    activeFilterIcon: {
+        width: 7,
+        height: 7,
+        position: 'absolute',
+        top: 4,
+        left: 20,
+        borderRadius: 10,
+        backgroundColor: '#2196F3',
+        textAlign: 'center'
+    },
+
+    noFilters: {
+        backgroundColor: 'transparent'
+    },
+
     filterButtonContainer: {
         width: 450,
         height: 35,
-        backgroundColor: 'white',
-
+        backgroundColor: 'white'
     },
 
     removeActiveFilterButton: {
-        marginLeft: 30,
-        marginTop: 4,
+        // padding: 4,
         flexDirection: 'row'
     },
 
@@ -399,6 +429,18 @@ const styles = StyleSheet.create({
         width: 200,
         height: 40,
         margin: 25
+    },
+
+    activeFilterBox: {
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        marginLeft: 20,
+        padding: 3,
+        paddingLeft: 5,
+        paddingRight: 5,
+        flexDirection: 'row'
+
     }
 
 });
