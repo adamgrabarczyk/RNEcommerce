@@ -51,8 +51,18 @@ const Search = (props) => {
     const phrase = useSelector(state => state.search);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
-    const activeFilters = useSelector(state => state.search.activeFilters);
 
+    const availableSearchProducts = products.filter(
+        product => phrase.activeFilterNames.map(
+            filterName => filters[filterName]
+        ).every(
+            func => func(product, phrase.searchPhrase)
+        )
+
+    ).map(
+        product => (
+            <Text>{product.name}</Text>
+        ));
 
     const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
@@ -67,29 +77,11 @@ const Search = (props) => {
             <FilterControls
                 activeFilterNames={phrase.activeFilterNames}
             />
-        <ScrollView>
-            <Text
-                style={{marginTop: 15}}
-                onPress={() => {
-                console.log(search.activeFilterNames)
-            }}>{phrase.searchPhrase}</Text>
-            <Text>{phrase.inputFocus.toString()}</Text>
-
-
-            <Text onPress={() => {
-                console.log(phrase.activeFilterNames)
-            }}>filtry</Text>
-
-
-            <Text onPress={() => {
-                console.log(filters)
-            }}>filtersy</Text>
-
-            <Text onPress={() => {
-                console.log(activeFilters)
-            }}>data</Text>
+        <ScrollView style={styles.container}>
 
             {
+                availableSearchProducts.length > 0 ?
+
                 products.filter(
                 product => phrase.activeFilterNames.map(
                         filterName => filters[filterName]
@@ -139,7 +131,12 @@ const Search = (props) => {
                         }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
                     </ProductItem>
                 )
-            )}
+            )
+            :
+                    <View style={styles.notFind}>
+                        <Text style={styles.notFindText}>Nie znaleziono produktów spełniających kryteria wyszykiwania.</Text>
+                    </View>
+            }
 
         </ScrollView>
         </View>
@@ -153,8 +150,26 @@ export default Search;
 
 const styles = StyleSheet.create({
 
+    container: {
+        flex: 1,
+        display: 'flex',
+    },
+
+    notFind: {
+        textAlign: 'center',
+        justifyContent: 'center',
+        marginTop: 300
+    },
+
+    notFindText: {
+        fontSize: 15
+    },
+
     searchTabContainer: {
-      flex: 1
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     actionsButton: {

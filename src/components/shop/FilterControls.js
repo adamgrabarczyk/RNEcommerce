@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
 
     filterButton: {
         marginTop: 3,
-        marginLeft: 15,
+        marginLeft: 30,
         flexDirection: 'row'
     },
 
