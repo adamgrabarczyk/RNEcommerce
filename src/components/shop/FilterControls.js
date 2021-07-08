@@ -187,7 +187,7 @@ const FilterControls = (props) => {
                             style={styles.slider}
                             value={sliderValue}
                             minimumValue={50}
-                            maximumValue={2000}
+                            maximumValue={10000}
                             step={1}
                             minimumTrackTintColor="#3e8a6f"
                             maximumTrackTintColor="#3e8a6f"

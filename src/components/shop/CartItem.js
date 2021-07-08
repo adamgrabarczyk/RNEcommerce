@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Platform, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as searchActions from '../../store/actions/search';
 import ItemCounter from './ItemCounter';
 
 const CartItem = props => {
@@ -33,6 +32,7 @@ return (
 const styles = StyleSheet.create({
 
     cartItem: {
+        margin: 10,
         padding: 10,
         backgroundColor: 'white',
         flexDirection: 'column',
