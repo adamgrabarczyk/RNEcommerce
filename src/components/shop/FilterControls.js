@@ -80,6 +80,10 @@ const FilterControls = (props) => {
     const [slideCompletionCount, setSlideCompletionCount] = useState(0);
     const [sliderValue, setSliderValue] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
+    const [categoryModalVisible, setCategoryModalVisible] = useState(false);
+    const [markModalVisible, setMarkModalVisible] = useState(false);
+    const [categoryFilter, setCategoryFilter] = useState('Wszystkie kategorie');
+    const [markFilter, setMarkFilter] = useState('Wszystkie marki');
     const dispatch = useDispatch();
     const phrase = useSelector(state => state.search);
 
@@ -100,7 +104,6 @@ const FilterControls = (props) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
                 }}
             >
@@ -110,75 +113,173 @@ const FilterControls = (props) => {
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <Text style={styles.textStyle}>X</Text>
+                            <Ionicons
+                                name={Platform.OS === 'android' ? 'close' : 'ios-close'}
+                                size={25}
+                                color={'white'}
+                            />
                         </Pressable>
                         <Text style={styles.modalText}>Filtry</Text>
                     </View>
-                    <View style={styles.modalContent}>
-                        <View>
-                        <Text style={styles.modalContentText}>Wybierz kategorie</Text>
-                        <View
-                            style={styles.filtersButtonsArea}
+                    <View style={styles.labelContainer}>
+                        <Text style={styles.hintText}>Kategoria</Text>
+                    <TouchableOpacity
+                        style={styles.label}
+                    onPress={() => setCategoryModalVisible(true)}
+                    >
+                    <Text style={styles.labelText}>{categoryFilter}</Text>
+                        <Ionicons
+                            name={Platform.OS === 'android' ? 'chevron-forward-sharp' : 'ios-chevron-forward-sharp'}
+                            size={26}
+                            color={'white'}
+                        />
+                    </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={categoryModalVisible}
+                            onRequestClose={() => {
+                                setCategoryModalVisible(!categoryModalVisible);
+                            }}
                         >
-
-                            {
-                                categoryFilters.map(
-                                    filter => {
-
-                                        filerLabel = filter.label;
-                                        const isActive = props.activeFilterNames.includes(filter.name)
-                                        return(
-                                            <TouchableOpacity
-                                                key={filter.name}
-                                                active={isActive}
-                                                onPress={
-                                                    () => {
-                                                        dispatch(searchActions.categoryFilter(filter.name, !isActive));
-                                                          }
-                                                    }
-                                                style={styles.filterButton}
-                                            >
-                                                <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
-                                            </TouchableOpacity>
-                                        )}
-                                )
-                            }
-                        </View>
-                        </View>
-                    </View>
-
-                    <View style={styles.modalContent}>
-                        <View>
-                            <Text style={styles.modalContentText}>Wybierz marke</Text>
                             <View
-                                style={styles.filtersButtonsArea}
+                                style={styles.centeredView}
                             >
+                                <View style={styles.modalView}>
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => setCategoryModalVisible(!categoryModalVisible)}
+                                    >
+                                        <Ionicons
+                                            name={Platform.OS === 'android' ? 'chevron-back-sharp' : 'ios-chevron-back-sharp'}
+                                            size={25}
+                                            color={'white'}
+                                        />
 
-                                {
-                                    markFilters.map(
-                                        filter => {
+                                    </Pressable>
+                                    <Text style={styles.modalText}>Filtry</Text>
+                                </View>
+                                <View style={styles.modalContent}>
+                                    <View>
+                                        <Text style={styles.modalContentText}>Wybierz kategorie</Text>
+                                        <View
+                                            style={styles.filtersButtonsArea}
+                                        >
 
-                                            filerLabel = filter.label;
-                                            const isActive = props.activeFilterNames.includes(filter.name)
-                                            return(
-                                                <TouchableOpacity
-                                                    key={filter.name}
-                                                    active={isActive}
-                                                    onPress={
-                                                        () => {
-                                                            dispatch(searchActions.categoryFilter(filter.name, !isActive));
-                                                        }
-                                                    }
-                                                    style={styles.filterButton}
-                                                >
-                                                    <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
-                                                </TouchableOpacity>
-                                            )}
-                                    )
-                                }
+                                            {
+                                                categoryFilters.map(
+                                                    filter => {
+
+                                                        filerLabel = filter.label;
+                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        return(
+                                                            <TouchableOpacity
+                                                                key={filter.name}
+                                                                active={isActive}
+                                                                onPress={
+                                                                    () => {
+                                                                        dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                                         !isActive ? setCategoryFilter(filter.label) : setCategoryFilter('Wszystkie kategorie');
+                                                                    }
+                                                                }
+                                                                style={styles.filterButton}
+                                                            >
+                                                                <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
+                                                            </TouchableOpacity>
+                                                        )}
+                                                )
+                                            }
+                                        </View>
+                                    </View>
+                                </View>
                             </View>
-                        </View>
+
+                        </Modal>
                     </View>
+
+
+                    <View style={styles.labelContainer}>
+                        <Text style={styles.hintText}>Marka</Text>
+                        <TouchableOpacity
+                            style={styles.label}
+                            onPress={() => setMarkModalVisible(true)}
+                        >
+                            <Text style={styles.labelText}>{markFilter}</Text>
+                            <Ionicons
+                                name={Platform.OS === 'android' ? 'chevron-forward-sharp' : 'ios-chevron-forward-sharp'}
+                                size={26}
+                                color={'white'}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={markModalVisible}
+                            onRequestClose={() => {
+                                setMarkModalVisible(!markModalVisible);
+                            }}
+                        >
+                            <View
+                                style={styles.centeredView}
+                            >
+                                <View style={styles.modalView}>
+                                    <Pressable
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => setMarkModalVisible(!markModalVisible)}
+                                    >
+                                        <Ionicons
+                                            name={Platform.OS === 'android' ? 'chevron-back-sharp' : 'ios-chevron-back-sharp'}
+                                            size={25}
+                                            color={'white'}
+                                        />
+
+                                    </Pressable>
+                                    <Text style={styles.modalText}>Filtry</Text>
+                                </View>
+                                <View style={styles.modalContent}>
+                                    <View>
+                                        <Text style={styles.modalContentText}>Wybierz marke</Text>
+                                        <View
+                                            style={styles.filtersButtonsArea}
+                                        >
+
+                                            {
+                                                markFilters.map(
+                                                    filter => {
+
+                                                        filerLabel = filter.label;
+                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        return(
+                                                            <TouchableOpacity
+                                                                key={filter.name}
+                                                                active={isActive}
+                                                                onPress={
+                                                                    () => {
+                                                                        dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                                        !isActive ? setMarkFilter(filter.label) : setMarkFilter('Wszystkie marki');
+                                                                    }
+                                                                }
+                                                                style={styles.filterButton}
+                                                            >
+                                                                <Text style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}>{filter.label}</Text>
+                                                            </TouchableOpacity>
+                                                        )}
+                                                )
+                                            }
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </View>
+
+                        </Modal>
+                    </View>
+
+
                     <View
                    style={styles.priceContainer}
                     >
@@ -247,6 +348,8 @@ const FilterControls = (props) => {
                                                     () => {
                                                         const isActive = props.activeFilterNames.includes(filter.name)
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                        filter.label === categoryFilter ? setCategoryFilter('Wszystkie kategorie') : console.log(filter.label);
+                                                        filter.label === markFilter ? setMarkFilter('Wszystkie marki') : console.log(filter.label);
                                                     }
                                                 }
                                             >
@@ -363,9 +466,11 @@ const styles = StyleSheet.create({
     },
 
     button: {
+        textAlign: 'center',
+        alignItems: 'center',
         width: 40,
         borderRadius: 20,
-        padding: 10,
+        padding: 6,
         elevation: 2
     },
     buttonOpen: {
@@ -373,6 +478,7 @@ const styles = StyleSheet.create({
     },
     buttonClose: {
         textAlign: 'center',
+        alignItems: 'center',
         backgroundColor: "#3e8a6f",
         marginTop: 45,
         marginLeft: 15,
@@ -441,6 +547,31 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         flexDirection: 'row'
 
+    },
+
+    labelContainer: {
+        marginTop: 30,
+        margin: 15
+    },
+
+    label: {
+        padding: 10,
+        borderColor: Colors.primary,
+        backgroundColor: '#3e8a6f',
+        borderWidth: 1,
+        width: 350,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    labelText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '600'
+    },
+
+    hintText: {
+        fontSize: 16
     }
 
 });
