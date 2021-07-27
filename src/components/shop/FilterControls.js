@@ -716,7 +716,6 @@ const styles = StyleSheet.create({
     filtersButtonsArea: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        // marginTop: 10
     },
 
     activeButton: {
@@ -751,7 +750,7 @@ const styles = StyleSheet.create({
 
     labelContainer: {
         marginTop: 30,
-        margin: 15
+        margin: 30
     },
 
     label: {
@@ -784,7 +783,8 @@ const styles = StyleSheet.create({
     },
 
     resetFiltersContainer: {
-        backgroundColor: '#3e8a6f',
+        backgroundColor: 'lightgrey',
+        opacity: 0.4,
         width: 420,
         padding: 11,
         textAlign: 'center',
@@ -796,7 +796,7 @@ const styles = StyleSheet.create({
     },
 
     resetFiltersText: {
-        color: 'white',
+        color: 'black',
         fontWeight: '600',
         fontSize: 15
     }
