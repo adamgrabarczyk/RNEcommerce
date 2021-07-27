@@ -283,7 +283,7 @@ const FilterControls = (props) => {
                                     <Text style={styles.modalText}>Filtry</Text>
                                 </View>
                                 <View style={styles.modalContent}>
-                                    <View>
+                                    <View style={styles.filtersButtonsContainer}>
                                         <Text style={styles.modalContentText}>Wybierz kategorie</Text>
                                         <View
                                             style={styles.filtersButtonsArea}
@@ -317,9 +317,10 @@ const FilterControls = (props) => {
                                     </View>
                                     {
                                         categoryFilter !== 'Wszystkie kategorie' && subCategoryData !== undefined ?
-                                        <View>
-                                            <View>
+                                    <View style={styles.filtersButtonsContainer}>
+                                        <View style={styles.filtersButtonsArea}>
                                             <Text style={styles.modalContentText}>Wybierz podkategorie</Text>
+                                            <View>
                                                 { subCategoryData !== undefined ?
                                                     subCategoryData.subcategory.map(
                                                         filter => {
@@ -348,8 +349,9 @@ const FilterControls = (props) => {
                                                 }
                                             </View>
                                             </View>
+                                    </View>
                                             :
-                                            <View>
+                                            <View  style={styles.filtersButtonsContainer}>
                                             </View>
                                     }
                                 </View>
@@ -595,7 +597,6 @@ const styles = StyleSheet.create({
     },
 
     removeActiveFilterButton: {
-        // padding: 4,
         flexDirection: 'row'
     },
 
@@ -650,7 +651,7 @@ const styles = StyleSheet.create({
     },
 
     modalContent: {
-
+        paddingTop: 40
     },
 
     button: {
@@ -690,7 +691,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
         color: "black",
         fontSize: 20,
-        fontWeight: '500'
+        fontWeight: '500',
+        marginBottom: 15
     },
 
     filterButtonText: {
@@ -702,9 +704,7 @@ const styles = StyleSheet.create({
     filtersButtonsArea: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        textAlign: 'left',
-        marginLeft: -50,
-        marginTop: 50
+        // marginTop: 10
     },
 
     activeButton: {
@@ -763,6 +763,12 @@ const styles = StyleSheet.create({
 
     hintText: {
         fontSize: 16
+    },
+
+    filtersButtonsContainer: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        width: '100%',
     }
 
 });
