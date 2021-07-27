@@ -24,27 +24,93 @@ const categoryFilters = [
     },
     {
         name: 'category_sport',
-        label: 'Sport'
+        label: 'Sport',
+        subcategory: [
+            {
+                name: 'subcategory_clothing',
+                label: 'Odzież'
+            },
+
+            {
+                name: 'subcategory_sport_equipment',
+                label: 'Sprzęt sportowy'
+            }
+        ]
     },
     {
         name: 'category_car_parts',
-        label: 'Części samochodowe'
+        label: 'Części samochodowe',
+        subcategory: [
+            {
+                name: 'subcategory_car_lamp',
+                label: 'Lampy'
+            },
+
+            {
+                name: 'subcategory_brakes',
+                label: 'Hamulce'
+            }
+        ]
     },
     {
         name: 'category_decoration',
-        label: 'Dekoracje'
+        label: 'Dekoracje',
+        subcategory: [
+            {
+                name: 'subcategory_lamp',
+                label: 'Lampy'
+            },
+
+            {
+                name: 'subcategory_pictures',
+                label: 'Obrazy'
+            }
+        ]
     },
     {
         name: 'category_clothes',
-        label: 'Odzież'
+        label: 'Odzież',
+        subcategory: [
+            {
+                name: 'subcategory_shirts',
+                label: 'Koszule'
+            },
+
+            {
+                name: 'subcategory_trousers',
+                label: 'Spodnie'
+            }
+        ]
     },
     {
         name: 'category_garden',
-        label: 'Ogród'
+        label: 'Ogród',
+        subcategory: [
+            {
+                name: 'subcategory_tools',
+                label: 'Narzędzia'
+            },
+
+            {
+                name: 'subcategory_garden_furniture',
+                label: 'Meble ogrodowe'
+            }
+        ]
     },
     {
         name: 'category_toys',
-        label: 'Zabawki'
+        label: 'Zabawki',
+        subcategory: [
+            {
+                name: 'subcategory_remote_toys',
+                label: 'Sterowane zdalnie'
+            },
+
+            {
+                name: 'subcategory_plush_toys',
+                label: 'Pluszowe'
+            }
+        ]
     }
 
 
@@ -54,22 +120,52 @@ const markFilters = [
     {
         name: 'mark_sony',
         label: 'Sony',
+        subcategory: [
+            {
+                name: null,
+                label: null
+            }
+        ]
     },
     {
         name: 'mark_brembo',
-        label: 'Brembo'
+        label: 'Brembo',
+        subcategory: [
+            {
+                name: null,
+                label: null
+            }
+        ]
     },
     {
         name: 'mark_haier',
-        label: 'Haier'
+        label: 'Haier',
+        subcategory: [
+            {
+                name: null,
+                label: null
+            }
+        ]
     },
     {
         name: 'mark_kipsta',
-        label: 'Kipsta'
+        label: 'Kipsta',
+        subcategory: [
+            {
+                name: null,
+                label: null
+            }
+        ]
     },
     {
         name: 'mark_samsung',
-        label: 'Samsung'
+        label: 'Samsung',
+        subcategory: [
+            {
+                name: null,
+                label: null
+            }
+        ]
     }
 ]
 
@@ -93,7 +189,16 @@ const FilterControls = (props) => {
 
     const newFil = categoryFilters.concat(markFilters);
     const filteredKeywords = newFil.filter((word) => activeFil.includes(word.name));
+    const subCategoryData = filteredKeywords.find(
+        data => data.label === categoryFilter
+    )
 
+
+    const subCat = filteredKeywords.map(
+        data => data.subcategory.filter(
+            d => activeFil.includes(d.name)
+        )
+    ).flat();
 
     let filerLabel;
 
@@ -127,12 +232,28 @@ const FilterControls = (props) => {
                         style={styles.label}
                     onPress={() => setCategoryModalVisible(true)}
                     >
+                        <View style={styles.categoryLabel}>
                     <Text style={styles.labelText}>{categoryFilter}</Text>
+                        {
+                            subCat.length > 0 ?
+                                <Text style={styles.labelText}> / </Text>
+                                :
+                                <Text></Text>
+                        }
+                        {
+                            subCat.length > 0 ?
+                            <Text style={styles.labelText}>{subCat[0].label}</Text>
+                                :
+                                <Text></Text>
+                        }
+                        </View>
+                        <View>
                         <Ionicons
                             name={Platform.OS === 'android' ? 'chevron-forward-sharp' : 'ios-chevron-forward-sharp'}
                             size={26}
                             color={'white'}
                         />
+                        </View>
                     </TouchableOpacity>
                     </View>
                     <View>
@@ -173,7 +294,7 @@ const FilterControls = (props) => {
                                                     filter => {
 
                                                         filerLabel = filter.label;
-                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        const isActive = props.activeFilterNames.includes(filter.name);
                                                         return(
                                                             <TouchableOpacity
                                                                 key={filter.name}
@@ -182,6 +303,7 @@ const FilterControls = (props) => {
                                                                     () => {
                                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                                          !isActive ? setCategoryFilter(filter.label) : setCategoryFilter('Wszystkie kategorie');
+                                                                         isActive && phrase.activeSubCategory.length > 0 ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('dupa');
                                                                     }
                                                                 }
                                                                 style={styles.filterButton}
@@ -193,6 +315,43 @@ const FilterControls = (props) => {
                                             }
                                         </View>
                                     </View>
+                                    {
+                                        categoryFilter !== 'Wszystkie kategorie' && subCategoryData !== undefined ?
+                                        <View>
+                                            <View>
+                                            <Text style={styles.modalContentText}>Wybierz podkategorie</Text>
+                                                { subCategoryData !== undefined ?
+                                                    subCategoryData.subcategory.map(
+                                                        filter => {
+                                                            const isActive = props.activeFilterNames.includes(filter.name);
+                                                            return (
+                                                                <TouchableOpacity
+                                                                    key={filter.name}
+                                                                    active={isActive}
+                                                                    onPress={
+                                                                        () => {
+                                                                            dispatch(searchActions.categoryFilter(filter.name, !isActive));
+                                                                            dispatch(searchActions.subcategoryFilter(filter.name, !isActive, filter.label));
+                                                                        }
+                                                                    }
+                                                                    style={styles.filterButton}
+                                                                >
+                                                                    <Text
+                                                                        style={[styles.filterButtonText, isActive ? styles.activeButton : styles.deactivateButton]}
+                                                                    >{filter.label}</Text>
+                                                                </TouchableOpacity>
+                                                            )
+                                                        }
+                                                    )
+                                                    :
+                                                    <View></View>
+                                                }
+                                            </View>
+                                            </View>
+                                            :
+                                            <View>
+                                            </View>
+                                    }
                                 </View>
                             </View>
 
@@ -350,6 +509,7 @@ const FilterControls = (props) => {
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                         filter.label === categoryFilter ? setCategoryFilter('Wszystkie kategorie') : console.log(filter.label);
                                                         filter.label === markFilter ? setMarkFilter('Wszystkie marki') : console.log(filter.label);
+                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory[0].name === phrase.activeSubCategory[0].name ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('dupa');
                                                     }
                                                 }
                                             >
@@ -363,6 +523,34 @@ const FilterControls = (props) => {
                                             </View>
                                 )
                                 )
+                            }
+
+                            {
+                                subCat.length > 0 ?
+                                <View
+                                    style={styles.activeFilterBox}
+                                >
+                                    <TouchableOpacity
+                                        style={styles.removeActiveFilterButton}
+                                        onPress={
+                                            () => {
+                                                const isActive = props.activeFilterNames.includes(subCat[0].name)
+                                                dispatch(searchActions.categoryFilter(subCat[0].name, !isActive));
+
+                                            }
+                                        }
+                                    >
+                                        <FontAwesome
+                                            name={'remove'}
+                                            size={20}
+                                            color={'#b0b0b0'}
+                                        />
+                                        <Text style={styles.filter}>{subCat[0].label}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                    :
+                                    <View>
+                                    </View>
                             }
                         </ScrollView>
                         :
@@ -568,6 +756,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: '600'
+    },
+    categoryLabel: {
+        flexDirection: 'row',
     },
 
     hintText: {

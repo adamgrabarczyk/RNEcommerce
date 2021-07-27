@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
     Text, StyleSheet, TouchableOpacity, ScrollView, View, Modal, Pressable,  ActivityIndicator, FlatList, Platform, Image
 
@@ -10,7 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
 import FilterControls from '../components/shop/FilterControls';
-import search from '../store/reducers/search';
 
 
 const filters = {
@@ -34,7 +33,20 @@ const filters = {
     category_garden: product => product.category_title === 'Ogrod',
     category_toys: product => product.category_title === 'Zabawki',
 
-    subcategory_tv: product => product.subcategory_title === 'Telewizory',
+    subcategory_tv: product => product.subcategory[0].subcategory_title === 'Telewizory',
+    subcategory_fridge: product => product.subcategory[0].subcategory_title === 'Lodówki',
+    subcategory_clothing: product => product.subcategory[0].subcategory_title === 'Odzież',
+    subcategory_sport_equipment: product => product.subcategory[0].subcategory_title === 'Sprzęt sportowy',
+    subcategory_car_lamp: product => product.subcategory[0].subcategory_title === 'Lampy',
+    subcategory_brakes: product => product.subcategory[0].subcategory_title === 'Hamulce',
+    subcategory_lamp: product => product.subcategory[0].subcategory_title === 'Lampy',
+    subcategory_pictures: product => product.subcategory[0].subcategory_title === 'Obrazy',
+    subcategory_shirts: product => product.subcategory[0].subcategory_title === 'Koszule',
+    subcategory_trousers: product => product.subcategory[0].subcategory_title === 'Spodnie',
+    subcategory_tools: product => product.subcategory[0].subcategory_title === 'Narzędzia',
+    subcategory_garden_furniture: product => product.subcategory[0].subcategory_title === 'Meble ogrodowe',
+    subcategory_remote_toys: product => product.subcategory[0].subcategory_title === 'Sterowane zdalnie',
+    subcategory_plush_toys: product => product.subcategory[0].subcategory_title === 'Pluszowezd',
 
 
     mark_sony: product => product.mark === 'Sony',

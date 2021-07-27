@@ -1,11 +1,19 @@
 
-import {IS_FOCUSED, RESET_INPUT, IS_NOT_FOCUSED, GET_PHRASE, CATEGORY_FILTER} from '../actions/search';
+import {
+    IS_FOCUSED,
+    RESET_INPUT,
+    IS_NOT_FOCUSED,
+    GET_PHRASE,
+    CATEGORY_FILTER,
+    SUBCATEGORY_FILTER, RESET_SUBCATEGORY,
+} from '../actions/search';
 
 
 const initialState = {
     searchPhrase: '',
     inputFocus: false,
-    activeFilterNames: []
+    activeFilterNames: [],
+    activeSubCategory: []
 }
 
 
@@ -50,11 +58,31 @@ export default (state = initialState, action) => {
             handleFilterUpdate = filterUpdate;
 
             console.log(filterName);
+            console.log(state.activeFilterNames);
 
 
         return {
             ...state,
             activeFilterNames: handleFilterUpdate
+            }
+
+        case SUBCATEGORY_FILTER:
+
+            const subcategoryName = action.filterName;
+            const subcategoryLabel = action.filterLabel;
+
+            const subObj = {name: subcategoryName, label: subcategoryLabel}
+
+            return {
+                ...state,
+                activeSubCategory: [subObj]
+            }
+
+        case RESET_SUBCATEGORY:
+
+            return {
+                ...state,
+                activeSubCategory: []
             }
 
         case IS_FOCUSED:
