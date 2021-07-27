@@ -226,6 +226,12 @@ const FilterControls = (props) => {
                         </Pressable>
                         <Text style={styles.modalText}>Filtry</Text>
                     </View>
+                    <View style={styles.resetFiltersContainer}>
+                        <TouchableOpacity style={styles.resetFiltersButton}>
+                            <Text style={styles.resetFiltersText}>Wyczyść filtry</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <ScrollView style={styles.modalContentContainer}>
                     <View style={styles.labelContainer}>
                         <Text style={styles.hintText}>Kategoria</Text>
                     <TouchableOpacity
@@ -467,6 +473,7 @@ const FilterControls = (props) => {
                             Current Value:{' '} {sliderValue}
                         </Text>
                     </View>
+                    </ScrollView>
                 </View>
 
             </Modal>
@@ -654,6 +661,11 @@ const styles = StyleSheet.create({
         paddingTop: 40
     },
 
+    modalContentContainer: {
+      textAlign: 'center',
+        paddingTop: 30
+    },
+
     button: {
         textAlign: 'center',
         alignItems: 'center',
@@ -769,6 +781,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         width: '100%',
+    },
+
+    resetFiltersContainer: {
+        backgroundColor: '#3e8a6f',
+        width: 420,
+        padding: 11,
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+
+    resetFiltersButton: {
+
+    },
+
+    resetFiltersText: {
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 15
     }
 
 });
