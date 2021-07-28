@@ -5,6 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constans/Colors';
 import * as searchActions from '../../store/actions/search';
 import {useDispatch, useSelector} from 'react-redux';
+import ResetFiltersButton from './ResetFiltersButton';
 
 const categoryFilters = [
     {
@@ -226,11 +227,15 @@ const FilterControls = (props) => {
                         </Pressable>
                         <Text style={styles.modalText}>Filtry</Text>
                     </View>
-                    <View style={styles.resetFiltersContainer}>
-                        <TouchableOpacity style={styles.resetFiltersButton}>
-                            <Text style={styles.resetFiltersText}>Wyczyść filtry</Text>
-                        </TouchableOpacity>
-                    </View>
+
+                    <ResetFiltersButton
+                    resetFilters={() => {
+                        dispatch({type: 'RESET_FILTERS'}),
+                            setCategoryFilter('Wszystkie kategorie'),
+                            setMarkFilter('Wszystkie marki')
+                    }}
+                    />
+
                     <ScrollView style={styles.modalContentContainer}>
                     <View style={styles.labelContainer}>
                         <Text style={styles.hintText}>Kategoria</Text>
@@ -782,23 +787,5 @@ const styles = StyleSheet.create({
         width: '100%',
     },
 
-    resetFiltersContainer: {
-        backgroundColor: 'lightgrey',
-        opacity: 0.4,
-        width: 420,
-        padding: 11,
-        textAlign: 'center',
-        alignItems: 'center'
-    },
-
-    resetFiltersButton: {
-
-    },
-
-    resetFiltersText: {
-        color: 'black',
-        fontWeight: '600',
-        fontSize: 15
-    }
 
 });

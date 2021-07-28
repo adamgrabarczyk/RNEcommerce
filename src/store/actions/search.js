@@ -5,6 +5,7 @@ export const RESET_INPUT = 'RESET_INPUT';
 export const CATEGORY_FILTER = 'CATEGORY_FILTER';
 export const SUBCATEGORY_FILTER = 'SUBCATEGORY_FILTER';
 export const RESET_SUBCATEGORY = 'RESET_SUBCATEGORY';
+export const RESET_FILTERS = 'RESET_FILTERS';
 
 export const getPhrase = phrase => {
     return {type: GET_PHRASE, phr: phrase}

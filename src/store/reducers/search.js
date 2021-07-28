@@ -5,7 +5,7 @@ import {
     IS_NOT_FOCUSED,
     GET_PHRASE,
     CATEGORY_FILTER,
-    SUBCATEGORY_FILTER, RESET_SUBCATEGORY,
+    SUBCATEGORY_FILTER, RESET_SUBCATEGORY, RESET_FILTERS,
 } from '../actions/search';
 
 
@@ -83,6 +83,15 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 activeSubCategory: []
+            }
+
+        case RESET_FILTERS:
+
+            return {
+                ...state,
+                activeFilterNames: [],
+                activeSubCategory: []
+
             }
 
         case IS_FOCUSED:
