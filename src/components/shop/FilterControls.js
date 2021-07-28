@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View, ScrollView, Slider} from 'react-native';
+import {Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constans/Colors';
 import * as searchActions from '../../store/actions/search';
 import {useDispatch, useSelector} from 'react-redux';
 import ResetFiltersButton from './ResetFiltersButton';
+import PriceSlider from './PriceSlider';
 
 const categoryFilters = [
     {
@@ -173,9 +174,6 @@ const markFilters = [
 
 
 const FilterControls = (props) => {
-    const [slideCompletionValue, setSlideCompletionValue] = useState(0);
-    const [slideCompletionCount, setSlideCompletionCount] = useState(0);
-    const [sliderValue, setSliderValue] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const [markModalVisible, setMarkModalVisible] = useState(false);
@@ -451,33 +449,8 @@ const FilterControls = (props) => {
                         </Modal>
                     </View>
 
+                    <PriceSlider/>
 
-                    <View
-                   style={styles.priceContainer}
-                    >
-                        <Text style={styles.modalContentText}>Cena</Text>
-                        <Slider
-                            style={styles.slider}
-                            value={sliderValue}
-                            minimumValue={50}
-                            maximumValue={10000}
-                            step={1}
-                            minimumTrackTintColor="#3e8a6f"
-                            maximumTrackTintColor="#3e8a6f"
-                            onValueChange={value => setSliderValue(value)}
-                            onSlidingComplete={value => {
-                                setSlideCompletionValue(value),
-                                    setSlideCompletionCount(slideCompletionCount + 1)
-                            }
-                            }
-                        />
-
-                        <Text>
-                            Completions: {slideCompletionCount} Value:{' '}
-                            {slideCompletionValue + ' '}
-                            Current Value:{' '} {sliderValue}
-                        </Text>
-                    </View>
                     </ScrollView>
                 </View>
 
@@ -728,17 +701,6 @@ const styles = StyleSheet.create({
     },
     deactivateButton: {
         color: '#4e5354',
-    },
-
-    priceContainer: {
-        width: 400,
-        alignItems: 'center'
-    },
-
-    slider: {
-        width: 200,
-        height: 40,
-        margin: 25
     },
 
     activeFilterBox: {
