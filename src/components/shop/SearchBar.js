@@ -1,5 +1,5 @@
-import React, { useState,  } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import Colors from '../../constans/Colors';
