@@ -181,7 +181,7 @@ const FilterControls = (props) => {
     const [markFilter, setMarkFilter] = useState('Wszystkie marki');
     const dispatch = useDispatch();
     const phrase = useSelector(state => state.search);
-
+    const activeFilterPrice = useSelector(state => state.search.filteredPrice);
     const activeFil = phrase.activeFilterNames.filter(
         filter => filter !== 'phrase'
     );
@@ -467,13 +467,13 @@ const FilterControls = (props) => {
                     color={Colors.primary}
                 />
                 <View
-                    style={activeFil.length > 0 ? styles.activeFilterIcon : styles.noFilters}
+                    style={activeFil.length > 0 || activeFilterPrice !== 10000 ? styles.activeFilterIcon : styles.noFilters}
                 >
                 </View>
                 <Text style={styles.filterButtonTextPrev}>filtry</Text>
             </TouchableOpacity>
                 {
-                    activeFil.length > 0 ?
+                    activeFil.length > 0 ||  activeFilterPrice !== 10000 ?
                         <ScrollView
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
@@ -534,6 +534,33 @@ const FilterControls = (props) => {
                                         <Text style={styles.filter}>{subCat[0].label}</Text>
                                     </TouchableOpacity>
                                 </View>
+                                    :
+                                    <View>
+                                    </View>
+                            }
+
+                            {
+                                activeFilterPrice !== 10000 ?
+                                    <View
+                                        style={styles.activeFilterBox}
+                                    >
+                                        <TouchableOpacity
+                                            style={styles.removeActiveFilterButton}
+                                            onPress={
+                                                () => {
+                                                    dispatch({type: 'RESET_PRICE'})
+
+                                                }
+                                            }
+                                        >
+                                            <FontAwesome
+                                                name={'remove'}
+                                                size={20}
+                                                color={'#b0b0b0'}
+                                            />
+                                            <Text style={styles.filter}>od {activeFilterPrice} zł</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     :
                                     <View>
                                     </View>

@@ -6,6 +6,7 @@ export const CATEGORY_FILTER = 'CATEGORY_FILTER';
 export const PRICE_FILTER = 'PRICE_FILTER';
 export const SUBCATEGORY_FILTER = 'SUBCATEGORY_FILTER';
 export const RESET_SUBCATEGORY = 'RESET_SUBCATEGORY';
+export const RESET_PRICE = 'RESET_PRICE';
 export const RESET_FILTERS = 'RESET_FILTERS';
 
 export const getPhrase = phrase => {

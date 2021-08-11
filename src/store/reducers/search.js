@@ -5,7 +5,7 @@ import {
     IS_NOT_FOCUSED,
     GET_PHRASE,
     CATEGORY_FILTER,
-    SUBCATEGORY_FILTER, RESET_SUBCATEGORY, RESET_FILTERS, PRICE_FILTER,
+    SUBCATEGORY_FILTER, RESET_SUBCATEGORY, RESET_FILTERS, PRICE_FILTER, RESET_PRICE,
 } from '../actions/search';
 
 
@@ -87,6 +87,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 filteredPrice: price,
+            }
+
+        case RESET_PRICE:
+
+            return {
+                ...state,
+                filteredPrice: 10000
             }
 
         case RESET_SUBCATEGORY:
