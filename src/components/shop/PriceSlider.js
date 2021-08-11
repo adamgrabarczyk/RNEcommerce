@@ -2,38 +2,43 @@ import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import * as searchActions from '../../store/actions/search';
 
 const PriceSlider = props => {
-
+    const dispatch = useDispatch();
+    const priceValue = useSelector(state => state.search.filteredPrice);
     const [slideCompletionValue, setSlideCompletionValue] = useState(0);
     const [slideCompletionCount, setSlideCompletionCount] = useState(0);
-    const [sliderValue, setSliderValue] = useState(0);
+
 
     return (
         <View
             style={styles.priceContainer}
         >
             <Text style={styles.modalContentText}>Cena</Text>
+
             <Slider
                 style={styles.slider}
-                value={sliderValue}
+                value={priceValue}
                 minimumValue={50}
                 maximumValue={10000}
                 step={1}
                 minimumTrackTintColor="#3e8a6f"
                 maximumTrackTintColor="#3e8a6f"
-                onValueChange={value => setSliderValue(value)}
+                onValueChange={value => {
+                    dispatch(searchActions.priceFilter(value, slideCompletionValue))
+                }}
                 onSlidingComplete={value => {
                     setSlideCompletionValue(value),
                         setSlideCompletionCount(slideCompletionCount + 1)
                 }
                 }
+                restSlider={props.restSlider}
             />
 
             <Text>
-                Completions: {slideCompletionCount} Value:{' '}
-                {slideCompletionValue + ' '}
-                Current Value:{' '} {sliderValue}
+                Cena do:{' '} {priceValue} zł
             </Text>
         </View>
     );
@@ -45,21 +50,20 @@ const styles = StyleSheet.create({
     modalContentText: {
         marginTop: 40,
         color: "black",
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '500',
-        marginBottom: 15
+        marginBottom: 15,
     },
 
     priceContainer: {
         width: 400,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     slider: {
-        width: 200,
+        width: 250,
         height: 40,
         margin: 25
-    },
-
+    }
 });
 
 

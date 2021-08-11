@@ -5,13 +5,16 @@ import {useSelector} from 'react-redux';
 const ResetFiltersButton = props => {
 
     const activeFilters = useSelector(state => state.search.activeFilterNames);
+    const activeFilterPrice = useSelector(state => state.search.filteredPrice);
+
+    const filters = activeFilters.concat(activeFilterPrice !== 10000 ? activeFilterPrice : []);
 
     return (
         <TouchableOpacity
         onPress={props.resetFilters}
-        disabled={activeFilters.length > 0 ? false : true}
+        disabled={filters.length > 0 ? false : true}
         >
-            <View style={activeFilters.length > 0 ?styles.resetFiltersContainer : styles.disabledResetFiltersContainer}>
+            <View style={filters.length > 0 ? styles.resetFiltersContainer : styles.disabledResetFiltersContainer}>
                 <Text style={styles.resetFiltersText}>Wyczyść filtry</Text>
             </View>
         </TouchableOpacity>

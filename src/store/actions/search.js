@@ -3,6 +3,7 @@ export const IS_FOCUSED = 'IS_FOCUSED';
 export const IS_NOT_FOCUSED = 'IS_NOT_FOCUSED';
 export const RESET_INPUT = 'RESET_INPUT';
 export const CATEGORY_FILTER = 'CATEGORY_FILTER';
+export const PRICE_FILTER = 'PRICE_FILTER';
 export const SUBCATEGORY_FILTER = 'SUBCATEGORY_FILTER';
 export const RESET_SUBCATEGORY = 'RESET_SUBCATEGORY';
 export const RESET_FILTERS = 'RESET_FILTERS';
@@ -21,5 +22,12 @@ export const categoryFilter = (filterName, enabled, filterLabel) => {
 export const subcategoryFilter = (filterName, enabled, filterLabel) => {
 
     return {type: SUBCATEGORY_FILTER, filterName: filterName, enabled: enabled, filterLabel: filterLabel}
+
+}
+
+
+export const priceFilter = (price, enabled) => {
+
+    return {type: PRICE_FILTER, filterPrice: price, enabled: enabled}
 
 }

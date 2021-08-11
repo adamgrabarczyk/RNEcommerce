@@ -5,7 +5,7 @@ import {
     IS_NOT_FOCUSED,
     GET_PHRASE,
     CATEGORY_FILTER,
-    SUBCATEGORY_FILTER, RESET_SUBCATEGORY, RESET_FILTERS,
+    SUBCATEGORY_FILTER, RESET_SUBCATEGORY, RESET_FILTERS, PRICE_FILTER,
 } from '../actions/search';
 
 
@@ -13,7 +13,8 @@ const initialState = {
     searchPhrase: '',
     inputFocus: false,
     activeFilterNames: [],
-    activeSubCategory: []
+    activeSubCategory: [],
+    filteredPrice: 10000
 }
 
 
@@ -78,6 +79,16 @@ export default (state = initialState, action) => {
                 activeSubCategory: [subObj]
             }
 
+        case PRICE_FILTER:
+
+            const price = action.filterPrice;
+            const enabledPrice = action.enabled;
+
+            return {
+                ...state,
+                filteredPrice: price,
+            }
+
         case RESET_SUBCATEGORY:
 
             return {
@@ -90,7 +101,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 activeFilterNames: [],
-                activeSubCategory: []
+                activeSubCategory: [],
+                filteredPrice: 10000
 
             }
 

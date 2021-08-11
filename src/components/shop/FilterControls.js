@@ -20,7 +20,7 @@ const categoryFilters = [
 
             {
                 name: 'subcategory_fridge',
-                label: 'Lodówki'
+                label: 'Lodowki'
             }
         ]
     },
@@ -190,8 +190,7 @@ const FilterControls = (props) => {
     const filteredKeywords = newFil.filter((word) => activeFil.includes(word.name));
     const subCategoryData = filteredKeywords.find(
         data => data.label === categoryFilter
-    )
-
+    );
 
     const subCat = filteredKeywords.map(
         data => data.subcategory.filter(

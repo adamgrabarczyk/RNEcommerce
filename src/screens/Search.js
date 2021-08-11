@@ -34,7 +34,7 @@ const filters = {
     category_toys: product => product.category_title === 'Zabawki',
 
     subcategory_tv: product => product.subcategory[0].subcategory_title === 'Telewizory',
-    subcategory_fridge: product => product.subcategory[0].subcategory_title === 'Lodówki',
+    subcategory_fridge: product => product.subcategory[0].subcategory_title === 'Lodowki',
     subcategory_clothing: product => product.subcategory[0].subcategory_title === 'Odzież',
     subcategory_sport_equipment: product => product.subcategory[0].subcategory_title === 'Sprzęt sportowy',
     subcategory_car_lamp: product => product.subcategory[0].subcategory_title === 'Lampy',
@@ -61,6 +61,7 @@ const filters = {
 const Search = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const phrase = useSelector(state => state.search);
+    const filterPrice = useSelector(state => state.search.filteredPrice);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
 
@@ -101,7 +102,9 @@ const Search = (props) => {
                         func => func(product, phrase.searchPhrase)
                     )
 
-            ).map(
+            ).filter(
+                  product => product.price < filterPrice
+                ).map(
                 product => (
                     <ProductItem
                         key={product.id}
