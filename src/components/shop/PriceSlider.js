@@ -16,8 +16,6 @@ const PriceSlider = props => {
         <View
             style={styles.priceContainer}
         >
-            <Text style={styles.modalContentText}>Cena</Text>
-
             <Slider
                 style={styles.slider}
                 value={priceValue}
@@ -34,7 +32,6 @@ const PriceSlider = props => {
                         setSlideCompletionCount(slideCompletionCount + 1)
                 }
                 }
-                restSlider={props.restSlider}
             />
 
             <Text>
@@ -51,16 +48,15 @@ const styles = StyleSheet.create({
         marginTop: 40,
         color: "black",
         fontSize: 16,
-        fontWeight: '500',
         marginBottom: 15,
     },
 
     priceContainer: {
-        width: 400,
-        alignItems: 'center',
+        width: 350,
+        alignItems: 'center'
     },
     slider: {
-        width: 250,
+        width: 340,
         height: 40,
         margin: 25
     }

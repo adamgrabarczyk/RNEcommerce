@@ -7,6 +7,7 @@ import * as searchActions from '../../store/actions/search';
 import {useDispatch, useSelector} from 'react-redux';
 import ResetFiltersButton from './ResetFiltersButton';
 import PriceSlider from './PriceSlider';
+import AvailableProductsSwitch from './AvailableProductsSwitch';
 
 const categoryFilters = [
     {
@@ -448,7 +449,15 @@ const FilterControls = (props) => {
                         </Modal>
                     </View>
 
+                        <View style={styles.labelContainer}>
+                            <Text style={styles.hintText}>Cena</Text>
                     <PriceSlider/>
+                    </View>
+
+                        <View style={styles.labelContainer}>
+                            <Text style={styles.hintText}>Dostępność</Text>
+                        <AvailableProductsSwitch/>
+                        </View>
 
                     </ScrollView>
                 </View>
