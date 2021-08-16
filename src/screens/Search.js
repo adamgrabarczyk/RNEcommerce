@@ -16,6 +16,7 @@ const filters = {
     phrase: (product, searchPhrase) => [
         product.name,
         product.mark,
+        product.availability,
         product.category_title,
         product.subcategory[0].subcategory_title
     ].map(
@@ -53,7 +54,10 @@ const filters = {
     mark_brembo: product => product.mark === 'Brembo',
     mark_haier: product => product.mark === 'Haier',
     mark_kipsta: product => product.mark === 'Kipsta',
-    mark_samsung: product => product.mark === 'Samsung'
+    mark_samsung: product => product.mark === 'Samsung',
+
+
+    available_products: product => product.availability === 'true'
 
 
 }
