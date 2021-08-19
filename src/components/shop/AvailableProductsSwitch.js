@@ -8,21 +8,18 @@ import {useDispatch, useSelector} from 'react-redux';
 const AvailableProductsSwitch = props => {
     const dispatch = useDispatch();
     const availableProducts = useSelector(state => state.search.activeFilterNames.includes('available_products'));
-    const [isEnabled, setIsEnabled] = useState(availableProducts === true ? true : false);
-    const toggleSwitch = () => {
-        if (availableProducts !== isEnabled) {
-            setIsEnabled(previousState => !previousState);
-    }
-        dispatch(searchActions.categoryFilter('available_products', !isEnabled));
+      const toggleSwitch = () => {
+                previousState => !previousState;
+        dispatch(searchActions.categoryFilter('available_products', !availableProducts));
     }
 
 
     return (
         <View style={styles.container}>
-            <Text onPress={() => console.log(availableProducts)}>Produkty dostępne od ręki</Text>
+            <Text>Produkty dostępne od ręki</Text>
             <Switch
                 trackColor={{ false: "#3e8a6f", true: "#3e8a6f" }}
-                thumbColor={isEnabled ? "#f4f3f4" : "lightgrey"}
+                thumbColor={availableProducts ? "#f4f3f4" : "lightgrey"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={availableProducts}
