@@ -574,6 +574,33 @@ const FilterControls = (props) => {
                                     <View>
                                     </View>
                             }
+
+                            {
+                                activeFil.includes('available_products') ?
+                                    <View
+                                        style={styles.activeFilterBox}
+                                    >
+                                        <TouchableOpacity
+                                            style={styles.removeActiveFilterButton}
+                                            onPress={
+                                                () => {
+                                                    const isActive = props.activeFilterNames.includes('available_products')
+                                                    dispatch(searchActions.categoryFilter('available_products', !isActive));
+                                                }
+                                            }
+                                        >
+                                            <FontAwesome
+                                                name={'remove'}
+                                                size={20}
+                                                color={'#b0b0b0'}
+                                            />
+                                            <Text style={styles.filter}>Dostępne</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    <View>
+                                    </View>
+                            }
                         </ScrollView>
                         :
                         <View>
@@ -622,6 +649,7 @@ const styles = StyleSheet.create({
 
     activeFilterContainer: {
         marginLeft: 20,
+        marginRight: 25
     },
 
     filterButton: {
