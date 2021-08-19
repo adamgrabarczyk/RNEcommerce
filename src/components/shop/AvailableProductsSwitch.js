@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {StyleSheet, Text, View, Switch} from 'react-native';
-import {useState} from 'react';
 import * as searchActions from '../../store/actions/search';
 import {useDispatch, useSelector} from 'react-redux';
 
