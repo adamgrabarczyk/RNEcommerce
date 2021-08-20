@@ -17,22 +17,6 @@ const Home = (props, { navigation }) => {
 
     return(
         <View style={{  justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={styles.text}>Home!</Text>
-            <Text>Home!</Text>
-            <Button
-                title="show fav"
-                onPress={() => {
-                    console.log('undar table from home')
-                    console.log(userFavProducts)
-                }
-                }
-            />
-
-            <Button
-                title="ProductDetails"
-                onPress={() => navigation.navigate('ProductDetails')}
-            />
-
             <ProductOverviewScreen {...props}/>
         </View>
     )
