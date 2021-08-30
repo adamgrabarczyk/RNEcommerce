@@ -42,7 +42,7 @@ const categoryFilters = [
     },
     {
         name: 'category_car_parts',
-        label: 'Części samochodowe',
+        label: 'Czesci samochodowe',
         subcategory: [
             {
                 name: 'subcategory_car_lamp',
@@ -312,7 +312,7 @@ const FilterControls = (props) => {
                                                                     () => {
                                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                                          !isActive ? setCategoryFilter(filter.label) : setCategoryFilter('Wszystkie kategorie');
-                                                                         isActive && phrase.activeSubCategory.length > 0 ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('dupa');
+                                                                         isActive && phrase.activeSubCategory.length > 0 ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('blah');
                                                                     }
                                                                 }
                                                                 style={styles.filterButton}
@@ -504,7 +504,7 @@ const FilterControls = (props) => {
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                         filter.label === categoryFilter ? setCategoryFilter('Wszystkie kategorie') : console.log(filter.label);
                                                         filter.label === markFilter ? setMarkFilter('Wszystkie marki') : console.log(filter.label);
-                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory[0].name === phrase.activeSubCategory[0].name ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('dupa');
+                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory[0 || 1].name === phrase.activeSubCategory[0].name ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('blah');
                                                     }
                                                 }
                                             >
