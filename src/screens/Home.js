@@ -1,19 +1,12 @@
 import React from 'react';
 import {
-    View,
-    Text, StyleSheet,Button
+    View
 } from 'react-native';
 
-
 import ProductOverviewScreen from './shop/ProductOverviewScreen';
-import {useSelector} from 'react-redux';
 
 
-
-
-const Home = (props, { navigation }) => {
-
-    const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+const Home = (props) => {
 
     return(
         <View style={{  justifyContent: 'center', alignItems: 'center' }}>
@@ -22,12 +15,7 @@ const Home = (props, { navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
 
-    text: {
-        fontFamily: 'OpenSans-SemiBoldItalic'
-    }
-})
 
 
 export default Home;
