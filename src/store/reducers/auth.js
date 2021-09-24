@@ -1,7 +1,10 @@
-import {LOGIN, LOGOUT} from '../actions/auth';
+import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, userEmail, login} from '../actions/auth';
 
 const initialState = {
-    token: ''
+    token: '',
+    userEmail: '',
+    userPassword: '',
+    error: ''
 };
 
 export default (state = initialState, action) => {
@@ -19,6 +22,35 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 token: ''
+            }
+
+        case GET_EMAIL:
+
+            const email = action.email;
+
+            return {
+                ...state,
+                userEmail: email
+            }
+
+        case GET_PASSWORD:
+            const password = action.password;
+
+            return {
+                ...state,
+                userPassword: password
+            }
+
+        case USER_DATA:
+
+            const mail = action.email;
+            const pass = action.password;
+            const response = action.response;
+
+
+            return {
+                ...state,
+                error: response
             }
 
     }

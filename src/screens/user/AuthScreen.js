@@ -6,11 +6,20 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import * as authActions from '../../store/actions/auth';
+
 
 
 const AuthScreen = (props) => {
     const dispatch = useDispatch();
+    const email = useSelector(state => state.auth.userEmail);
+    const password = useSelector(state => state.auth.userPassword);
+    const error = useSelector(state => state.auth.error);
+
+    const signupHandler = () => {
+        dispatch(authActions.signup(email,password));
+    }
 
     return(
         <View style={styles.container}>
@@ -21,7 +30,12 @@ const AuthScreen = (props) => {
                        selectionColor='#ffffff'
                        keyboardType='email-address'
                        autoCapitalize = 'none'
+                       onChangeText={
+                           email => dispatch(authActions.userEmail(email))
+                       }
+
             />
+            <Text style={{color: 'black'}}>{email}</Text>
             <TextInput style={styles.inputBox}
                        placeholder='Hasło'
                        placeholderTextColor='#ffffff'
@@ -29,14 +43,21 @@ const AuthScreen = (props) => {
                        secureTextEntry={true}
                        autoCapitalize = 'none'
                        selectionColor='#ffffff'
+                       onChangeText={
+                           password => dispatch(authActions.userPassword(password))
+                       }
             />
-
+            <Text style={{color: 'black'}}>{password}</Text>
             <TouchableOpacity style={styles.button}
-                              onPress={() => {
-                                  dispatch({ type: 'LOGIN' })
-                              }}
+                              onPress={signupHandler}
             >
                 <Text style={styles.buttonText}>Zaloguj</Text>
+            </TouchableOpacity>
+            <Text style={{color: 'red'}} onPress={() => console.log(error)}>{error}</Text>
+
+            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Register')}>
+
+                <Text style={styles.buttonText}>Nie masz konta? Zarejestruj się!</Text>
             </TouchableOpacity>
 
         </View>
@@ -49,6 +70,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        backgroundColor: '#ffffff'
     },
 
     inputBox: {
@@ -64,7 +86,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#ffffff',
+        color: 'lightgrey',
         textAlign: 'center',
         marginVertical: 10
     },
