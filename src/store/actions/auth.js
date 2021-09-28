@@ -26,12 +26,43 @@ export const signup = (email, password) => {
             });
 
             if (!response.ok) {
-                throw new Error('selele');
+                throw new Error('signup blah');
             }
 
             const resData = await response.json();
             console.log(resData);
         dispatch({type: SIGNUP});
+    }
+}
+
+
+
+export const signin = (email, password) => {
+
+    console.log(email + ' ' + password + ' logowanie');
+
+    return async dispatch => {
+        const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCWNcZ_aSsnV-HIWEaqxwz9e0V6zB_jx2w'
+            , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    returnSecureToken: true
+                })
+
+            });
+
+        if (!response.ok) {
+            throw new Error('login blah');
+        }
+
+        const resData = await response.json();
+        console.log(resData);
+        dispatch({type: LOGIN});
     }
 }
 

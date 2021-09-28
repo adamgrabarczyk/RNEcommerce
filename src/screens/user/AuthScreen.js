@@ -6,59 +6,51 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
+import LoginForm from '../../components/auth/LoginForm'
+import SignupForm from '../../components/auth/SignupForm'
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 
 
 
 const AuthScreen = (props) => {
+    const [isSignup, setIsSignup] = React.useState(false)
     const dispatch = useDispatch();
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
     const error = useSelector(state => state.auth.error);
 
-    const signupHandler = () => {
+    const authHandler = () => {
+        if(isSignup) {
         dispatch(authActions.signup(email,password));
+    }else {
+            dispatch(authActions.signin(email,password));
+        }
+
     }
 
     return(
         <View style={styles.container}>
-            <TextInput style={styles.inputBox}
-                       placeholder='Email'
-                       placeholderTextColor='#ffffff'
-                       underlineColorAndroid='rgba(0,0,0,0)'
-                       selectionColor='#ffffff'
-                       keyboardType='email-address'
-                       autoCapitalize = 'none'
-                       onChangeText={
-                           email => dispatch(authActions.userEmail(email))
-                       }
 
-            />
-            <Text style={{color: 'black'}}>{email}</Text>
-            <TextInput style={styles.inputBox}
-                       placeholder='Hasło'
-                       placeholderTextColor='#ffffff'
-                       underlineColorAndroid='rgba(0,0,0,0)'
-                       secureTextEntry={true}
-                       autoCapitalize = 'none'
-                       selectionColor='#ffffff'
-                       onChangeText={
-                           password => dispatch(authActions.userPassword(password))
-                       }
-            />
-            <Text style={{color: 'black'}}>{password}</Text>
-            <TouchableOpacity style={styles.button}
-                              onPress={signupHandler}
-            >
-                <Text style={styles.buttonText}>Zaloguj</Text>
-            </TouchableOpacity>
-            <Text style={{color: 'red'}} onPress={() => console.log(error)}>{error}</Text>
+            {
+                isSignup ?
 
-            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Register')}>
+                    <SignupForm
+                        email={(email) => dispatch(authActions.userEmail(email))}
+                        password={(password) => dispatch(authActions.userPassword(password))}
+                        register={authHandler}
+                        changeToLogin={() => setIsSignup(prevState => !prevState)}
+                    />
+                    :
+                    <LoginForm
+                        email={(email) => dispatch(authActions.userEmail(email))}
+                        password={(password) => dispatch(authActions.userPassword(password))}
+                        login={authHandler}
+                        changeToRegister={() => setIsSignup(prevState => !prevState)}
 
-                <Text style={styles.buttonText}>Nie masz konta? Zarejestruj się!</Text>
-            </TouchableOpacity>
+                    />
+            }
+
 
         </View>
     )
