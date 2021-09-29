@@ -7,16 +7,11 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import * as authActions from '../../store/actions/auth';
-
 
 
 const AuthScreen = (props) => {
-    const [isSignup, setIsSignup] = React.useState(false)
-    const dispatch = useDispatch();
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
-    const error = useSelector(state => state.auth.error);
 
     return(
         <View style={styles.container}>
@@ -45,12 +40,15 @@ const AuthScreen = (props) => {
                        }
             />
             <Text style={{color: 'black'}}>{password}</Text>
+            <View style={props.spinnerContainer}>
+            {props.spinner}
+            </View>
             <TouchableOpacity style={styles.button}
                               onPress={props.login}
             >
                 <Text style={styles.buttonText}>Zaloguj</Text>
             </TouchableOpacity>
-            <Text style={{color: 'red'}} onPress={() => console.log(error)}>{error}</Text>
+            <Text style={{color: 'red'}} onPress={() => console.log(props.error)}>{props.error}</Text>
 
             <TouchableOpacity  onPress={props.changeToRegister}>
 

@@ -3,30 +3,48 @@ import {
     View,
     Text,
     StyleSheet,
-    TextInput,
-    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import LoginForm from '../../components/auth/LoginForm'
 import SignupForm from '../../components/auth/SignupForm'
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
+import Colors from '../../constans/Colors';
 
 
 
 const AuthScreen = (props) => {
-    const [isSignup, setIsSignup] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [isSignup, setIsSignup] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState();
     const dispatch = useDispatch();
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
     const error = useSelector(state => state.auth.error);
 
-    const authHandler = () => {
+    React.useEffect(() => {
+        if (error) {
+            setErrorMessage('error');
+        }
+    }, ['error']);
+
+    const authHandler = async () => {
+        let action;
         if(isSignup) {
-        dispatch(authActions.signup(email,password));
-    }else {
-            dispatch(authActions.signin(email,password));
+            action = authActions.signup(email,password);
+        }else {
+            action = authActions.signin(email,password);
         }
 
+        setErrorMessage(null);
+        setIsLoading(true);
+        try {
+            await dispatch(action);
+
+        } catch (error) {
+            setErrorMessage(error.message)
+        }
+        setIsLoading(false);
     }
 
     return(
@@ -39,15 +57,26 @@ const AuthScreen = (props) => {
                         email={(email) => dispatch(authActions.userEmail(email))}
                         password={(password) => dispatch(authActions.userPassword(password))}
                         register={authHandler}
-                        changeToLogin={() => setIsSignup(prevState => !prevState)}
+                        changeToLogin={() => {
+                            setIsSignup(prevState => !prevState)
+                            setErrorMessage(null);
+                        }}
+                        spinner={isLoading ? <ActivityIndicator size='small' color={Colors.primary}/> : <View style={styles.spinnerContainer}></View>}
+                        spinnerContainer={styles.spinnerContainer}
+                        error={errorMessage}
                     />
                     :
                     <LoginForm
                         email={(email) => dispatch(authActions.userEmail(email))}
                         password={(password) => dispatch(authActions.userPassword(password))}
                         login={authHandler}
-                        changeToRegister={() => setIsSignup(prevState => !prevState)}
-
+                        changeToRegister={() => {
+                            setIsSignup(prevState => !prevState)
+                            setErrorMessage(null);
+                        }}
+                        spinner={isLoading ? <ActivityIndicator size='small' color={Colors.primary}/> : <View style={styles.spinnerContainer}></View>}
+                        spinnerContainer={styles.spinnerContainer}
+                        error={errorMessage}
                     />
             }
 
@@ -89,6 +118,12 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingHorizontal: 16,
         marginVertical: 10,
+    },
+
+    spinnerContainer: {
+        width: '100%',
+        height: 5,
+        padding: 5
     }
 
 

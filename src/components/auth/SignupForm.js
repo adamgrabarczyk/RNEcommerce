@@ -16,7 +16,6 @@ const AuthScreen = (props) => {
     const dispatch = useDispatch();
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
-    const error = useSelector(state => state.auth.error);
 
     return(
         <View style={styles.container}>
@@ -45,12 +44,15 @@ const AuthScreen = (props) => {
                        }
             />
             <Text style={{color: 'black'}}>{password}</Text>
+            <View style={props.spinnerContainer}>
+                {props.spinner}
+            </View>
             <TouchableOpacity style={styles.button}
                               onPress={props.register}
             >
                 <Text style={styles.buttonText}>Zarejestruj</Text>
             </TouchableOpacity>
-            <Text style={{color: 'red'}} onPress={() => console.log(error)}>{error}</Text>
+            <Text style={{color: 'red'}} onPress={() => console.log(props.error)}>{props.error}</Text>
 
             <TouchableOpacity  onPress={props.changeToLogin}>
 

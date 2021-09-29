@@ -25,9 +25,16 @@ export const signup = (email, password) => {
 
             });
 
-            if (!response.ok) {
-                throw new Error('signup blah');
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            const errorMessage = errorResponse.error.message;
+            let error = 'Wprowadź poprawne dane';
+            if (errorMessage === 'EMAIL_EXISTS') {
+                error = 'Podany adres email jest już zajęty';
             }
+            throw new Error(error);
+            console.log(errorResponse);
+        }
 
             const resData = await response.json();
             console.log(resData);
@@ -57,7 +64,17 @@ export const signin = (email, password) => {
             });
 
         if (!response.ok) {
-            throw new Error('login blah');
+           const errorResponse = await response.json();
+           const errorMessage = errorResponse.error.message;
+           let error = 'Wprowadź poprawne dane';
+           if (errorMessage === 'EMAIL_NOT_FOUND') {
+               error = 'Wprowadź poprawny adres email';
+           } else if (errorMessage === 'INVALID_PASSWORD') {
+               error = 'Wprowadź poprawne hasło'
+           }
+
+           throw new Error(error);
+           console.log(errorResponse);
         }
 
         const resData = await response.json();
