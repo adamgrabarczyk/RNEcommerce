@@ -20,10 +20,11 @@ export default (state = initialState, action) => {
             }
 
         case LOGOUT:
-
             return {
                 ...state,
-                token: null
+                token: null,
+                userEmail: null,
+                userPassword: null
             }
 
         case GET_EMAIL:

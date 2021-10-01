@@ -21,6 +21,7 @@ const AuthScreen = (props) => {
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
     const error = useSelector(state => state.auth.error);
+    const token = useSelector(state => state.auth.token);
 
     React.useEffect(() => {
         if (error) {
@@ -80,7 +81,6 @@ const AuthScreen = (props) => {
                         error={errorMessage}
                     />
             }
-
 
         </View>
     )
