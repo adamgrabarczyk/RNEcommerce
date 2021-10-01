@@ -1,9 +1,10 @@
 import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, userEmail, login} from '../actions/auth';
 
 const initialState = {
-    token: '',
+    token: null,
     userEmail: '',
     userPassword: '',
+    user: null,
     error: ''
 };
 
@@ -21,7 +22,7 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
-                token: ''
+                token: null
             }
 
         case GET_EMAIL:

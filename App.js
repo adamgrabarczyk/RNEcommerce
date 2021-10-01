@@ -12,7 +12,7 @@ const App: () => React$Node = () => {
     return (
         <NavigationContainer>
             {
-                token != '' ?
+                token != null ?
                     <DrawerNav/>
                     :
                     <AuthScreen/>

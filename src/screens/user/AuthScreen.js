@@ -42,9 +42,10 @@ const AuthScreen = (props) => {
             await dispatch(action);
 
         } catch (error) {
-            setErrorMessage(error.message)
+            setErrorMessage(error.message);
+            setIsLoading(false);
         }
-        setIsLoading(false);
+
     }
 
     return(
