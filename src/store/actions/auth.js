@@ -80,7 +80,6 @@ export const signin = (email, password) => {
         const resData = await response.json();
         console.log(resData);
         dispatch({type: LOGIN, token: resData.idToken, user: resData.localId });
-        alert(resData.idToken);
     }
 }
 

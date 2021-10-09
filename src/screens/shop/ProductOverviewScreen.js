@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, ActivityIndicator ,View} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
@@ -12,11 +12,33 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [error, setError] = useState();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(productActions.fetchProducts());
-    }, [dispatch]);
+
+        const availableProducts = useCallback(async () => {
+            setError(null);
+            setRefresh(true);
+           try {
+               await dispatch(productActions.fetchProducts());
+           }catch (e) {
+                setLoading(e)
+           }
+           setRefresh(false);
+    }, [dispatch, setLoading, setError]);
+
+
+        useEffect(() => {
+            setLoading(true);
+            availableProducts().then(
+                () => {
+                    setLoading(false);
+                }
+            );
+        }, [dispatch, availableProducts]);
+
 
     const selectItemHandler = (id, name) => {
         props.navigation.navigate('ProductDetails', {
@@ -26,8 +48,44 @@ const ProductsOverviewScreen = (props) => {
         });
     }
 
+
+    if (error) {
+        return (
+        <View>
+            <Text>Wystąpił błąd</Text>
+            <TouchableOpacity
+            onPress={availableProducts}
+            >
+                <Text>Spróbój ponownie</Text>
+            </TouchableOpacity>
+        </View>
+    )
+    }
+
+    if (loading) {
+        return (
+        <View>
+            <ActivityIndicator
+                style={styles.spinner}
+                size='large'
+                color={Colors.primary}
+            />
+        </View>
+                )
+    }
+
+    if (!loading && products === 0) {
+        return (
+            <View>
+                <Text>brak dostępnych produktów</Text>
+            </View>
+        )
+    }
+
     return (
         <FlatList
+            onRefresh={availableProducts}
+            refreshing={refresh}
             data={products}
             keyExtractor={item => item.id.toString()}
             renderItem={itemData => (
@@ -81,5 +139,11 @@ const styles = StyleSheet.create({
 
     actionsButton: {
         color: Colors.accent
+    },
+
+    spinner: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: 'center'
     }
 });
