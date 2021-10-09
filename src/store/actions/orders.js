@@ -4,11 +4,12 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
 
 export const fetchOrders = () => {
-    return async dispatch => {
+    return async (dispatch,getState) => {
+        const user = getState().auth.user;
 
         try {
             const response = await fetch(
-                'https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/orders/sampleUser.json'
+                `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/orders/${user}.json`
             );
 
             if (!response.ok) {
@@ -42,11 +43,14 @@ export const fetchOrders = () => {
 
 export const addOrder = (cartItems, totalAmount) => {
 
-    return async dispatch => {
+    return async (dispatch, getState) => {
+
+        const token = getState().auth.token;
+        const user = getState().auth.user;
 
         const date = new Date();
             const response = await fetch(
-                'https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/orders/sampleUser.json'
+                `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/orders/${user}.json`
             , {
                 method: 'POST',
                 headers: {

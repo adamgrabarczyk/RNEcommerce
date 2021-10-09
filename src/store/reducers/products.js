@@ -1,10 +1,8 @@
-import PRODUCT from '../../data/dummy-data';
 import {ADD_TO_FAV, DELETE_FROM_FAV, SET_PRODUCTS}  from '../actions/products';
 
 
 const initialState = {
     availableProducts: [],
-    userProducts: PRODUCT.filter(product => product.ownerId === 'u1'),
     favoriteUserProducts: []
 }
 
