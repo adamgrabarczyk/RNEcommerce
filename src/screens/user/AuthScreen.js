@@ -10,6 +10,7 @@ import SignupForm from '../../components/auth/SignupForm'
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constans/Colors';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -22,6 +23,23 @@ const AuthScreen = (props) => {
     const password = useSelector(state => state.auth.userPassword);
     const error = useSelector(state => state.auth.error);
     const token = useSelector(state => state.auth.token);
+    let tok;
+    const getData = async () => {
+       const data = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(data);
+        const {token, user, expireDate} = parseAuthData;
+       if (data !== null) {
+           alert('succes');
+           tok = data;
+           console.log(data);
+           console.log(parseAuthData);
+           console.log(parseAuthData.token);
+           console.log(parseAuthData.user);
+       }else {
+           alert('blah')
+           console.log(data);
+       }
+    }
 
     React.useEffect(() => {
         if (error) {
@@ -81,6 +99,7 @@ const AuthScreen = (props) => {
                         error={errorMessage}
                     />
             }
+            <Text style={{color: 'red', marginBottom: 50}} onPress={getData}>blah</Text>
 
         </View>
     )
