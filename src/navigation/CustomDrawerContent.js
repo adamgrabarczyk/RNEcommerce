@@ -4,7 +4,7 @@ import {
     DrawerItemList,
     DrawerItem,
 } from '@react-navigation/drawer';
-import {useDispatch from 'react-redux';
+import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
