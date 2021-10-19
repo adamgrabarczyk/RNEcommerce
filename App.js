@@ -23,13 +23,10 @@ const App: () => React$Node = () => {
 
     useEffect(() => {
 
-        console.log(correctData + ' 1');
-
         const checkToken = async () => {
             const authData = await AsyncStorage.getItem('authData');
             if (!authData) {
                 console.log('something went wrong');
-                console.log(authData + ' 2');
                 setContent(<AuthScreen/>)
                 return;
             }else  {
