@@ -8,7 +8,6 @@ import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
@@ -83,7 +82,8 @@ const ProductsOverviewScreen = (props) => {
     }
 
     return (
-        <FlatList
+        <View>
+              <FlatList
             onRefresh={availableProducts}
             refreshing={refresh}
             data={products}
@@ -128,6 +128,7 @@ const ProductsOverviewScreen = (props) => {
                 </ProductItem>
             )}
         />
+        </View>
     );
 };
 

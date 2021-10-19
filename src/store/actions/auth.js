@@ -91,7 +91,9 @@ export const signin = (email, password) => {
 }
 
  export const autoLogin = (authData) => {
-     return({type: AUTOLOGIN, authData: authData})
+    console.log(JSON.parse(authData));
+    const data = JSON.parse(authData);
+     return({type: AUTOLOGIN, authData: data, token: data.token, user: data.user, expireDate: data.expireDate})
  }
 
  const setDataToStorage = async (token, user, expireDate) => {
@@ -101,12 +103,6 @@ export const signin = (email, password) => {
         expireDate: expireDate.toISOString()
     }))
  };
-
-const removeDataToStorage = () => {
-    AsyncStorage.removeItem('authData');
-    return {type: LOGOUT}
-}
-
 
 export const userEmail = email => {
     return {type: GET_EMAIL, email: email}

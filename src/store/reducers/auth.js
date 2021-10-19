@@ -1,11 +1,12 @@
-import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, userEmail, login, AUTOLOGIN} from '../actions/auth';
+import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, login, AUTOLOGIN } from '../actions/auth';
 
 const initialState = {
     token: null,
     userEmail: '',
     userPassword: '',
     user: null,
-    error: ''
+    error: '',
+    correctData: null
 };
 
 export default (state = initialState, action) => {
@@ -16,23 +17,27 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 token: action.token,
-                user: action.user
+                user: action.user,
+                correctData: true
             }
 
         case AUTOLOGIN:
 
         return {
             ...state,
-            token: action.authData
+            token: action.token,
+            user: action.user
         }
 
         case LOGOUT:
             return {
                 ...state,
+                correctData: null,
                 token: null,
                 userEmail: null,
                 userPassword: null
             }
+
 
         case GET_EMAIL:
 

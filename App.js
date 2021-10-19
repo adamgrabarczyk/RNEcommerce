@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {View, StyleSheet, ActivityIndicator, Text} from 'react-native';
 import DrawerNav from './src/navigation/DrawerNavigator';
 import AuthScreen from './src/screens/user/AuthScreen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from './src/store/actions/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from './src/constans/Colors';
@@ -11,6 +11,7 @@ import Colors from './src/constans/Colors';
 const App: () => React$Node = () => {
 
     const dispatch = useDispatch();
+    const correctData = useSelector(state => state.auth.correctData);
 
     const [content, setContent] = useState(<View style={styles.container}>
         <ActivityIndicator
@@ -22,10 +23,13 @@ const App: () => React$Node = () => {
 
     useEffect(() => {
 
+        console.log(correctData + ' 1');
+
         const checkToken = async () => {
             const authData = await AsyncStorage.getItem('authData');
             if (!authData) {
                 console.log('something went wrong');
+                console.log(authData + ' 2');
                 setContent(<AuthScreen/>)
                 return;
             }else  {
@@ -37,7 +41,7 @@ const App: () => React$Node = () => {
 
             if (expiryDate <= new Date() || !token || !user) {
                 setContent(<AuthScreen/>)
-            }else {
+            } else {
                 setContent(<DrawerNav/>)
             }
         };
@@ -46,7 +50,9 @@ const App: () => React$Node = () => {
 
     return (
         <NavigationContainer>
-            {content}
+            {
+              correctData === true ? <DrawerNav/> : content
+            }
         </NavigationContainer>
   )
 }
