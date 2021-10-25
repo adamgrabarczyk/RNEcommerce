@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, login, AUTOLOGIN } from '../actions/auth';
+import {LOGIN, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, login, AUTOLOGIN, CORRECT,  UNCORRECT} from '../actions/auth';
 
 const initialState = {
     token: null,
@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
                 ...state,
                 token: action.token,
                 user: action.user,
-                correctData: true
+                correctData: true,
             }
 
         case AUTOLOGIN:
@@ -26,18 +26,28 @@ export default (state = initialState, action) => {
         return {
             ...state,
             token: action.token,
-            user: action.user
+            user: action.user,
+            correctData: true
         }
 
         case LOGOUT:
             return {
-                ...state,
-                correctData: null,
-                token: null,
-                userEmail: null,
-                userPassword: null
+                ...initialState
             }
 
+        case CORRECT:
+
+            return {
+                ...state,
+                correctData: true
+            }
+
+        case UNCORRECT:
+
+            return {
+                ...state,
+                correctData: false
+            }
 
         case GET_EMAIL:
 

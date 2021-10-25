@@ -13,21 +13,16 @@ const App: () => React$Node = () => {
     const dispatch = useDispatch();
     const correctData = useSelector(state => state.auth.correctData);
 
-    const [content, setContent] = useState(<View style={styles.container}>
-        <ActivityIndicator
-            style={styles.spinner}
-            size='large'
-            color={Colors.primary}
-        />
-    </View>);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
 
         const checkToken = async () => {
             const authData = await AsyncStorage.getItem('authData');
             if (!authData) {
-                console.log('something went wrong');
-                setContent(<AuthScreen/>)
+                console.log('no user data');
+                dispatch(authActions.unCorrectData());
+                setIsLoading(false);
                 return;
             }else  {
                 dispatch(authActions.autoLogin(authData));
@@ -35,21 +30,34 @@ const App: () => React$Node = () => {
             const parseAuthData = JSON.parse(authData);
             const {token, user, expireDate} = parseAuthData;
             const expiryDate = new Date(expireDate);
+            console.log(expiryDate);
+            console.log(new Date());
 
             if (expiryDate <= new Date() || !token || !user) {
-                setContent(<AuthScreen/>)
+                dispatch(authActions.unCorrectData())
             } else {
-                setContent(<DrawerNav/>)
+                dispatch(authActions.correctData())
             }
+            setIsLoading(false);
         };
         checkToken();
+
     },[]);
+
 
     return (
         <NavigationContainer>
             {
-              correctData === true ? <DrawerNav/> : content
-            }
+                isLoading === true ?
+                <View style={styles.container}>
+                    <ActivityIndicator
+                        style={styles.spinner}
+                        size='large'
+                        color={Colors.primary}
+                    />
+                </View>
+                :
+                correctData === true ? <DrawerNav/> : <AuthScreen/>}
         </NavigationContainer>
   )
 }

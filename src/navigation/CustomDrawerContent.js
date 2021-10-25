@@ -6,20 +6,21 @@ import {
 } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as authActions from '../store/actions/auth';
 
 
 const CustomDrawerContent = (props) => {
     const dispatch = useDispatch();
 
+    const logoutHandler = () => {
+        props.navigation.dispatch(DrawerActions.closeDrawer());
+        dispatch(authActions.logout());
+    }
+
     return (
         <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
-            <DrawerItem label="Wyloguj" onPress={() => {
-                dispatch({ type: 'LOGOUT' });
-                AsyncStorage.removeItem('authData');
-                props.navigation.dispatch(DrawerActions.closeDrawer())
-            }}/>
+            <DrawerItem label="Wyloguj" onPress={logoutHandler}/>
         </DrawerContentScrollView>
     );
 }

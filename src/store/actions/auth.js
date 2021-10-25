@@ -7,6 +7,8 @@ export const SIGNUP = 'SIGNUP';
 export const GET_EMAIL = 'GET_EMAIL';
 export const GET_PASSWORD = 'GET_PASSWORD';
 export const USER_DATA = 'USER_DATA';
+export const UNCORRECT = 'UNCORRECT';
+export const CORRECT = 'CORRECT';
 
 
 export const signup = (email, password) => {
@@ -103,6 +105,19 @@ export const signin = (email, password) => {
         expireDate: expireDate.toISOString()
     }))
  };
+
+export const logout = () => {
+    AsyncStorage.removeItem('authData');
+    return {type: LOGOUT}
+}
+
+export const unCorrectData = () => {
+    return {type: UNCORRECT}
+}
+
+export const correctData = () => {
+    return {type: CORRECT}
+}
 
 export const userEmail = email => {
     return {type: GET_EMAIL, email: email}

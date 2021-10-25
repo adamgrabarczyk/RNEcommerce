@@ -7,7 +7,6 @@ import * as productActions from '../../store/actions/products';
 import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
@@ -16,8 +15,7 @@ const ProductsOverviewScreen = (props) => {
     const [error, setError] = useState();
     const dispatch = useDispatch();
 
-
-        const availableProducts = useCallback(async () => {
+    const availableProducts = useCallback(async () => {
             setError(null);
             setRefresh(true);
            try {
