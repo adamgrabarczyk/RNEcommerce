@@ -43,9 +43,10 @@ export const signup = (email, password) => {
 
             const resData = await response.json();
             console.log(resData);
-        dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId });
+        dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email });
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        setDataToStorage(resData.idToken, resData.localId, expireDate);
+        setDataToStorage(resData.idToken, resData.localId, expireDate, email);
+        alert('Your account are registered! You can use our app now!')
     }
 }
 
@@ -88,21 +89,22 @@ export const signin = (email, password) => {
         console.log(resData);
         dispatch({type: LOGIN, token: resData.idToken, user: resData.localId });
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        setDataToStorage(resData.idToken, resData.localId, expireDate);
+        setDataToStorage(resData.idToken, resData.localId, expireDate, email);
     }
 }
 
  export const autoLogin = (authData) => {
     console.log(JSON.parse(authData));
     const data = JSON.parse(authData);
-     return({type: AUTOLOGIN, authData: data, token: data.token, user: data.user, expireDate: data.expireDate})
+     return({type: AUTOLOGIN, authData: data, token: data.token, user: data.user, expireDate: data.expireDate, email: data.email})
  }
 
- const setDataToStorage = async (token, user, expireDate) => {
+ const setDataToStorage = async (token, user, expireDate, email) => {
    await AsyncStorage.setItem('authData', JSON.stringify({
         token: token,
         user: user,
-        expireDate: expireDate.toISOString()
+        expireDate: expireDate.toISOString(),
+        email: email
     }))
  };
 
