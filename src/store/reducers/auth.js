@@ -1,4 +1,4 @@
-import {LOGIN, SIGNUP, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, login, AUTOLOGIN, CORRECT,  UNCORRECT} from '../actions/auth';
+import {LOGIN, SIGNUP, LOGOUT, GET_EMAIL, GET_PASSWORD, USER_DATA, AUTOLOGIN, CORRECT,  UNCORRECT} from '../actions/auth';
 
 const initialState = {
     token: null,
@@ -58,8 +58,7 @@ export default (state = initialState, action) => {
         case UNCORRECT:
 
             return {
-                ...state,
-                correctData: false
+                ...initialState
             }
 
         case GET_EMAIL:
@@ -81,8 +80,6 @@ export default (state = initialState, action) => {
 
         case USER_DATA:
 
-            const mail = action.email;
-            const pass = action.password;
             const response = action.response;
 
 

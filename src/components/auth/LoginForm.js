@@ -6,10 +6,10 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 
-const AuthScreen = (props) => {
+const LoginForm = (props) => {
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
 
@@ -98,5 +98,5 @@ const styles = StyleSheet.create({
 })
 
 
-export default AuthScreen;
+export default LoginForm;
 

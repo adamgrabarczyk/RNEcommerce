@@ -15,14 +15,13 @@ import DetailsScreen from '../screens/shop/DetailsScreen'
 import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import HeaderButton from '../components/UI/HeaderButton'
 import Cart from '../screens/Cart';
-import OrderScreen from '../screens/Profile/OrderScreen';
 import SearchBar from '../components/shop/SearchBar';
 
 
 const HomeStack = createStackNavigator();
 
 
-function HomeStackScreen({navigation}) {
+export function HomeStackScreen({navigation}) {
 
     const cartItems = useSelector(state => {
         const transformedCartItems = [];
@@ -242,7 +241,6 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator  = () => {
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
-    const orders = useSelector(state => state.orders.orders);
     const cartItems = useSelector(state => {
         const transformedCartItems = [];
 
@@ -261,6 +259,7 @@ const TabNavigator  = () => {
     });
     return (
         <Tab.Navigator
+            initialRouteName='Home'
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'Home') {

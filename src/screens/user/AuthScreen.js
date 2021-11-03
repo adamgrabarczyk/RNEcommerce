@@ -10,7 +10,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constans/Colors';
 
-const AuthScreen = (navigation) => {
+
+const AuthScreen = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [isSignup, setIsSignup] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState();
@@ -77,7 +78,6 @@ const AuthScreen = (navigation) => {
                         error={errorMessage}
                     />
             }
-
         </View>
     )
 }

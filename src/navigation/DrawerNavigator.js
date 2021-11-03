@@ -5,12 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Platform} from 'react-native';
 import Colors from '../constans/Colors';
 import CustomDrawerContent from './CustomDrawerContent';
+import AuthStackScreen from './AuthNaviagator';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     return (
-            <Drawer.Navigator  initialRouteName="Home" drawerContent={props => <CustomDrawerContent {...props} />}>
+            <Drawer.Navigator  initialRouteName="Home" drawerContent={props => <CustomDrawerContent {...props} options={{animationEnabled: false}}/>}>
                 <Drawer.Screen
                     name="Home"
                     component={TabNavigator}
@@ -26,7 +27,7 @@ const DrawerNavigator = () => {
                 />
                 <Drawer.Screen
                     name="Search"
-                    component={TabNavigator}
+                    component={AuthStackScreen}
                     options={{
                         drawerIcon: drawerConfig => (
                             <Ionicons

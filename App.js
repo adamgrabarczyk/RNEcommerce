@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {View, StyleSheet, ActivityIndicator, Text} from 'react-native';
 import DrawerNav from './src/navigation/DrawerNavigator';
-import AuthScreen from './src/screens/user/AuthScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from './src/store/actions/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from './src/constans/Colors';
+import AuthStackScreen from './src/navigation/AuthNaviagator';
 
 const App: () => React$Node = () => {
 
@@ -41,23 +42,38 @@ const App: () => React$Node = () => {
             setIsLoading(false);
         };
         checkToken();
-
+        console.log(correctData);
     },[]);
 
+    const RootStack = createStackNavigator();
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator
+                    style={styles.spinner}
+                    size='large'
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    }
 
     return (
         <NavigationContainer>
+
+            <RootStack.Navigator screenOptions={{
+                headerShown: false
+            }}>
             {
-                isLoading === true ?
-                <View style={styles.container}>
-                    <ActivityIndicator
-                        style={styles.spinner}
-                        size='large'
-                        color={Colors.primary}
-                    />
-                </View>
+                !isLoading && correctData === true ?
+
+                <RootStack.Screen name="AppScreen" component={DrawerNav} />
                 :
-                correctData === true ? <DrawerNav/> : <AuthScreen/>}
+                <RootStack.Screen name="AuthScreen" component={AuthStackScreen} />
+
+            }
+            </RootStack.Navigator>
         </NavigationContainer>
   )
 }
