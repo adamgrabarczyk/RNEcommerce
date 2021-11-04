@@ -45,7 +45,6 @@ export const addOrder = (cartItems, totalAmount) => {
 
     return async (dispatch, getState) => {
 
-        const token = getState().auth.token;
         const user = getState().auth.user;
 
         const date = new Date();
@@ -59,7 +58,7 @@ export const addOrder = (cartItems, totalAmount) => {
                 body: JSON.stringify({
                     cartItems,
                     totalAmount,
-                    data: date.toISOString()
+                    date: date.toISOString()
                 })
 
             });
