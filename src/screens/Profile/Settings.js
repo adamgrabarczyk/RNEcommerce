@@ -7,6 +7,8 @@ import {useDispatch} from 'react-redux';
 const SettingsScreen = (props) => {
 
     const [userEmail, setUserEmail] = useState();
+    const [userName, setUserName] = useState();
+    const [userSurname, setUserSurname] = useState();
 
     useEffect(() => {
         const getUserData = async () => {
@@ -15,6 +17,8 @@ const SettingsScreen = (props) => {
             console.log('test');
             console.log(parseAuthData);
             setUserEmail(parseAuthData.email);
+            setUserName(parseAuthData.name);
+            setUserSurname(parseAuthData.surname);
         }
         getUserData();
     })
@@ -29,6 +33,7 @@ const SettingsScreen = (props) => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text onPress={() => console.log('siema')}>{userEmail}</Text>
+            <Text onPress={() => console.log('siema')}>{userName}  {userSurname}</Text>
             <Text onPress={logoutHandler}>wyloguj</Text>
         </View>
     );

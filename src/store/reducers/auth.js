@@ -31,6 +31,9 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
+                userName: action.name,
+                userSurname: action.surname,
+                userPhone: action.phone,
                 token: action.token,
                 user: action.user,
                 email: action.email,

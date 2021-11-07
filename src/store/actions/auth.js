@@ -66,7 +66,7 @@ export const signup = (name, surname, phone, email, password) => {
             console.log(resData);
         dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email});
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        setDataToStorage(resData.idToken, resData.localId, expireDate, email);
+        setDataToStorage(resData.idToken, resData.localId, expireDate, email, name, surname, phone);
         alert('Your account are registered! You can use our app now!')
     }
 }
@@ -107,10 +107,34 @@ export const signin = (email, password) => {
         }
 
         const resData = await response.json();
-        console.log(resData);
-        dispatch({type: LOGIN, token: resData.idToken, user: resData.localId });
+
+        const userDataEesponse = await fetch(
+            `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
+        );
+
+        const userResData = await userDataEesponse.json();
+
+        const personalUserData = {
+            name: '',
+            surname: '',
+            phone: ''
+        };
+
+        for (const key in userResData) {
+            console.log(userResData[key].name)
+            if (userResData[key].userId === resData.localId)  {
+                    console.log('succes!')
+                personalUserData.name = userResData[key].name;
+                personalUserData.surname = userResData[key].surname;
+                personalUserData.phone = userResData[key].phone;
+            }else {
+                console.log('big bug!!')
+            }
+        }
+
+        dispatch({type: LOGIN, token: resData.idToken, user: resData.localId, name: personalUserData.name, surname: personalUserData.surname, phone: personalUserData.phone });
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        setDataToStorage(resData.idToken, resData.localId, expireDate, email);
+        setDataToStorage(resData.idToken, resData.localId, expireDate, email, personalUserData.name, personalUserData.surname, personalUserData.phone);
     }
 }
 
@@ -120,12 +144,15 @@ export const signin = (email, password) => {
      return({type: AUTOLOGIN, authData: data, token: data.token, user: data.user, expireDate: data.expireDate, email: data.email})
  }
 
- const setDataToStorage = async (token, user, expireDate, email) => {
+ const setDataToStorage = async (token, user, expireDate, email, name, surname, phone) => {
    await AsyncStorage.setItem('authData', JSON.stringify({
         token: token,
         user: user,
         expireDate: expireDate.toISOString(),
-        email: email
+        email: email,
+        name: name,
+        surname: surname,
+        phone: phone
     }))
  };
 
