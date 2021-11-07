@@ -11,17 +11,28 @@ const OrderScreen = props => {
     useEffect(() => {
         dispatch(orderActioncs.fetchOrders());
     }, [dispatch]);
+
+
     return (
-<FlatList
-    data={orders}
-    keyExtractor={item => item.id}
-    renderItem={itemData => (
-        <OrderItem
-            amount={itemData.item.totalAmount}
-            date={itemData.item.readableDate}
-            items={itemData.item.items}
-        />)}
-/>
+        <View>
+            {
+                orders.length > 0 ?
+                    <FlatList
+                        data={orders}
+                        keyExtractor={item => item.id}
+                        renderItem={itemData => (
+                            <OrderItem
+                                amount={itemData.item.totalAmount}
+                                date={itemData.item.readableDate}
+                                items={itemData.item.items}
+                            />)}
+                    />
+                    :
+                    <View style={styles.noOrdersTextContainer}>
+                        <Text style={styles.noFavText}>nie masz polubionych produktów</Text>
+                    </View>
+            }
+        </View>
     );
 };
 
@@ -29,3 +40,10 @@ const OrderScreen = props => {
 export default OrderScreen;
 
 
+const styles = StyleSheet.create({
+
+
+    noOrdersTextContainer: {
+        textAlign: 'center'
+    }
+});
