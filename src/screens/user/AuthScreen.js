@@ -16,6 +16,9 @@ const AuthScreen = () => {
     const [isSignup, setIsSignup] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState();
     const dispatch = useDispatch();
+    const name = useSelector(state => state.auth.userName);
+    const surname = useSelector(state => state.auth.userSurname);
+    const phone = useSelector(state => state.auth.userPhone);
     const email = useSelector(state => state.auth.userEmail);
     const password = useSelector(state => state.auth.userPassword);
     const error = useSelector(state => state.auth.error);
@@ -29,7 +32,7 @@ const AuthScreen = () => {
     const authHandler = async () => {
         let action;
         if(isSignup) {
-            action = authActions.signup(email,password);
+            action = authActions.signup(name,surname,phone,email,password);
         }else {
             action = authActions.signin(email,password);
         }
@@ -53,6 +56,9 @@ const AuthScreen = () => {
                 isSignup ?
 
                     <SignupForm
+                        name={(name) => dispatch(authActions.userName(name))}
+                        surname={(surname) => dispatch(authActions.userSurname(surname))}
+                        phone={(phone) => dispatch(authActions.userPhone(phone))}
                         email={(email) => dispatch(authActions.userEmail(email))}
                         password={(password) => dispatch(authActions.userPassword(password))}
                         register={authHandler}

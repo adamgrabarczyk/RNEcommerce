@@ -17,6 +17,40 @@ const SignupForm = (props) => {
 
     return(
         <View style={styles.container}>
+
+            <TextInput style={styles.inputBox}
+                       placeholder='Imie'
+                       placeholderTextColor='#ffffff'
+                       underlineColorAndroid='rgba(0,0,0,0)'
+                       autoCapitalize = 'none'
+                       selectionColor='#ffffff'
+                       onChangeText={
+                           props.name
+                       }
+            />
+
+            <TextInput style={styles.inputBox}
+                       placeholder='Nazwisko'
+                       placeholderTextColor='#ffffff'
+                       underlineColorAndroid='rgba(0,0,0,0)'
+                       autoCapitalize = 'none'
+                       selectionColor='#ffffff'
+                       onChangeText={
+                           props.surname
+                       }
+            />
+
+            <TextInput style={styles.inputBox}
+                       placeholder='Telefon'
+                       placeholderTextColor='#ffffff'
+                       underlineColorAndroid='rgba(0,0,0,0)'
+                       autoCapitalize = 'none'
+                       selectionColor='#ffffff'
+                       onChangeText={
+                           props.phone
+                       }
+            />
+
             <TextInput style={styles.inputBox}
                        placeholder='Email'
                        placeholderTextColor='#ffffff'
@@ -41,6 +75,7 @@ const SignupForm = (props) => {
                            props.password
                        }
             />
+
             <Text style={{color: 'black'}}>{password}</Text>
             <View style={props.spinnerContainer}>
                 {props.spinner}

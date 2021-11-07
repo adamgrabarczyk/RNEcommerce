@@ -4,6 +4,9 @@ export const LOGIN = 'LOGIN';
 export const AUTOLOGIN = 'AUTOLOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SIGNUP = 'SIGNUP';
+export const GET_NAME = 'GET_NAME';
+export const GET_SURNAME = 'GET_SURNAME';
+export const GET_PHONE = 'GET_PHONE';
 export const GET_EMAIL = 'GET_EMAIL';
 export const GET_PASSWORD = 'GET_PASSWORD';
 export const USER_DATA = 'USER_DATA';
@@ -11,7 +14,7 @@ export const UNCORRECT = 'UNCORRECT';
 export const CORRECT = 'CORRECT';
 
 
-export const signup = (email, password) => {
+export const signup = (name, surname, phone, email, password) => {
 
     console.log(email + ' ' + password);
 
@@ -40,10 +43,28 @@ export const signup = (email, password) => {
             throw new Error(error);
             console.log(errorResponse);
         }
+        const resData = await response.json();
 
-            const resData = await response.json();
+        const userData = await fetch(
+            `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
+            , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    surname: surname,
+                    email: email,
+                    phone: phone,
+                    userId: resData.localId,
+                })
+
+            });
+
+
             console.log(resData);
-        dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email });
+        dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email});
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
         setDataToStorage(resData.idToken, resData.localId, expireDate, email);
         alert('Your account are registered! You can use our app now!')
@@ -119,6 +140,18 @@ export const unCorrectData = () => {
 
 export const correctData = () => {
     return {type: CORRECT}
+}
+
+export const userName = name => {
+    return {type: GET_NAME, name: name}
+}
+
+export const userSurname = surname => {
+    return {type: GET_SURNAME, surname: surname}
+}
+
+export const userPhone = phone => {
+    return {type: GET_PHONE, phone: phone}
 }
 
 export const userEmail = email => {
