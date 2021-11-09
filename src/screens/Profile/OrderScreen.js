@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import OrderItem from '../../components/shop/OrderItem';
 import * as orderActioncs from '../../store/actions/orders';
+
 const OrderScreen = props => {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.orders);
@@ -13,11 +14,20 @@ const OrderScreen = props => {
     }, [dispatch]);
 
 
+    if (orders.length < 1) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.noOrdersTextContainer}>
+                    <Text style={styles.noFavText}>nie zrealizowano jeszcze żadnego zamówienia</Text>
+                </View>
+                <Text onPress={() => console.log(orders.length)}>blah</Text>
+            </View>
+        )
+    }
+
     return (
         <View>
-            {
-                orders.length > 0 ?
-                    <FlatList
+                 <FlatList
                         data={orders}
                         keyExtractor={item => item.id}
                         renderItem={itemData => (
@@ -27,11 +37,6 @@ const OrderScreen = props => {
                                 items={itemData.item.items}
                             />)}
                     />
-                    :
-                    <View style={styles.noOrdersTextContainer}>
-                        <Text style={styles.noFavText}>nie masz polubionych produktów</Text>
-                    </View>
-            }
         </View>
     );
 };
@@ -41,9 +46,18 @@ export default OrderScreen;
 
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 
     noOrdersTextContainer: {
         textAlign: 'center'
+    },
+
+    noFavText: {
+
     }
 });
