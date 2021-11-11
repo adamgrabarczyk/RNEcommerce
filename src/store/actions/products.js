@@ -1,8 +1,10 @@
-import {ADD_ORDER} from './orders';
+import {ADD_ORDER, GET_ORDERS} from './orders';
+import Order from '../../models/order';
 
 export const ADD_TO_FAV = 'ADD_TO_FAV';
 export const DELETE_FROM_FAV = 'DELETE_FROM_FAV';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const GET_FAVS = 'GET_FAVS';
 
 
 export const fetchProducts = () => {
@@ -23,6 +25,38 @@ export const fetchProducts = () => {
         throw e;
     }
 };
+
+export const fetchFavs = () => {
+    return async (dispatch,getState) => {
+        const user = getState().auth.user;
+
+        try {
+            const response = await fetch(
+                `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/fav/${user}.json`
+            );
+
+            if (!response.ok) {
+                throw new Error(error);
+            }
+
+            const resData = await response.json();
+            const fatchedFavs = [];
+
+            for (const key in resData) {
+                fatchedFavs.push(
+                        resData[key].productId
+                )
+            }
+
+            dispatch({
+                type: GET_FAVS,
+                favs: fatchedFavs
+            });
+        } catch (e) {
+            throw e;
+        }
+    }
+}
 
 export const addToFav = productId => {
 
@@ -53,7 +87,7 @@ export const addToFav = productId => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    AddNewOrNext
+                    productId
                 })
 
             });

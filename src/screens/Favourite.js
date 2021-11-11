@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import FavouriteOverviewScreen from './shop/FavouriteOverviewScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Colors from '../constans/Colors';
+import * as productActioncs from '../store/actions/products';
 
 
 
 const Favourite = props => {
+    const dispatch = useDispatch();
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+
+
+    useEffect(() => {
+        dispatch(productActioncs.fetchFavs());
+    }, [dispatch]);
+
 
 
     return(
@@ -20,6 +28,7 @@ const Favourite = props => {
                 <Text style={styles.noFavText}>nie masz polubionych produktów</Text>
             </View>
         }
+    <Text onPress={() => console.log(userFavProducts)}>blah</Text>
 </View>
     )
 }

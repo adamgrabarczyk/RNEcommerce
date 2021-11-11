@@ -1,4 +1,4 @@
-import {ADD_TO_FAV, DELETE_FROM_FAV, SET_PRODUCTS}  from '../actions/products';
+import {ADD_TO_FAV, DELETE_FROM_FAV, GET_FAVS, SET_PRODUCTS} from '../actions/products';
 
 
 const initialState = {
@@ -48,6 +48,30 @@ export default (state = initialState, action) => {
             ...state,
             availableProducts: action.prod
         }
+
+        case GET_FAVS:
+
+            const favouriteFromStore = action.favs;
+
+            let favouriteProducts = [];
+
+            const favourite = favouriteFromStore.map(
+                prodId => {
+                    const favProd = state.availableProducts.find(product => product.id === prodId);
+
+                    favouriteProducts.push(favProd);
+                }
+            );
+
+            return {
+                ...state,
+                favoriteUserProducts: favouriteProducts
+            }
+
+
+
+
+
 
     }
 
