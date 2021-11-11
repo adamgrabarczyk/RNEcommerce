@@ -20,7 +20,6 @@ const OrderScreen = props => {
                 <View style={styles.noOrdersTextContainer}>
                     <Text style={styles.noFavText}>nie zrealizowano jeszcze żadnego zamówienia</Text>
                 </View>
-                <Text onPress={() => console.log(orders.length)}>blah</Text>
             </View>
         )
     }

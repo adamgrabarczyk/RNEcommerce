@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
-    Text, StyleSheet, TouchableOpacity, ScrollView, View, Modal, Pressable,  ActivityIndicator, FlatList, Platform, Image
+    Text, StyleSheet, TouchableOpacity, ScrollView, View,RefreshControl, ActivityIndicator
 
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -68,6 +68,65 @@ const Search = (props) => {
     const filterPrice = useSelector(state => state.search.filteredPrice);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [error, setError] = useState();
+
+    const availableProducts = useCallback(async () => {
+        setError(null);
+        setRefresh(true);
+        try {
+            await dispatch(productActions.fetchProducts());
+        }catch (e) {
+            setLoading(e)
+        }
+        setRefresh(false);
+    }, [dispatch, setLoading, setError]);
+
+
+    useEffect(() => {
+        setLoading(true);
+        availableProducts().then(
+            () => {
+                setLoading(false);
+            }
+        );
+    }, [dispatch, availableProducts]);
+
+
+    if (error) {
+        return (
+            <View>
+                <Text>Wystąpił błąd</Text>
+                <TouchableOpacity
+                    onPress={availableProducts}
+                >
+                    <Text>Spróbój ponownie</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    if (loading) {
+        return (
+            <View>
+                <ActivityIndicator
+                    style={styles.spinner}
+                    size='large'
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    }
+
+    if (!loading && products === 0) {
+        return (
+            <View>
+                <Text>brak dostępnych produktów</Text>
+            </View>
+        )
+    }
+
 
     const availableSearchProducts = products.filter(
         product => phrase.activeFilterNames.map(
@@ -94,7 +153,14 @@ const Search = (props) => {
             <FilterControls
                 activeFilterNames={phrase.activeFilterNames}
             />
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refresh}
+                            onRefresh={availableProducts}
+                        />
+                    }
+        >
 
             {
                 availableSearchProducts.length > 0 ?
