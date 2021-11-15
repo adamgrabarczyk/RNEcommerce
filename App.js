@@ -31,8 +31,6 @@ const App: () => React$Node = () => {
             const parseAuthData = JSON.parse(authData);
             const {token, user, expireDate} = parseAuthData;
             const expiryDate = new Date(expireDate);
-            console.log(expiryDate);
-            console.log(new Date());
 
             if (expiryDate <= new Date() || !token || !user) {
                 dispatch(authActions.unCorrectData())
@@ -42,7 +40,6 @@ const App: () => React$Node = () => {
             setIsLoading(false);
         };
         checkToken();
-        console.log(correctData);
     },[]);
 
     const RootStack = createStackNavigator();

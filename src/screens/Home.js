@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 
 const Home = (props) => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(productActioncs.fetchFavs());
     }, [dispatch]);

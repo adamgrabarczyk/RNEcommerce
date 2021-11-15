@@ -3,7 +3,7 @@ import {ADD_TO_FAV, DELETE_FROM_FAV, GET_FAVS, SET_PRODUCTS} from '../actions/pr
 
 const initialState = {
     availableProducts: [],
-    favoriteUserProducts: []
+    favoriteUserProducts: [],
 }
 
 
@@ -22,14 +22,13 @@ export default (state = initialState, action) => {
 
             }else  {
 
-
                 AddNewOrNext = state.availableProducts.filter(product => product.id === addedProductId);
 
                 }
 
                 return {
                     ...state,
-                    favoriteUserProducts: AddNewOrNext
+                    favoriteUserProducts: AddNewOrNext,
                 }
 
 
@@ -40,8 +39,9 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
-                favoriteUserProducts: updatedFav
+                favoriteUserProducts: updatedFav,
             }
+
         case SET_PRODUCTS:
 
         return{
@@ -65,13 +65,8 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
-                favoriteUserProducts: favouriteProducts
+                favoriteUserProducts: favouriteProducts,
             }
-
-
-
-
-
 
     }
 

@@ -6,6 +6,8 @@ import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as productActioncs from '../../store/actions/products';
+
 
 const ProductsOverviewScreen = (props) => {
     const products = useSelector(state => state.products.availableProducts);
@@ -20,6 +22,7 @@ const ProductsOverviewScreen = (props) => {
             setRefresh(true);
            try {
                await dispatch(productActions.fetchProducts());
+               await  dispatch(productActioncs.fetchFavs());
            }catch (e) {
                 setLoading(e)
            }
@@ -98,7 +101,7 @@ const ProductsOverviewScreen = (props) => {
                     <TouchableOpacity onPress={ () => {
                         selectItemHandler(itemData.item.id, itemData.item.name);
                     }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
-                    { userFavProducts.find(product => product.id === itemData.item.id) ?
+                    {userFavProducts.find(product => product.id === itemData.item.id) ?
                         <TouchableOpacity onPress={() => {
                             dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
                         }}>
