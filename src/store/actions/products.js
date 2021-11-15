@@ -36,9 +36,9 @@ export const fetchFavs = () => {
                 throw new Error(error);
             }
 
-            const resData = await response.json();
+            const reply = await response.json();
 
-            const firebaseResponse = resData !== null ? Object.keys(resData) : [];
+            const firebaseResponse = reply !== null ? Object.keys(reply) : [];
 
             dispatch({
                 type: GET_FAVS,
