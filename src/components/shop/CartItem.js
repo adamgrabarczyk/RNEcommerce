@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
     cartItem: {
         margin: 10,
-        padding: 10,
+        padding: 20,
         backgroundColor: 'white',
         flexDirection: 'column',
         justifyContent: 'space-between',

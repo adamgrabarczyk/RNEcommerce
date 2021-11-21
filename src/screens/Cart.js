@@ -36,17 +36,7 @@ const Cart = props => {
             cartItems.length > 0  ?
 
             <View style={styles.cartContainer}>
-                <View style={styles.summary}>
-                    <Text style={styles.summaryText}>Total:
-                        <Text style={styles.amount}> {cartTotalAmount} PLN</Text>
-                    </Text>
-                    <TouchableOpacity onPress={() => {
-                        dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-                    }} disabled={cartItems.length === 0}>
-                        <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order
-                            now</Text>
-                    </TouchableOpacity>
-                </View>
+
                 <View>
                     <FlatList
                         data={cartItems}
@@ -106,6 +96,17 @@ const Cart = props => {
                                 minus={itemData.item.quantity <= 1 ? styles.disabledMinus : styles.plusMinus}
                             />}
                     />
+                    <View style={styles.summary}>
+                        <Text style={styles.summaryText}>Total:
+                            <Text style={styles.amount}> {cartTotalAmount} PLN</Text>
+                        </Text>
+                        <TouchableOpacity onPress={() => {
+                            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+                        }} disabled={cartItems.length === 0}>
+                            <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order
+                                now</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
                 :
@@ -128,21 +129,19 @@ const styles = StyleSheet.create({
     },
 
     cartContainer: {
-      marginTop: 30
+      marginTop: 30,
     },
 
     summary: {
         flexDirection: 'row',
         alignItems: "center",
         justifyContent: 'space-between',
-        marginBottom: 20,
         padding: 10,
         shadowColor: 'black',
         shadowOpacity: 0.26,
         shadowOffset: {width : 0, height: 2},
         shadowRadius: 8,
         elevation: 5,
-        borderRadius: 10,
         backgroundColor: 'white'
     },
 

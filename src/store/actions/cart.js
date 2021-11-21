@@ -23,7 +23,6 @@ export const  deleteCart = (productId, sum) => {
      return async dispatch => {
 
          dispatch({type: INCREASE_QUANTITY_CART_ITEM, product: product, quantity: quantity, pid: productId});
-         console.log(product.name + ' action ' + quantity + ' ' + productId);
      }
  }
 
@@ -32,6 +31,5 @@ export const changeQtyFromInput = (product, quantity, productId) => {
     return async dispatch => {
 
         dispatch({type: CHANGE_QUANTITY_FROM_INPUT, product: product, quantity: quantity, pid: productId});
-        console.log(product.name + ' action ' + quantity + ' ' + productId);
     }
 };
