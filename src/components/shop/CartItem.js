@@ -10,18 +10,18 @@ const CartItem = props => {
 return (
 
     <View style={styles.cartItem}>
+        {props.deletable &&
+        (<TouchableOpacity onPress={props.deleteCart} style={styles.deleteButton}>
+            <Ionicons
+                name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                size={23}
+                color='red'
+            />
+        </TouchableOpacity> )
+        }
         <View style={styles.itemData}>
             <Text style={styles.mainText}>{props.name}</Text>
             <Text style={styles.mainText}>{props.amount + ' PLN'}</Text>
-            {props.deletable &&
-            (<TouchableOpacity onPress={props.deleteCart} style={styles.deleteButton}>
-                <Ionicons
-                    name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
-                    size={23}
-                    color='red'
-                    />
-            </TouchableOpacity> )
-            }
         </View>
         <ItemCounter {...props}/>
     </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 
 
     deleteButton: {
-         marginLeft: 20
+         marginLeft: 265
     },
 
     counterContainer: {
