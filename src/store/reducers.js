@@ -11,8 +11,7 @@ import {combineReducers} from "redux";
 
 const persistConfig = {
     key: 'root',
-    storage: AsyncStorage,
-    whitelist: ['cart']
+    storage: AsyncStorage
 };
 
 export const reducers = combineReducers({
