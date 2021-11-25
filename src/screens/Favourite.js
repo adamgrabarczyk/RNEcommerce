@@ -3,7 +3,6 @@ import {StyleSheet, Text, View} from 'react-native';
 
 import FavouriteOverviewScreen from './shop/FavouriteOverviewScreen';
 import {useDispatch, useSelector} from 'react-redux';
-import Colors from '../constans/Colors';
 import * as productActioncs from '../store/actions/products';
 
 

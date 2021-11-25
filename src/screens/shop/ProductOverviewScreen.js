@@ -7,6 +7,7 @@ import * as productActions from '../../store/actions/products';
 import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as productActioncs from '../../store/actions/products';
+import * as orderActioncs from '../../store/actions/orders';
 
 
 const ProductsOverviewScreen = (props) => {
@@ -23,6 +24,7 @@ const ProductsOverviewScreen = (props) => {
            try {
                await dispatch(productActions.fetchProducts());
                await  dispatch(productActioncs.fetchFavs());
+
            }catch (e) {
                 setLoading(e)
            }

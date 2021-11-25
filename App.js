@@ -8,6 +8,8 @@ import * as authActions from './src/store/actions/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from './src/constans/Colors';
 import AuthStackScreen from './src/navigation/AuthNaviagator';
+import * as orderActioncs from './src/store/actions/orders';
+import * as productActioncs from './src/store/actions/products';
 
 const App: () => React$Node = () => {
 
@@ -40,6 +42,8 @@ const App: () => React$Node = () => {
             } else {
                 dispatch(authActions.correctData())
             }
+            await  dispatch(productActioncs.fetchFavs());
+            await  dispatch(orderActioncs.fetchOrders());
             setIsLoading(false);
         };
         checkToken();
