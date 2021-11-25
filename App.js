@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {View, StyleSheet, ActivityIndicator, Text} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import DrawerNav from './src/navigation/DrawerNavigator';
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from './src/store/actions/auth';
@@ -13,15 +13,14 @@ const App: () => React$Node = () => {
 
     const dispatch = useDispatch();
     const correctData = useSelector(state => state.auth.correctData);
+    const userCart = useSelector(state => state.cart.user);
 
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-
         const checkToken = async () => {
             const authData = await AsyncStorage.getItem('authData');
             if (!authData) {
-                console.log('no user data');
                 dispatch(authActions.unCorrectData());
                 setIsLoading(false);
                 return;
@@ -31,6 +30,10 @@ const App: () => React$Node = () => {
             const parseAuthData = JSON.parse(authData);
             const {token, user, expireDate} = parseAuthData;
             const expiryDate = new Date(expireDate);
+
+            if (user !== null && userCart !== user) {
+                dispatch({ type: 'RESET_CART' });
+            }
 
             if (expiryDate <= new Date() || !token || !user) {
                 dispatch(authActions.unCorrectData())

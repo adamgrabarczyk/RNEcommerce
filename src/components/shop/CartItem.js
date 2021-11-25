@@ -20,7 +20,7 @@ return (
         </TouchableOpacity> )
         }
         <View style={styles.itemData}>
-            <Text style={styles.mainText}>{props.name}</Text>
+            <Text style={styles.mainText}>{props.name} </Text>
             <Text style={styles.mainText}>{props.amount + ' PLN'}</Text>
         </View>
         <ItemCounter {...props}/>

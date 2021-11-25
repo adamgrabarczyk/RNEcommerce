@@ -1,11 +1,13 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_QUANTITY_FROM_INPUT, INCREASE_QUANTITY_CART_ITEM, DELETE_CART } from '../actions/cart';
+import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_QUANTITY_FROM_INPUT, INCREASE_QUANTITY_CART_ITEM, DELETE_CART, RESET_CART } from '../actions/cart';
 import CartItem from '../../models/cart-item';
 import {ADD_ORDER} from '../actions/orders';
+import {LOGIN, RESET_USER_LOG, SIGNUP} from '../actions/auth';
 
 const initialState = {
     items: {},
     totalAmount: 0,
-    total: []
+    total: [],
+    user: null
 };
 
 export default (state = initialState, action) => {
@@ -134,6 +136,26 @@ export default (state = initialState, action) => {
 
         case ADD_ORDER:
             return initialState
+
+        case LOGIN:
+            const userId = action.user
+            return {
+                ...state,
+                user: userId
+            }
+
+        case RESET_CART: {
+            return initialState
+        }
+
+        case RESET_USER_LOG: {
+            return initialState
+        }
+
+
+        case SIGNUP: {
+            return initialState
+        }
     }
 
     return state;

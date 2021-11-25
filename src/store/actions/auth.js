@@ -12,11 +12,10 @@ export const GET_PASSWORD = 'GET_PASSWORD';
 export const USER_DATA = 'USER_DATA';
 export const UNCORRECT = 'UNCORRECT';
 export const CORRECT = 'CORRECT';
+export const RESET_USER_LOG = 'RESET_USER_LOG';
 
 
 export const signup = (name, surname, phone, email, password) => {
-
-    console.log(email + ' ' + password);
 
     return async dispatch => {
       const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCWNcZ_aSsnV-HIWEaqxwz9e0V6zB_jx2w'
@@ -41,7 +40,6 @@ export const signup = (name, surname, phone, email, password) => {
                 error = 'Podany adres email jest już zajęty';
             }
             throw new Error(error);
-            console.log(errorResponse);
         }
         const resData = await response.json();
 
@@ -62,8 +60,6 @@ export const signup = (name, surname, phone, email, password) => {
 
             });
 
-
-            console.log(resData);
         dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email});
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
         setDataToStorage(resData.idToken, resData.localId, expireDate, email, name, surname, phone);
@@ -75,9 +71,8 @@ export const signup = (name, surname, phone, email, password) => {
 
 export const signin = (email, password) => {
 
-    console.log(email + ' ' + password + ' logowanie');
-
-    return async dispatch => {
+    return async (dispatch,getState) => {
+        const prevUserId = getState().cart.user;
         const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCWNcZ_aSsnV-HIWEaqxwz9e0V6zB_jx2w'
             , {
                 method: 'POST',
@@ -101,18 +96,16 @@ export const signin = (email, password) => {
            } else if (errorMessage === 'INVALID_PASSWORD') {
                error = 'Wprowadź poprawne hasło'
            }
-
            throw new Error(error);
-           console.log(errorResponse);
         }
 
         const resData = await response.json();
 
-        const userDataEesponse = await fetch(
+        const userDataResponse = await fetch(
             `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
         );
 
-        const userResData = await userDataEesponse.json();
+        const userResData = await userDataResponse.json();
 
         const personalUserData = {
             name: '',
@@ -121,15 +114,14 @@ export const signin = (email, password) => {
         };
 
         for (const key in userResData) {
-            console.log(userResData[key].name)
             if (userResData[key].userId === resData.localId)  {
-                    console.log('succes!')
                 personalUserData.name = userResData[key].name;
                 personalUserData.surname = userResData[key].surname;
                 personalUserData.phone = userResData[key].phone;
-            }else {
-                console.log('big bug!!')
             }
+        }
+        if (resData.localId !== prevUserId)  {
+            dispatch({ type: 'RESET_USER_LOG' })
         }
 
         dispatch({type: LOGIN, token: resData.idToken, user: resData.localId, name: personalUserData.name, surname: personalUserData.surname, phone: personalUserData.phone });
@@ -139,7 +131,6 @@ export const signin = (email, password) => {
 }
 
  export const autoLogin = (authData) => {
-    console.log(JSON.parse(authData));
     const data = JSON.parse(authData);
      return({type: AUTOLOGIN, authData: data, token: data.token, user: data.user, expireDate: data.expireDate, email: data.email})
  }
