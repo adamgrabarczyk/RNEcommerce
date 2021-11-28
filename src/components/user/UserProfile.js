@@ -25,7 +25,6 @@ const UserProfile = (props) => {
             <View>
                 <UserAvatarPicker/>
             </View>
-
             </View>
     );
 }
