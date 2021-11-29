@@ -11,29 +11,6 @@ const UserAvatarPicker = (props) => {
     const [imageUriGallary, setimageUriGallary] = React.useState(require('../../images/avatar.jpeg'));
 
 
-    const options = {
-        mediaType: 'photo',
-        maxWidth: 300,
-        maxHeight: 400
-
-    };
-
-    const takePhotoCamera =  () => {
-
-        launchImageLibrary(options, response => {
-            console.warn('Response = ' + response);
-            if (response.didCancel) {
-                console.warn('User cancelled action')
-            } else if (response.errorMessage) {
-                console.warn('Error message: ' + response.errorMessage)
-            } else {
-                const source = {uri: `data:image/jpeg;base64,` + response.base64};
-                setimageUriGallary(source);
-            }
-        } );
-
-    }
-
     const takePhotoGallery = () => {
 
         let option = {
@@ -73,7 +50,7 @@ const UserAvatarPicker = (props) => {
                         height: 125,
                         width: 125,
                         borderRadius: 100,
-                        borderWidth: 2,
+                        borderWidth: 6,
                         borderColor: 'white',
                     }}
                 />
@@ -93,15 +70,19 @@ const UserAvatarPicker = (props) => {
 export default UserAvatarPicker;
 const styles = StyleSheet.create({
 
+    container: {
+    },
+
     iconContainer: {
             width: 50,
             height: 50,
             position: 'absolute',
-
             left: 100,
             textAlign: 'center'
     },
 
+    editIcon: {
+    }
 
 });
 
