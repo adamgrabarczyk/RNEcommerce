@@ -1,15 +1,39 @@
 import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Colors from '../../constans/Colors';
 
 
 
 const UserAvatarPicker = (props) => {
-
+    const [response, setResponse] = React.useState(null);
+    const [imageUri, setimageUri] = React.useState('');
     const [imageUriGallary, setimageUriGallary] = React.useState(require('../../images/avatar.jpeg'));
 
+
+    const options = {
+        mediaType: 'photo',
+        maxWidth: 300,
+        maxHeight: 400
+
+    };
+
+    const takePhotoCamera =  () => {
+
+        launchImageLibrary(options, response => {
+            console.warn('Response = ' + response);
+            if (response.didCancel) {
+                console.warn('User cancelled action')
+            } else if (response.errorMessage) {
+                console.warn('Error message: ' + response.errorMessage)
+            } else {
+                const source = {uri: `data:image/jpeg;base64,` + response.base64};
+                setimageUriGallary(source);
+            }
+        } );
+
+    }
 
     const takePhotoGallery = () => {
 
@@ -71,17 +95,23 @@ export default UserAvatarPicker;
 const styles = StyleSheet.create({
 
     container: {
+        // justifyContent: 'center',
+        // alignItems: 'center'
     },
 
     iconContainer: {
             width: 50,
             height: 50,
             position: 'absolute',
+            // top: -5,
             left: 100,
+            // borderRadius: 10,
+            // backgroundColor: Colors.accent,
             textAlign: 'center'
     },
 
     editIcon: {
+        // flex: 1
     }
 
 });

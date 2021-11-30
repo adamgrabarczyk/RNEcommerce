@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "320367044551",
+    "firebase_url": "https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "rnecommerce-3bc8a",
+    "storage_bucket": "rnecommerce-3bc8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320367044551:android:484a1445356ab1b7ed5be2",
+        "android_client_info": {
+          "package_name": "com.rnecomerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320367044551-0kt0qhh01ugigqps1fbidu2ofqt2auhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB96CjxqSKtG9hFKDGBCBKGTY5u3lg8C-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320367044551-0kt0qhh01ugigqps1fbidu2ofqt2auhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
