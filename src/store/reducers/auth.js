@@ -8,7 +8,7 @@ import {
     AUTOLOGIN,
     CORRECT,
     UNCORRECT,
-    GET_NAME, GET_SURNAME, GET_PHONE,
+    GET_NAME, GET_SURNAME, GET_PHONE,DELETE_AVATAR, SET_USER_AVATAR_TO_STORAGE
 } from '../actions/auth';
 
 const initialState = {
@@ -21,7 +21,10 @@ const initialState = {
     user: null,
     error: '',
     correctData: null,
-    email: null
+    email: null,
+    avatar: null,
+    avatarPath: null,
+    key: null
 };
 
 export default (state = initialState, action) => {
@@ -37,6 +40,9 @@ export default (state = initialState, action) => {
                 token: action.token,
                 user: action.user,
                 email: action.email,
+                avatar: action.avatar,
+                avatarPath: action.avatarPath,
+                key: action.key,
                 correctData: true,
             }
 
@@ -58,6 +64,9 @@ export default (state = initialState, action) => {
             token: action.token,
             user: action.user,
             email: action.email,
+            avatar: action.avatar,
+            avatarPath: action.avatarPath,
+            key: action.key,
             correctData: true
         }
 
@@ -128,6 +137,25 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 error: response
+            }
+
+        case SET_USER_AVATAR_TO_STORAGE:
+
+            const uri = action.uri;
+            const imageUri = action.imageUri
+
+                return {
+                    ...state,
+                    avatar: uri,
+                    avatarPath: imageUri
+                }
+
+        case DELETE_AVATAR:
+
+            return {
+                ...state,
+                avatar: null,
+                avatarPath: null
             }
 
     }

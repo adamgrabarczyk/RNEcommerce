@@ -1,27 +1,40 @@
 import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Colors from '../../constans/Colors';
+import {useSelector, useDispatch} from 'react-redux';
+import * as authActions from '../../store/actions/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 const UserAvatarPicker = (props) => {
-    const [response, setResponse] = React.useState(null);
-    const [imageUri, setimageUri] = React.useState('');
-    const [imageUriGallary, setimageUriGallary] = React.useState(require('../../images/avatar.jpeg'));
 
+    const defaultImage = require('../../images/avatar.jpeg');
+    const userImage = useSelector(state => state.auth.avatar);
+    const userImagePath = useSelector(state => state.auth.avatarPath);
+    const userImageUrl = ({uri: userImage});
+    const userId = useSelector(state => state.auth.user);
+
+    const [response, setResponse] = React.useState(null);
+    const [uploading, setUploading] = React.useState(null);
+    const [transformed, setTransformed] = React.useState(0);
+    const [imageUri, setimageUri] = React.useState('');
+    const [imageUriGallary, setimageUriGallary] = React.useState(userImage === null ? defaultImage : userImageUrl && userImage !== '' ? userImageUrl : defaultImage);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const dispatch = useDispatch();
 
     const options = {
         mediaType: 'photo',
         maxWidth: 300,
         maxHeight: 400
-
     };
 
     const takePhotoCamera =  () => {
 
-        launchImageLibrary(options, response => {
+        launchCamera(options, response => {
             console.warn('Response = ' + response);
             if (response.didCancel) {
                 console.warn('User cancelled action')
@@ -35,7 +48,7 @@ const UserAvatarPicker = (props) => {
 
     }
 
-    const takePhotoGallery = () => {
+    const takePhotoGallery =  () => {
 
         let option = {
             storageOption: {
@@ -45,7 +58,32 @@ const UserAvatarPicker = (props) => {
             includeBase64: true
         }
 
-        launchImageLibrary(option, response => {
+        let images = [];
+
+        function listFilesAndDirectories(reference, pageToken) {
+            return reference.list({ pageToken }).then(result => {
+
+                result.items.forEach(ref => {
+                    images.push(ref.fullPath)
+                });
+
+                if (result.nextPageToken) {
+                    return listFilesAndDirectories(reference, result.nextPageToken);
+                }
+
+                return Promise.resolve();
+            });
+        }
+
+        const reference = storage().ref('images/' + userId + '/');
+
+
+        listFilesAndDirectories(reference).then(() => {
+            console.log('Finished listing');
+        });
+
+
+        launchImageLibrary(option, async response => {
             console.log('Response = ', response);
             if (response.didCancel) {
                 console.log('User cancelled action')
@@ -54,17 +92,60 @@ const UserAvatarPicker = (props) => {
             } else {
                 const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
                 setimageUriGallary(source);
-                console.log(source)
-                console.log(imageUriGallary)
-                console.log(response.assets[0].base64)
+                const imagePath = response.assets[0].uri;
+
+                let fileName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                setUploading(true);
+
+                try {
+                    await storage().ref('images/' + userId + '/'  + fileName).putFile(imagePath);
+                    setUploading (false);
+                    setimageUri('images/' + userId + '/'  + fileName);
+                    alert('image uploaded!');
+                } catch (e) {
+                    console.log(e);
+                }
+                const imgDirectory = 'images/' + userId + '/'  + fileName;
+                const url = await storage().ref(imgDirectory).getDownloadURL();
+
+                if (images.length > 0) {
+                    images.forEach(ref => {
+                        const reference = storage().ref(ref);
+
+                        reference.delete().then(function() {
+                            console.log('Old photo deleted')
+                        }).catch(function(error) {
+                            console.log(error);
+                        });
+                    });
+                }
+                setimageUriGallary({uri: url});
+                dispatch(authActions.setAvatar(url, imgDirectory));
             }
         } );
 
     }
 
+    const deleteAvatar = () => {
+        const ref = storage().ref(
+            imageUri === '' ? userImagePath : console.log('') ||
+            userImagePath === undefined ? imageUri : imageUri ||
+            userImagePath !== imageUri ? imageUri : userImagePath);
+
+        ref.delete().then(function() {
+            alert('deleted')
+            setimageUriGallary(defaultImage);
+        }).catch(function(error) {
+            console.log(error);
+        });
+        dispatch(authActions.deleteAvatar(imageUriGallary));
+    }
+
+
     return (
         <View style={styles.container}>
-
+            <Text onPress={() => takePhotoCamera()}>makePhoyo</Text>
+            <Text onPress={deleteAvatar}>delete</Text>
             <TouchableOpacity
             onPress={() => {takePhotoGallery()}}
             >
