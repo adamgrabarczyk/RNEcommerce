@@ -1,13 +1,12 @@
-import { StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, PermissionsAndroid} from 'react-native';
 import React, {useEffect} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import storage from '@react-native-firebase/storage';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
 import Colors from '../../constans/Colors';
 import {useSelector, useDispatch} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 
 const UserAvatarPicker = (props) => {
@@ -26,27 +25,77 @@ const UserAvatarPicker = (props) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const dispatch = useDispatch();
 
+    const requestGalletyPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                {
+                    title: "Cool Photo App Gallery Permission",
+                    message:
+                        "Cool Photo App needs access to your photo galelry " +
+                        "so you can take awesome pictures.",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log("You can use the gallery");
+            } else {
+                console.log("Gallery permission denied");
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
+
     const options = {
         mediaType: 'photo',
         maxWidth: 300,
         maxHeight: 400
     };
 
-    const takePhotoCamera =  () => {
+    const takePhotoCamera =  async() => {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "Cool Photo App Camera Permission",
+                        message:
+                            "Cool Photo App needs access to your camera " +
+                            "so you can take awesome pictures.",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.warn("You can use the camera");
 
-        launchCamera(options, response => {
-            console.warn('Response = ' + response);
-            if (response.didCancel) {
-                console.warn('User cancelled action')
-            } else if (response.errorMessage) {
-                console.warn('Error message: ' + response.errorMessage)
-            } else {
-                const source = {uri: `data:image/jpeg;base64,` + response.base64};
-                setimageUriGallary(source);
+
+                    launchCamera(options, response => {
+                        console.warn('Response = ' + response);
+                        if (response.didCancel) {
+                            console.warn('User cancelled action')
+                        } else if (response.errorMessage) {
+                            console.warn('Error message: ' + response.errorMessage)
+                        } else {
+                            const source = {uri: `data:image/jpeg;base64,` + response.base64};
+                            setimageUriGallary(source);
+                        }
+                    } );
+
+                } else {
+                    console.warn("Camera permission denied");
+                    console.warn(granted);
+                    console.warn(PermissionsAndroid.RESULTS.GRANTED);
+                }
+            } catch (err) {
+                console.warn(err);
             }
-        } );
+        };
 
-    }
 
     const takePhotoGallery =  () => {
 
@@ -145,6 +194,8 @@ const UserAvatarPicker = (props) => {
     return (
         <View style={styles.container}>
             <Text onPress={() => takePhotoCamera()}>makePhoyo</Text>
+            <Text onPress={() => requestCameraPermission()}>permission</Text>
+            <Text onPress={() => requestGalletyPermission()}>permission gallery</Text>
             <Text onPress={deleteAvatar}>delete</Text>
             <TouchableOpacity
             onPress={() => {takePhotoGallery()}}
