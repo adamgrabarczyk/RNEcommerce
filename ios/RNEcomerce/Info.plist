@@ -59,6 +59,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+      <string>permission camera</string>
+      <key>NSPhotoLibraryUsageDescription</key>
+        <string>permission photoLibrary</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

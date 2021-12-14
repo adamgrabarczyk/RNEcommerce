@@ -1,13 +1,13 @@
-import { StyleSheet, View, Text, TouchableOpacity, Image, PermissionsAndroid} from 'react-native';
-import React, {useEffect} from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, Alert, Platform} from 'react-native';
+import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
 import Colors from '../../constans/Colors';
 import {useSelector, useDispatch} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import {PERMISSION_TYPE, REQUEST_PERMISSION_TYPE} from '../../permissions/permissions';
+import {check, request, RESULTS, openSettings} from 'react-native-permissions';
 
 const UserAvatarPicker = (props) => {
 
@@ -17,87 +17,62 @@ const UserAvatarPicker = (props) => {
     const userImageUrl = ({uri: userImage});
     const userId = useSelector(state => state.auth.user);
 
-    const [response, setResponse] = React.useState(null);
     const [uploading, setUploading] = React.useState(null);
-    const [transformed, setTransformed] = React.useState(0);
     const [imageUri, setimageUri] = React.useState('');
     const [imageUriGallary, setimageUriGallary] = React.useState(userImage === null ? defaultImage : userImageUrl && userImage !== '' ? userImageUrl : defaultImage);
     const [isLoading, setIsLoading] = React.useState(false);
     const dispatch = useDispatch();
 
-    const requestGalletyPermission = async () => {
+
+  const checkPermission = async (type): Promise<boolean> => {
+        const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS]
+
+        if (!permissions) {
+            return true
+        }
         try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-                {
-                    title: "Cool Photo App Gallery Permission",
-                    message:
-                        "Cool Photo App needs access to your photo galelry " +
-                        "so you can take awesome pictures.",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
-                }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("You can use the gallery");
+            const result = await check(permissions);
+            if (result === RESULTS.GRANTED && (permissions === 'android.permission.CAMERA' || permissions ===  'ios.permission.CAMERA')) {
+                takePhotoCameraOrGallery(permissions);
+            } else if (result === RESULTS.GRANTED && (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY')) {
+                takePhotoCameraOrGallery(permissions);
             } else {
-                console.log("Gallery permission denied");
+                return requestPermission(permissions);
             }
-        } catch (err) {
-            console.warn(err);
+        } catch (e) {
+            return false;
+        }
+    }
+
+
+     const requestPermission = async (permissions): Promise<boolean> => {
+
+        try {
+            const result = await request(permissions);
+            if (result === RESULTS.GRANTED && (permissions === 'android.permission.CAMERA' || permissions ===  'ios.permission.CAMERA')) {
+                takePhotoCameraOrGallery(permissions);
+            } else if (result === RESULTS.GRANTED && (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY')) {
+                takePhotoCameraOrGallery(permissions);
+            } else if (result === 'blocked') {
+                Alert.alert(
+                    "Ustawienia",
+                    "Nie wyraziłeś zgody na dostęp do tej akcji. Zmień ustawienia",
+                    [
+                        {
+                            text: "Anuluj",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                        },
+                        { text: "OK, zmień ustawienia", onPress: () => {openSettings()} }
+                    ]
+                );
+            }
+        } catch (e) {
+            return false
         }
     };
 
-
-    const options = {
-        mediaType: 'photo',
-        maxWidth: 300,
-        maxHeight: 400
-    };
-
-    const takePhotoCamera =  async() => {
-            try {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.CAMERA,
-                    {
-                        title: "Cool Photo App Camera Permission",
-                        message:
-                            "Cool Photo App needs access to your camera " +
-                            "so you can take awesome pictures.",
-                        buttonNeutral: "Ask Me Later",
-                        buttonNegative: "Cancel",
-                        buttonPositive: "OK"
-                    }
-                );
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    console.warn("You can use the camera");
-
-
-                    launchCamera(options, response => {
-                        console.warn('Response = ' + response);
-                        if (response.didCancel) {
-                            console.warn('User cancelled action')
-                        } else if (response.errorMessage) {
-                            console.warn('Error message: ' + response.errorMessage)
-                        } else {
-                            const source = {uri: `data:image/jpeg;base64,` + response.base64};
-                            setimageUriGallary(source);
-                        }
-                    } );
-
-                } else {
-                    console.warn("Camera permission denied");
-                    console.warn(granted);
-                    console.warn(PermissionsAndroid.RESULTS.GRANTED);
-                }
-            } catch (err) {
-                console.warn(err);
-            }
-        };
-
-
-    const takePhotoGallery =  () => {
+    const takePhotoCameraOrGallery = (permissions) => {
 
         let option = {
             storageOption: {
@@ -130,50 +105,50 @@ const UserAvatarPicker = (props) => {
         listFilesAndDirectories(reference).then(() => {
             console.log('Finished listing');
         });
+                let lunchCameraOrGallery = (permissions === 'android.permission.CAMERA' || permissions ===  'ios.permission.CAMERA') ? launchCamera : null ||
+                    (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY') ? launchImageLibrary  : null;
 
+          lunchCameraOrGallery(option, async response => {
+                        console.log('Response = ', response);
+                        if (response.didCancel) {
+                            console.log('User cancelled action')
+                        } else if (response.errorMessage) {
+                            console.log('Error message: ' + response.errorMessage)
+                        } else {
+                            const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
+                            setimageUriGallary(source);
+                            const imagePath = response.assets[0].uri;
 
-        launchImageLibrary(option, async response => {
-            console.log('Response = ', response);
-            if (response.didCancel) {
-                console.log('User cancelled action')
-            } else if (response.errorMessage) {
-                console.log('Error message: ' + response.errorMessage)
-            } else {
-                const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
-                setimageUriGallary(source);
-                const imagePath = response.assets[0].uri;
+                            let fileName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                            setUploading(true);
 
-                let fileName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
-                setUploading(true);
+                            try {
+                                await storage().ref('images/' + userId + '/'  + fileName).putFile(imagePath);
+                                setUploading (false);
+                                setimageUri('images/' + userId + '/'  + fileName);
+                                alert('image uploaded!');
+                            } catch (e) {
+                                console.log(e);
+                            }
+                            const imgDirectory = 'images/' + userId + '/'  + fileName;
+                            const url = await storage().ref(imgDirectory).getDownloadURL();
 
-                try {
-                    await storage().ref('images/' + userId + '/'  + fileName).putFile(imagePath);
-                    setUploading (false);
-                    setimageUri('images/' + userId + '/'  + fileName);
-                    alert('image uploaded!');
-                } catch (e) {
-                    console.log(e);
+                            if (images.length > 0) {
+                                images.forEach(ref => {
+                                    const reference = storage().ref(ref);
+
+                                    reference.delete().then(function() {
+                                        console.log('Old photo deleted')
+                                    }).catch(function(error) {
+                                        console.log(error);
+                                    });
+                                });
+                            }
+                            setimageUriGallary({uri: url});
+                            dispatch(authActions.setAvatar(url, imgDirectory));
+                        }
+                    } );
                 }
-                const imgDirectory = 'images/' + userId + '/'  + fileName;
-                const url = await storage().ref(imgDirectory).getDownloadURL();
-
-                if (images.length > 0) {
-                    images.forEach(ref => {
-                        const reference = storage().ref(ref);
-
-                        reference.delete().then(function() {
-                            console.log('Old photo deleted')
-                        }).catch(function(error) {
-                            console.log(error);
-                        });
-                    });
-                }
-                setimageUriGallary({uri: url});
-                dispatch(authActions.setAvatar(url, imgDirectory));
-            }
-        } );
-
-    }
 
     const deleteAvatar = () => {
         const ref = storage().ref(
@@ -193,9 +168,8 @@ const UserAvatarPicker = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text onPress={() => takePhotoCamera()}>makePhoyo</Text>
-            <Text onPress={() => requestCameraPermission()}>permission</Text>
-            <Text onPress={() => requestGalletyPermission()}>permission gallery</Text>
+            <Text onPress={() => checkPermission(PERMISSION_TYPE.camera)}>makePhoyo</Text>
+            <Text onPress={() => checkPermission(PERMISSION_TYPE.gallery)}>makeGalery</Text>
             <Text onPress={deleteAvatar}>delete</Text>
             <TouchableOpacity
             onPress={() => {takePhotoGallery()}}
@@ -226,25 +200,17 @@ const UserAvatarPicker = (props) => {
 export default UserAvatarPicker;
 const styles = StyleSheet.create({
 
-    container: {
-        // justifyContent: 'center',
-        // alignItems: 'center'
-    },
+    container: {},
 
     iconContainer: {
             width: 50,
             height: 50,
             position: 'absolute',
-            // top: -5,
             left: 100,
-            // borderRadius: 10,
-            // backgroundColor: Colors.accent,
             textAlign: 'center'
     },
 
-    editIcon: {
-        // flex: 1
-    }
+    editIcon: {}
 
 });
 
