@@ -36,6 +36,19 @@ const UserAvatarPicker = (props) => {
                 takePhotoCameraOrGallery(permissions);
             } else if (result === RESULTS.GRANTED && (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY')) {
                 takePhotoCameraOrGallery(permissions);
+            } else if (result === 'blocked') {
+                Alert.alert(
+                    "Ustawienia",
+                    "Nie wyraziłeś zgody na dostęp do tej akcji. Zmień ustawienia",
+                    [
+                        {
+                            text: "Anuluj",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                        },
+                        { text: "OK, zmień ustawienia", onPress: () => {openSettings()} }
+                    ]
+                );
             } else {
                 return requestPermission(permissions);
             }
@@ -53,19 +66,6 @@ const UserAvatarPicker = (props) => {
                 takePhotoCameraOrGallery(permissions);
             } else if (result === RESULTS.GRANTED && (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY')) {
                 takePhotoCameraOrGallery(permissions);
-            } else if (result === 'blocked') {
-                Alert.alert(
-                    "Ustawienia",
-                    "Nie wyraziłeś zgody na dostęp do tej akcji. Zmień ustawienia",
-                    [
-                        {
-                            text: "Anuluj",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                        },
-                        { text: "OK, zmień ustawienia", onPress: () => {openSettings()} }
-                    ]
-                );
             }
         } catch (e) {
             return false
