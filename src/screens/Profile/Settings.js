@@ -33,9 +33,11 @@ const SettingsScreen = (props) => {
     return (
         <View style={styles.container}>
             <UserProfile/>
+            <View style={styles.settings}>
             <Text onPress={() => console.log('blah')}>{userEmail}</Text>
             <Text onPress={() => console.log('blah')}>{userName}  {userSurname}</Text>
             <Text onPress={logoutHandler}>wyloguj</Text>
+            </View>
         </View>
     );
 }
@@ -45,8 +47,10 @@ const styles = StyleSheet.create({
 
     container: {
          flex: 1,
+    },
+    settings : {
+        marginTop: 200
     }
-
 });
 
 

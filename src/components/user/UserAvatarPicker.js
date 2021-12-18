@@ -1,13 +1,12 @@
-import { StyleSheet, View, Text, TouchableOpacity, Image, Alert, Platform} from 'react-native';
-import React from 'react';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { StyleSheet, View, Text, Pressable, Image, Alert, Platform} from 'react-native';
+import React, {useState} from 'react';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
-import Colors from '../../constans/Colors';
 import {useSelector, useDispatch} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import {PERMISSION_TYPE, REQUEST_PERMISSION_TYPE} from '../../permissions/permissions';
 import {check, request, RESULTS, openSettings} from 'react-native-permissions';
+import ModalImagePicker from '../user/ModalImagePicker';
 
 const UserAvatarPicker = (props) => {
 
@@ -17,10 +16,12 @@ const UserAvatarPicker = (props) => {
     const userImageUrl = ({uri: userImage});
     const userId = useSelector(state => state.auth.user);
 
+    const [modalVisible, setModalVisible] = useState(false);
     const [uploading, setUploading] = React.useState(null);
     const [imageUri, setimageUri] = React.useState('');
     const [imageUriGallary, setimageUriGallary] = React.useState(userImage === null ? defaultImage : userImageUrl && userImage !== '' ? userImageUrl : defaultImage);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [modal, setModal] = React.useState(false);
     const dispatch = useDispatch();
 
 
@@ -73,6 +74,9 @@ const UserAvatarPicker = (props) => {
     };
 
     const takePhotoCameraOrGallery = (permissions) => {
+
+        setModalVisible(false);
+        console.log('fem')
 
         let option = {
             storageOption: {
@@ -165,15 +169,10 @@ const UserAvatarPicker = (props) => {
         dispatch(authActions.deleteAvatar(imageUriGallary));
     }
 
-
     return (
         <View style={styles.container}>
-            <Text onPress={() => checkPermission(PERMISSION_TYPE.camera)}>makePhoyo</Text>
-            <Text onPress={() => checkPermission(PERMISSION_TYPE.gallery)}>makeGalery</Text>
-            <Text onPress={deleteAvatar}>delete</Text>
-            <TouchableOpacity
-            onPress={() => {takePhotoGallery()}}
-            >
+                <Text onPress={deleteAvatar}>delete</Text>
+            <Pressable onPress={() => setModalVisible(true)}>
                 <Image
                     source={imageUriGallary}
                     style={{
@@ -184,15 +183,14 @@ const UserAvatarPicker = (props) => {
                         borderColor: 'white',
                     }}
                 />
-                <View style={styles.iconContainer}>
-                    <MaterialIcons
-                        style={styles.editIcon}
-                        name={'edit'}
-                        size={35}
-                        color={Colors.primary}
-                    />
-                </View>
-            </TouchableOpacity>
+            </Pressable>
+            <ModalImagePicker
+                modalVisible={modalVisible}
+                openModalButtonPress={() => setModalVisible(true)}
+                lunchCamera={() => checkPermission(PERMISSION_TYPE.camera)}
+                lunchLibrary={ () => checkPermission(PERMISSION_TYPE.gallery)}
+                hideModalButton={() => setModalVisible(!modalVisible)}
+            />
         </View>
     );
 }
