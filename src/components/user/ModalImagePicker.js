@@ -1,5 +1,5 @@
 import React from "react";
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {Alert, Modal, StyleSheet, Text, Pressable, View, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../../constans/Colors';
 const ModalImagePicker = (props) => {
@@ -51,6 +51,7 @@ const ModalImagePicker = (props) => {
                             />
                             <Text style={styles.textStyle}>Wybierz z galeri</Text>
                         </Pressable>
+                        {props.remveAvatar}
                     </View>
                 </View>
             </Modal>

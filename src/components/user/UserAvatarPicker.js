@@ -7,6 +7,8 @@ import * as authActions from '../../store/actions/auth';
 import {PERMISSION_TYPE, REQUEST_PERMISSION_TYPE} from '../../permissions/permissions';
 import {check, request, RESULTS, openSettings} from 'react-native-permissions';
 import ModalImagePicker from '../user/ModalImagePicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Colors from '../../constans/Colors';
 
 const UserAvatarPicker = (props) => {
 
@@ -155,6 +157,7 @@ const UserAvatarPicker = (props) => {
                 }
 
     const deleteAvatar = () => {
+        setModalVisible(false);
         const ref = storage().ref(
             imageUri === '' ? userImagePath : console.log('') ||
             userImagePath === undefined ? imageUri : imageUri ||
@@ -171,7 +174,6 @@ const UserAvatarPicker = (props) => {
 
     return (
         <View style={styles.container}>
-                <Text onPress={deleteAvatar}>delete</Text>
             <Pressable onPress={() => setModalVisible(true)}>
                 <Image
                     source={imageUriGallary}
@@ -190,6 +192,22 @@ const UserAvatarPicker = (props) => {
                 lunchCamera={() => checkPermission(PERMISSION_TYPE.camera)}
                 lunchLibrary={ () => checkPermission(PERMISSION_TYPE.gallery)}
                 hideModalButton={() => setModalVisible(!modalVisible)}
+                remveAvatar={
+                    imageUriGallary !== defaultImage ?
+                        <Pressable
+                        style={styles.button}
+                        onPress={deleteAvatar}
+                    >
+                        <Ionicons
+                            name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                            size={23}
+                            color={Colors.primary}
+                        />
+                        <Text style={styles.textStyle}>Usuń</Text>
+                    </Pressable>
+                        :
+                        null
+                }
             />
         </View>
     );
@@ -208,7 +226,22 @@ const styles = StyleSheet.create({
             textAlign: 'center'
     },
 
-    editIcon: {}
+    editIcon: {},
+
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        flexDirection: 'row'
+    },
+
+    textStyle: {
+        color: "black",
+        fontWeight: "bold",
+        textAlign: "center",
+        marginTop: 5,
+        marginLeft: 10
+    }
 
 });
 
