@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text} from 'react-native';
+import { StyleSheet, View, Text, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as authActions from '../../store/actions/auth';
@@ -31,14 +31,14 @@ const SettingsScreen = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <UserProfile/>
             <View style={styles.settings}>
             <Text onPress={() => console.log('blah')}>{userEmail}</Text>
             <Text onPress={() => console.log('blah')}>{userName}  {userSurname}</Text>
             <Text onPress={logoutHandler}>wyloguj</Text>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

@@ -1,5 +1,5 @@
-import {StyleSheet, View, Text, Pressable, Image, Alert, Platform, ActivityIndicator} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, View, Text, Pressable, Image, Alert, Platform, ActivityIndicator, Animated, Button} from 'react-native';
+import React, {useState, useRef} from 'react';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
@@ -113,14 +113,21 @@ const UserAvatarPicker = (props) => {
                 let lunchCameraOrGallery = (permissions === 'android.permission.CAMERA' || permissions ===  'ios.permission.CAMERA') ? launchCamera : null ||
                     (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY') ? launchImageLibrary  : null;
         setIsLoading(true);
+        fadeIn();
         lunchCameraOrGallery(option, async response => {
                         console.log('Response = ', response);
                         if (response.didCancel) {
                             console.log('User cancelled action');
-                            setIsLoading(false);
+                            fadeOut();
+                            setTimeout(() => {
+                                setIsLoading(false);
+                            }, 2000);
                         } else if (response.errorMessage) {
                             console.log('Error message: ' + response.errorMessage);
-                            setIsLoading(false);
+                            fadeOut();
+                            setTimeout(() => {
+                                setIsLoading(false);
+                            }, 2000);
                         } else {
                             const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
                             setimageUriGallary(source);
@@ -130,32 +137,37 @@ const UserAvatarPicker = (props) => {
                             setUploading(true);
 
                             try {
-                                await storage().ref('images/' + userId + '/'  + fileName).putFile(imagePath);
-                                setUploading (false);
-                                setimageUri('images/' + userId + '/'  + fileName);
+                                await storage().ref('images/' + userId + '/' + fileName).putFile(imagePath);
+                                setUploading(false);
+                                setimageUri('images/' + userId + '/' + fileName);
                             } catch (e) {
                                 console.log(e);
                             }
-                            const imgDirectory = 'images/' + userId + '/'  + fileName;
+                            const imgDirectory = 'images/' + userId + '/' + fileName;
                             const url = await storage().ref(imgDirectory).getDownloadURL();
 
                             if (images.length > 0) {
                                 images.forEach(ref => {
                                     const reference = storage().ref(ref);
 
-                                    reference.delete().then(function() {
+                                    reference.delete().then(function () {
                                         console.log('Old photo deleted')
-                                    }).catch(function(error) {
+                                    }).catch(function (error) {
                                         console.log(error);
                                     });
                                 });
                             }
                             setimageUriGallary({uri: url});
                             dispatch(authActions.setAvatar(url, imgDirectory));
-                            setIsLoading(false);
+                            fadeOut();
+                            setTimeout(() => {
+                                setIsLoading(false);
+                            }, 2000);
                         }
                     } );
                 }
+
+
 
     const deleteAvatar = () => {
         setIsLoading(true);
@@ -175,8 +187,27 @@ const UserAvatarPicker = (props) => {
         dispatch(authActions.deleteAvatar(imageUriGallary));
     }
 
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const fadeIn = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true
+        }).start();
+    };
+
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: true
+        }).start();
+    };
+
     return (
         <View style={styles.container}>
+            <Button title="dupa" onPress={() => console.log(isLoading)} />
             <Pressable onPress={() => setModalVisible(true)}
             style={styles.addAvatar}
                        disabled={isLoading || uploading ? true : false}
@@ -201,13 +232,17 @@ const UserAvatarPicker = (props) => {
                 </View>
                 {
                     isLoading ?
-                        <View style={styles.loading}>
+
+                        <Animated.View style={[styles.loading,
+                            {
+                                opacity: fadeAnim
+                            }
+                        ]}>
                             <ActivityIndicator size='large' color={Colors.primary}/>
-                        </View>
-                        :
+                        </Animated.View>
+                :
                         null
                 }
-
             </Pressable>
             <ModalImagePicker
                 modalVisible={modalVisible}
@@ -287,7 +322,14 @@ const styles = StyleSheet.create({
         width: 125,
         borderRadius: 100,
         borderColor: 'white'
-    }
+    },
+    fadingContainer: {
+        padding: 20,
+        backgroundColor: "powderblue"
+    },
+    fadingText: {
+        fontSize: 28
+    },
 
 });
 
