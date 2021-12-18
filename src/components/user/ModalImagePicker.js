@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     modalView: {
-        marginBottom: 100,
+        marginBottom: Platform.OS === 'android' ? 70 : 100,
         backgroundColor: "white",
         padding: 10,
         width: 390,

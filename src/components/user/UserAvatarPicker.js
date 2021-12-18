@@ -174,7 +174,9 @@ const UserAvatarPicker = (props) => {
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={() => setModalVisible(true)}>
+            <Pressable onPress={() => setModalVisible(true)}
+            style={styles.addAvatar}
+            >
                 <Image
                     source={imageUriGallary}
                     style={{
@@ -185,6 +187,14 @@ const UserAvatarPicker = (props) => {
                         borderColor: 'white',
                     }}
                 />
+                <View style={styles.iconContainer}>
+                <Ionicons
+                    style={styles.addIcon}
+                    name={'add'}
+                    size={25}
+                    color={Colors.primary}
+                />
+                </View>
             </Pressable>
             <ModalImagePicker
                 modalVisible={modalVisible}
@@ -219,13 +229,19 @@ const styles = StyleSheet.create({
     container: {},
 
     iconContainer: {
-            width: 50,
-            height: 50,
+            width: 25,
+            height: 25,
             position: 'absolute',
-            left: 100,
+            right: 10,
+            bottom: 8,
+            borderRadius: 10,
+            backgroundColor: 'white',
             textAlign: 'center'
     },
 
+    addIcon: {
+
+    },
     editIcon: {},
 
     button: {
@@ -241,6 +257,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 5,
         marginLeft: 10
+    },
+
+    addAvatar: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
     }
 
 });
