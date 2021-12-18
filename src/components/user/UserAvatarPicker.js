@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, Image, Alert, Platform} from 'react-native';
+import {StyleSheet, View, Text, Pressable, Image, Alert, Platform, ActivityIndicator} from 'react-native';
 import React, {useState} from 'react';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
@@ -23,7 +23,6 @@ const UserAvatarPicker = (props) => {
     const [imageUri, setimageUri] = React.useState('');
     const [imageUriGallary, setimageUriGallary] = React.useState(userImage === null ? defaultImage : userImageUrl && userImage !== '' ? userImageUrl : defaultImage);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [modal, setModal] = React.useState(false);
     const dispatch = useDispatch();
 
 
@@ -113,13 +112,15 @@ const UserAvatarPicker = (props) => {
         });
                 let lunchCameraOrGallery = (permissions === 'android.permission.CAMERA' || permissions ===  'ios.permission.CAMERA') ? launchCamera : null ||
                     (permissions === 'android.permission.WRITE_EXTERNAL_STORAGE' || permissions ===  'ios.permission.PHOTO_LIBRARY') ? launchImageLibrary  : null;
-
-          lunchCameraOrGallery(option, async response => {
+        setIsLoading(true);
+        lunchCameraOrGallery(option, async response => {
                         console.log('Response = ', response);
                         if (response.didCancel) {
-                            console.log('User cancelled action')
+                            console.log('User cancelled action');
+                            setIsLoading(false);
                         } else if (response.errorMessage) {
-                            console.log('Error message: ' + response.errorMessage)
+                            console.log('Error message: ' + response.errorMessage);
+                            setIsLoading(false);
                         } else {
                             const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
                             setimageUriGallary(source);
@@ -132,7 +133,6 @@ const UserAvatarPicker = (props) => {
                                 await storage().ref('images/' + userId + '/'  + fileName).putFile(imagePath);
                                 setUploading (false);
                                 setimageUri('images/' + userId + '/'  + fileName);
-                                alert('image uploaded!');
                             } catch (e) {
                                 console.log(e);
                             }
@@ -152,11 +152,13 @@ const UserAvatarPicker = (props) => {
                             }
                             setimageUriGallary({uri: url});
                             dispatch(authActions.setAvatar(url, imgDirectory));
+                            setIsLoading(false);
                         }
                     } );
                 }
 
     const deleteAvatar = () => {
+        setIsLoading(true);
         setModalVisible(false);
         const ref = storage().ref(
             imageUri === '' ? userImagePath : console.log('') ||
@@ -164,6 +166,7 @@ const UserAvatarPicker = (props) => {
             userImagePath !== imageUri ? imageUri : userImagePath);
 
         ref.delete().then(function() {
+            setIsLoading(false);
             alert('deleted')
             setimageUriGallary(defaultImage);
         }).catch(function(error) {
@@ -176,8 +179,9 @@ const UserAvatarPicker = (props) => {
         <View style={styles.container}>
             <Pressable onPress={() => setModalVisible(true)}
             style={styles.addAvatar}
+                       disabled={isLoading || uploading ? true : false}
             >
-                <Image
+                    <Image
                     source={imageUriGallary}
                     style={{
                         height: 125,
@@ -195,6 +199,15 @@ const UserAvatarPicker = (props) => {
                     color={Colors.primary}
                 />
                 </View>
+                {
+                    isLoading ?
+                        <View style={styles.loading}>
+                            <ActivityIndicator size='large' color={Colors.primary}/>
+                        </View>
+                        :
+                        null
+                }
+
             </Pressable>
             <ModalImagePicker
                 modalVisible={modalVisible}
@@ -260,8 +273,20 @@ const styles = StyleSheet.create({
     },
 
     addAvatar: {
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    loading: {
+        position: 'absolute',
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(177, 187, 201, 0.3)',
+        height: 125,
+        width: 125,
+        borderRadius: 100,
+        borderColor: 'white'
     }
 
 });
