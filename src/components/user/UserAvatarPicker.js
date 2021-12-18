@@ -128,6 +128,12 @@ const UserAvatarPicker = (props) => {
                             setTimeout(() => {
                                 setIsLoading(false);
                             }, 2000);
+                        }else if (response.errorCode) {
+                            console.log('Error message: ' + response.errorCode);
+                            fadeOut();
+                            setTimeout(() => {
+                                setIsLoading(false);
+                            }, 2000);
                         } else {
                             const source = {uri: `data:image/jpeg;base64,` + response.assets[0].base64};
                             setimageUriGallary(source);
