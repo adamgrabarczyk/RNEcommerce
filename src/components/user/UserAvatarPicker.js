@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Pressable, Image, Alert, Platform, ActivityIndicator, Animated, Button} from 'react-native';
+import {StyleSheet, View, Text, Pressable, Image, Alert, Platform, ActivityIndicator, Animated} from 'react-native';
 import React, {useState, useRef} from 'react';
 import storage from '@react-native-firebase/storage';
 import {launchCamera, launchImageLibrary, } from 'react-native-image-picker';
@@ -213,7 +213,6 @@ const UserAvatarPicker = (props) => {
 
     return (
         <View style={styles.container}>
-            <Button title="dupa" onPress={() => console.log(isLoading)} />
             <Pressable onPress={() => setModalVisible(true)}
             style={styles.addAvatar}
                        disabled={isLoading || uploading ? true : false}
