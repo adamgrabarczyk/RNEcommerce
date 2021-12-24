@@ -5,6 +5,7 @@ import * as authActions from '../../store/actions/auth';
 import UserProfile from '../../components/user/UserProfile';
 import {useDispatch} from 'react-redux';
 import Colors from '../../constans/Colors';
+import SettingsButton from '../../components/user/SettingsButton';
 
 const SettingsScreen = (props) => {
 
@@ -43,33 +44,28 @@ const SettingsScreen = (props) => {
                     <View style={styles.accountSettingsHeading}>
                         <Text style={styles.accountSettingsHeadingText}>Ustawienia konta</Text>
                     </View>
-                    <View style={styles.accountSettingsHandleContainer}>
-                        <TouchableOpacity style={styles.accountSettingsHandle}>
-                            <View>
-                        <Text style={styles.accountSettingsHandleText}>Twoje dane</Text>
-                        <Text style={styles.accountSettingsHandleTip}>Informacje o Tobie i Twoim koncie</Text>
-                            </View>
-                        <Text style={styles.accountSettingsHandlePress}>ZMIEŃ</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.accountSettingsHandleContainer}>
-                        <TouchableOpacity style={styles.accountSettingsHandle}>
-                            <View>
-                                <Text style={styles.accountSettingsHandleText}>Adresy do wysyłki</Text>
-                                <Text style={styles.accountSettingsHandleTip}>Zarządzaj swoimi adresami</Text>
-                            </View>
-                            <Text style={styles.accountSettingsHandlePress}>ZMIEŃ</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.accountSettingsHandleContainer}>
-                        <TouchableOpacity style={styles.accountSettingsHandle}>
-                            <View>
-                                <Text style={styles.accountSettingsHandleText}>Zgody na powiadomienia</Text>
-                                <Text style={styles.accountSettingsHandleTip}>Bądź na bierząco</Text>
-                            </View>
-                            <Text style={styles.accountSettingsHandlePress}>ZMIEŃ</Text>
-                        </TouchableOpacity>
-                    </View>
+
+                    <SettingsButton
+                        settingsActionButton={() => {}}
+                        accountSettingsHandleText={'Twoje dane'}
+                        accountSettingsHandleTip={'Informacje o Tobie i Twoim koncie'}
+                        accountSettingsHandlePress={'ZMIEŃ'}
+                    />
+
+                    <SettingsButton
+                        settingsActionButton={() => {}}
+                        accountSettingsHandleText={'Adresy do wysyłki'}
+                        accountSettingsHandleTip={'Zarządzaj swoimi adresami'}
+                        accountSettingsHandlePress={'ZMIEŃ'}
+                    />
+
+                    <SettingsButton
+                        settingsActionButton={() => {}}
+                        accountSettingsHandleText={'Zgody na powiadomienia'}
+                        accountSettingsHandleTip={'Bądź na bierząco'}
+                        accountSettingsHandlePress={'ZMIEŃ'}
+                    />
+
                 </View>
                 <TouchableOpacity
                 onPress={logoutHandler}
@@ -114,29 +110,6 @@ const styles = StyleSheet.create({
       color: 'grey',
       fontSize: 21,
        fontWeight: 'bold'
-    },
-    accountSettingsHandleContainer: {
-        borderBottomColor: 'black',
-        borderBottomWidth: 0.5
-    },
-    accountSettingsHandle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        margin: 15
-    },
-    accountSettingsHandleText: {
-        color: 'grey',
-        fontSize: 20,
-        marginBottom: 3
-    },
-    accountSettingsHandleTip: {
-        fontSize: 12,
-        color: 'grey',
-    },
-    accountSettingsHandlePress: {
-        marginTop: 10,
-        fontSize: 17,
-        color: Colors.primary,
     },
     button: {
         width: '100%',
