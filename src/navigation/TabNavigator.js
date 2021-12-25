@@ -16,6 +16,9 @@ import ProductDetails from '../screens/shop/ProductDetailsScreen'
 import HeaderButton from '../components/UI/HeaderButton'
 import Cart from '../screens/Cart';
 import SearchBar from '../components/shop/SearchBar';
+import PersonalData from '../screens/Profile/PersonalData';
+import Adresses from '../screens/Profile/Adresses';
+import NotificationsPermission from '../screens/Profile/NotificationsPermission';
 
 
 const HomeStack = createStackNavigator();
@@ -179,6 +182,12 @@ function SearchStackScreen({navigation}) {
 
                 }}
             />
+
+            <SearchStack.Screen
+                name="ProductDetails"
+                component={ProductDetails}
+                options={({ route }) => ({ title: route.params.productTitle })}
+            />
         </SearchStack.Navigator>
     );
 }
@@ -232,6 +241,21 @@ function ProfileStackScreen({navigation}) {
                         </HeaderButtons>
                     )
                 }}
+            />
+
+            <ProfileStack.Screen
+                name="PersonalData"
+                component={PersonalData}
+            />
+
+            <ProfileStack.Screen
+                name="Adresses"
+                component={Adresses}
+            />
+
+            <ProfileStack.Screen
+                name="NotificationsPermission"
+                component={NotificationsPermission}
             />
         </ProfileStack.Navigator>
     );

@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 import Colors from '../../constans/Colors';
 import SettingsButton from '../../components/user/SettingsButton';
 
-const SettingsScreen = (props) => {
+const SettingsScreen = ({navigation}) => {
 
     const [userEmail, setUserEmail] = useState();
     const [userName, setUserName] = useState();
@@ -46,21 +46,21 @@ const SettingsScreen = (props) => {
                     </View>
 
                     <SettingsButton
-                        settingsActionButton={() => {}}
+                        settingsActionButton={() => navigation.navigate('PersonalData')}
                         accountSettingsHandleText={'Twoje dane'}
                         accountSettingsHandleTip={'Informacje o Tobie i Twoim koncie'}
                         accountSettingsHandlePress={'ZMIEŃ'}
                     />
 
                     <SettingsButton
-                        settingsActionButton={() => {}}
+                        settingsActionButton={() => navigation.navigate('Adresses')}
                         accountSettingsHandleText={'Adresy do wysyłki'}
                         accountSettingsHandleTip={'Zarządzaj swoimi adresami'}
                         accountSettingsHandlePress={'ZMIEŃ'}
                     />
 
                     <SettingsButton
-                        settingsActionButton={() => {}}
+                        settingsActionButton={() => navigation.navigate('NotificationsPermission')}
                         accountSettingsHandleText={'Zgody na powiadomienia'}
                         accountSettingsHandleTip={'Bądź na bierząco'}
                         accountSettingsHandlePress={'ZMIEŃ'}
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 15
+        margin: 25
     },
     buttonText: {
         color: 'white',
