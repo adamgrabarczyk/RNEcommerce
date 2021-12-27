@@ -1,43 +1,25 @@
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import React from 'react';
 import * as authActions from '../../store/actions/auth';
 import UserProfile from '../../components/user/UserProfile';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Colors from '../../constans/Colors';
 import SettingsButton from '../../components/user/SettingsButton';
+import PersonalData from './PersonalData';
 
 const SettingsScreen = ({navigation}) => {
-
-    const [userEmail, setUserEmail] = useState();
-    const [userName, setUserName] = useState();
-    const [userSurname, setUserSurname] = useState();
-
-    useEffect(() => {
-        const getUserData = async () => {
-            const authData = await AsyncStorage.getItem('authData');
-            const parseAuthData = JSON.parse(authData);
-
-            setUserEmail(parseAuthData.email);
-            setUserName(parseAuthData.name);
-            setUserSurname(parseAuthData.surname);
-        }
-        getUserData();
-    });
-
+    const userEmail = useSelector(state => state.auth.email);
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
         dispatch(authActions.logout());
-
-    }
+    };
 
     return (
         <ScrollView style={styles.container}>
             <UserProfile/>
-            <View style={styles.userData}>
-                <Text onPress={() => console.log('blah')}>{userEmail}</Text>
-                <Text onPress={() => console.log('blah')}>{userName}  {userSurname}</Text>
+            <View style={styles.userEmailContainer}>
+                <Text style={styles.userEmail}>{userEmail}</Text>
             </View>
             <View style={styles.settings}>
                 <View style={styles.accountSettings}>
@@ -123,6 +105,22 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: 'normal'
+    },
+    spinnerContainer: {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    userEmailContainer: {
+        alignItems: 'center'
+    },
+
+    userEmail: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'grey'
     }
 });
 

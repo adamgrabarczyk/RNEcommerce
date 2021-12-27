@@ -1,4 +1,5 @@
 import database from '@react-native-firebase/database';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UPDATE_PERSONAL_DATA =  'UPDATE_PERSONAL_DATA';
 export const UPDATE_PASSWORD =  'UPDATE_PASSWORD';
@@ -9,34 +10,41 @@ export const updatePersonalData = (id, name, surname, email, phone, key) => {
     console.log(name + ' ' + surname + ' ' + id);
     return async (dispatch) => {
 
+        const authData = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(authData);
 
-        // const userName = await fetch(
-        //     `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${id}/${key}/name.json`
-        //     , {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             name
-        //         })
-        //     }
-        // );
-        //
-        // if (!userName.ok) {
-        //     throw new Error(error);
-        // }
+        const token = parseAuthData.token;
+        const date = new Date(parseAuthData.expireDate);
+        const avatar = parseAuthData.avatar;
+        const expireDate = new Date(date);
 
         database()
             .ref('/users/'+ id + '/' + key)
             .update({
                 name: name,
+                surname: surname,
+                email: email,
+                phone: phone
             })
-            .then(() => console.log('Data updated.'));
+            .then(() => {
+                alert('Twoje dane zostały uaktualnione !')
+            });
 
+        AsyncStorage.getItem('authData').then(() => {
+            AsyncStorage.setItem('authData', JSON.stringify({
+                token: token,
+                user: id,
+                expireDate: expireDate.toISOString(),
+                email: email,
+                name: name,
+                surname: surname,
+                phone: phone,
+                avatar: avatar,
+                key: key
+            }))
+        });
 
-        console.log('job done');
-        dispatch({type: UPDATE_PERSONAL_DATA});
+        dispatch({type: UPDATE_PERSONAL_DATA, name: name, surname: surname, email: email, phone: phone});
     }
 
 }

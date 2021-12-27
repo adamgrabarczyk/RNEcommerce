@@ -11,6 +11,8 @@ import {
     GET_NAME, GET_SURNAME, GET_PHONE,DELETE_AVATAR, SET_USER_AVATAR_TO_STORAGE
 } from '../actions/auth';
 
+import {UPDATE_PERSONAL_DATA} from '../actions/user';
+
 const initialState = {
     token: null,
     userName: '',
@@ -65,6 +67,8 @@ export default (state = initialState, action) => {
             user: action.user,
             email: action.email,
             avatar: action.avatar,
+            userName: action.name,
+            userSurname: action.surname,
             avatarPath: action.avatarPath,
             key: action.key,
             correctData: true
@@ -156,6 +160,16 @@ export default (state = initialState, action) => {
                 ...state,
                 avatar: null,
                 avatarPath: null
+            }
+
+        case UPDATE_PERSONAL_DATA:
+
+            return {
+                ...state,
+                userName: action.name,
+                userSurname: action.surname,
+                userEmail: action.email,
+                userPhone: action.phone
             }
 
     }

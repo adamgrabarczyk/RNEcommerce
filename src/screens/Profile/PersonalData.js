@@ -4,10 +4,12 @@ import UserDataInput from '../../components/user/UserDataInput';
 import Colors from '../../constans/Colors';
 import * as userActions from '../../store/actions/user';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 const PersonalData = () => {
+
+    const userName = useSelector(state => state.auth.userName);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -18,7 +20,7 @@ const PersonalData = () => {
             const parseAuthData = JSON.parse(authData);
 
             setId(parseAuthData.user);
-            setkey(parseAuthData.key);
+            setKey(parseAuthData.key);
             setEmail(parseAuthData.email);
             setName(parseAuthData.name);
             setSurname(parseAuthData.surname);
@@ -33,7 +35,7 @@ const PersonalData = () => {
 
 
     const [id, setId] = useState();
-    const [key, setkey] = useState();
+    const [key, setKey] = useState();
     const [name, setName] = useState();
     const [surname, setSurname] = useState();
     const [email, setEmail] = useState();
@@ -55,6 +57,7 @@ const PersonalData = () => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.personalDataHeading}>
+                <Text>{userName}</Text>
                 <Text style={styles.personalDataHeadingText}>Dane konta</Text>
             </View>
             <View style={styles.personalDataInputsArea}>

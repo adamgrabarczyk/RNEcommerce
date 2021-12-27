@@ -208,6 +208,8 @@ export const signin = (email, password) => {
              user: data.user,
              expireDate: data.expireDate,
              email: data.email,
+             name: data.name,
+             surname: data.surname,
              avatar: response.avatar.uri,
              avatarPath: response.avatar.imageUri,
              key: data.key})

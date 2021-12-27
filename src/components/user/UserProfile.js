@@ -1,26 +1,18 @@
 import { StyleSheet, View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import UserAvatarPicker from '../../components/user/UserAvatarPicker';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useSelector} from 'react-redux';
 
 
 const UserProfile = (props) => {
-
-    const [userName, setUserName] = useState();
-
-    useEffect(() => {
-        const getUserData = async () => {
-            const authData = await AsyncStorage.getItem('authData');
-            const parseAuthData = JSON.parse(authData);
-            setUserName(parseAuthData.name);
-        }
-        getUserData();
-    });
+    const userName = useSelector(state => state.auth.userName);
+    const userSurname = useSelector(state => state.auth.userSurname);
 
     return (
         <View style={styles.container}>
-            <View>
-            <Text>Cześć {userName}!</Text>
+            <View style={styles.userNameContainer}>
+            <Text style={styles.userName}>{userName}</Text>
+            <Text style={styles.userName}>{userSurname}</Text>
             </View>
             <View>
                 <UserAvatarPicker/>
@@ -37,6 +29,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         margin: 50
+    },
+    userNameContainer: {
+
+    },
+
+    userName: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'grey'
     }
 
 });
