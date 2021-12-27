@@ -2,11 +2,13 @@ import {ScrollView, View, Text, StyleSheet, TouchableOpacity, ActivityIndicator}
 import React, {useEffect, useState} from 'react';
 import UserDataInput from '../../components/user/UserDataInput';
 import Colors from '../../constans/Colors';
+import * as userActions from '../../store/actions/user';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useDispatch} from 'react-redux';
 
 
 const PersonalData = () => {
-
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -15,6 +17,8 @@ const PersonalData = () => {
             const authData = await AsyncStorage.getItem('authData');
             const parseAuthData = JSON.parse(authData);
 
+            setId(parseAuthData.user);
+            setkey(parseAuthData.key);
             setEmail(parseAuthData.email);
             setName(parseAuthData.name);
             setSurname(parseAuthData.surname);
@@ -28,6 +32,8 @@ const PersonalData = () => {
     },[]);
 
 
+    const [id, setId] = useState();
+    const [key, setkey] = useState();
     const [name, setName] = useState();
     const [surname, setSurname] = useState();
     const [email, setEmail] = useState();
@@ -82,7 +88,9 @@ const PersonalData = () => {
             </View>
 
             <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => {
+                    dispatch(userActions.updatePersonalData(id, name, surname, email, phone, key));
+                }}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Zapisz</Text>

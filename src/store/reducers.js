@@ -7,6 +7,7 @@ import cartReducer from './reducers/cart';
 import ordersReducer from './reducers/orders';
 import searchReducer from './reducers/search';
 import authReducer from './reducers/auth';
+import userReducer from './reducers/user';
 import {combineReducers} from "redux";
 
 const persistConfig = {
@@ -21,6 +22,7 @@ export const reducers = combineReducers({
     orders: ordersReducer,
     search: searchReducer,
     auth: authReducer,
+    user: userReducer,
     isLoading: (state = {}) => state,
     isError: (state = {}) => state,
     repositories: (state = {}) => state
