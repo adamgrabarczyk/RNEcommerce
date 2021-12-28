@@ -1,7 +1,8 @@
-import {UPDATE_PERSONAL_DATA} from "../actions/user";
+import {UPDATE_PERSONAL_DATA, CLEAR_RESPONSE_MESSAGE} from "../actions/user";
 
 const initialState = {
-    userData: []
+    userData: [],
+    responseMessage: ''
 }
 
 export default (state = initialState, action) => {
@@ -10,7 +11,15 @@ export default (state = initialState, action) => {
         case UPDATE_PERSONAL_DATA:
 
             return {
-                ...state
+                ...state,
+                responseMessage: [true, 'Twoje dane zostały uaktualnione']
+            }
+
+        case CLEAR_RESPONSE_MESSAGE:
+
+            return {
+                ...state,
+                responseMessage: ''
             }
     }
 

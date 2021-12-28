@@ -5,11 +5,12 @@ import Colors from '../../constans/Colors';
 import * as userActions from '../../store/actions/user';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch, useSelector} from 'react-redux';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 
 const PersonalData = () => {
 
-    const userName = useSelector(state => state.auth.userName);
+    const responseMessage = useSelector(state => state.user.responseMessage);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -57,7 +58,6 @@ const PersonalData = () => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.personalDataHeading}>
-                <Text>{userName}</Text>
                 <Text style={styles.personalDataHeadingText}>Dane konta</Text>
             </View>
             <View style={styles.personalDataInputsArea}>
@@ -89,7 +89,19 @@ const PersonalData = () => {
                     inputChangeText={(value) => setPhone(value)}
                 />
             </View>
-
+            <View style={styles.responseMessageContainer}>
+                {
+                    responseMessage[0] === true ?
+                        <Octicons
+                            style={styles.responseMessageIcon}
+                            name={'check'}
+                            size={25}
+                            color={Colors.primary}
+                        />
+                        : null
+                }
+                <Text style={styles.responseMessageText}>{responseMessage[1]}</Text>
+            </View>
             <TouchableOpacity
                 onPress={() => {
                     dispatch(userActions.updatePersonalData(id, name, surname, email, phone, key));
@@ -149,9 +161,27 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+    responseMessageContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 30,
+        width: '100%',
+        height:20
+    },
+
+    responseMessageText: {
+        color: 'green',
+        textAlign: 'center',
+        height:20,
+        marginTop: 8
+    },
+
+    responseMessageIcon: {
+        marginRight: 2
     }
-
-
 
 
 });

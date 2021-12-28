@@ -2,6 +2,7 @@ import database from '@react-native-firebase/database';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UPDATE_PERSONAL_DATA =  'UPDATE_PERSONAL_DATA';
+export const CLEAR_RESPONSE_MESSAGE =  'CLEAR_RESPONSE_MESSAGE';
 export const UPDATE_PASSWORD =  'UPDATE_PASSWORD';
 
 
@@ -26,8 +27,9 @@ export const updatePersonalData = (id, name, surname, email, phone, key) => {
                 email: email,
                 phone: phone
             })
-            .then(() => {
-                alert('Twoje dane zostały uaktualnione !')
+            .then((snapshot) => {
+                console.log('Twoje dane zostały uaktualnione !');
+                console.log(snapshot);
             });
 
         AsyncStorage.getItem('authData').then(() => {
@@ -45,6 +47,10 @@ export const updatePersonalData = (id, name, surname, email, phone, key) => {
         });
 
         dispatch({type: UPDATE_PERSONAL_DATA, name: name, surname: surname, email: email, phone: phone});
+
+        setTimeout(() => {
+            dispatch({type: CLEAR_RESPONSE_MESSAGE})
+        }, 20000);
     }
 
 }
