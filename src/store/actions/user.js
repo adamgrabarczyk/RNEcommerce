@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UPDATE_PERSONAL_DATA =  'UPDATE_PERSONAL_DATA';
 export const CLEAR_RESPONSE_MESSAGE =  'CLEAR_RESPONSE_MESSAGE';
+export const WARRINING_RESPONSE_MESSAGE =  'WARRINING_RESPONSE_MESSAGE';
 export const UPDATE_PASSWORD =  'UPDATE_PASSWORD';
 
 
@@ -19,38 +20,47 @@ export const updatePersonalData = (id, name, surname, email, phone, key) => {
         const avatar = parseAuthData.avatar;
         const expireDate = new Date(date);
 
-        database()
-            .ref('/users/'+ id + '/' + key)
-            .update({
-                name: name,
-                surname: surname,
-                email: email,
-                phone: phone
-            })
-            .then((snapshot) => {
-                console.log('Twoje dane zostały uaktualnione !');
-                console.log(snapshot);
+        if (name === '' || surname === '' || phone === '' ) {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wypelnij wszystkie pola!', status: false})
+
+            setTimeout(() => {
+                dispatch({type: CLEAR_RESPONSE_MESSAGE, message: '', status: ''})
+            }, 20000);
+        } else {
+
+
+            database()
+                .ref('/users/' + id + '/' + key)
+                .update({
+                    name: name,
+                    surname: surname,
+                    email: email,
+                    phone: phone
+                })
+                .then((snapshot) => {
+                    console.log('Twoje dane zostały uaktualnione !');
+                    console.log(snapshot);
+                });
+
+            AsyncStorage.getItem('authData').then(() => {
+                AsyncStorage.setItem('authData', JSON.stringify({
+                    token: token,
+                    user: id,
+                    expireDate: expireDate.toISOString(),
+                    email: email,
+                    name: name,
+                    surname: surname,
+                    phone: phone,
+                    avatar: avatar,
+                    key: key
+                }))
             });
 
-        AsyncStorage.getItem('authData').then(() => {
-            AsyncStorage.setItem('authData', JSON.stringify({
-                token: token,
-                user: id,
-                expireDate: expireDate.toISOString(),
-                email: email,
-                name: name,
-                surname: surname,
-                phone: phone,
-                avatar: avatar,
-                key: key
-            }))
-        });
+            dispatch({type: UPDATE_PERSONAL_DATA, name: name, surname: surname, email: email, phone: phone, message: 'Twoje dane zostały uaktualnione', status: true});
 
-        dispatch({type: UPDATE_PERSONAL_DATA, name: name, surname: surname, email: email, phone: phone});
-
-        setTimeout(() => {
-            dispatch({type: CLEAR_RESPONSE_MESSAGE})
-        }, 20000);
+            setTimeout(() => {
+                dispatch({type: CLEAR_RESPONSE_MESSAGE, message: '', status: ''})
+            }, 20000);
+        }
     }
-
 }

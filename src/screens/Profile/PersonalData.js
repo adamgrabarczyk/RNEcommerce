@@ -6,6 +6,7 @@ import * as userActions from '../../store/actions/user';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch, useSelector} from 'react-redux';
 import Octicons from 'react-native-vector-icons/Octicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const PersonalData = () => {
@@ -91,16 +92,27 @@ const PersonalData = () => {
             </View>
             <View style={styles.responseMessageContainer}>
                 {
-                    responseMessage[0] === true ?
+
+                    responseMessage.status === true ?
                         <Octicons
                             style={styles.responseMessageIcon}
                             name={'check'}
                             size={25}
                             color={Colors.primary}
-                        />
-                        : null
+                        /> : null
+                    ||
+
+                        responseMessage.status === false ?
+                        <Ionicons
+                            style={styles.responseMessageIcon}
+                            name={'close'}
+                            size={25}
+                            color={'red'}
+                        /> : null
+
+
                 }
-                <Text style={styles.responseMessageText}>{responseMessage[1]}</Text>
+                <Text style={responseMessage.status === true ? styles.responseMessageText : styles.responseMessageTextError}>{responseMessage.message}</Text>
             </View>
             <TouchableOpacity
                 onPress={() => {
@@ -174,6 +186,13 @@ const styles = StyleSheet.create({
 
     responseMessageText: {
         color: 'green',
+        textAlign: 'center',
+        height:20,
+        marginTop: 8
+    },
+
+    responseMessageTextError: {
+        color: 'red',
         textAlign: 'center',
         height:20,
         marginTop: 8
