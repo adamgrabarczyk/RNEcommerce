@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 50
+        marginTop: 30,
+        marginRight: 50,
+        marginLeft: 50
     },
     userNameContainer: {
 

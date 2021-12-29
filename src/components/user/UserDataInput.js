@@ -13,6 +13,8 @@ const UserDataInput = (props) => {
                 <TextInput
                 style={styles.inputChange}
                 placeholder={props.inputPalceholder}
+                textContentType={props.textContentType}
+                keyboardType={props.keyboardType}
                 value={props.inputValue}
                 onChangeText={props.inputChangeText}
                 />

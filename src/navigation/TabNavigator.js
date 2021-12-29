@@ -19,6 +19,7 @@ import SearchBar from '../components/shop/SearchBar';
 import PersonalData from '../screens/Profile/PersonalData';
 import Adresses from '../screens/Profile/Adresses';
 import NotificationsPermission from '../screens/Profile/NotificationsPermission';
+import EmailPassword from '../screens/Profile/EmailPassword';
 
 
 const HomeStack = createStackNavigator();
@@ -256,6 +257,11 @@ function ProfileStackScreen({navigation}) {
             <ProfileStack.Screen
                 name="NotificationsPermission"
                 component={NotificationsPermission}
+            />
+
+            <ProfileStack.Screen
+                name="EmailPassword"
+                component={EmailPassword}
             />
         </ProfileStack.Navigator>
     );

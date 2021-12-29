@@ -175,7 +175,7 @@ export const signin = (email, password) => {
             dispatch({ type: 'RESET_USER_LOG' })
         }
 
-        dispatch({type: LOGIN, token: resData.idToken, user: resData.localId, name: personalUserData.name, surname: personalUserData.surname,
+        dispatch({type: LOGIN, token: resData.idToken, email: email, user: resData.localId, name: personalUserData.name, surname: personalUserData.surname,
             phone: personalUserData.phone, avatar: personalUserData.avatar, avatarPath: personalUserData.avatarPath, key: personalUserData.key });
         const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
         setDataToStorage(resData.idToken, resData.localId, expireDate, email, personalUserData.name, personalUserData.surname,

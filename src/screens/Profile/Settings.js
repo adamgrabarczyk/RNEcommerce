@@ -35,6 +35,13 @@ const SettingsScreen = ({navigation}) => {
                     />
 
                     <SettingsButton
+                        settingsActionButton={() => navigation.navigate('EmailPassword')}
+                        accountSettingsHandleText={'Email i hasło'}
+                        accountSettingsHandleTip={'Zmień email lub hasło'}
+                        accountSettingsHandlePress={'ZMIEŃ'}
+                    />
+
+                    <SettingsButton
                         settingsActionButton={() => navigation.navigate('Adresses')}
                         accountSettingsHandleText={'Adresy do wysyłki'}
                         accountSettingsHandleTip={'Zarządzaj swoimi adresami'}
