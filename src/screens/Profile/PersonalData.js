@@ -8,6 +8,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Header } from '@react-navigation/stack';
+import ActionButton from '../../components/UI/ActionButton';
+import Spinner from '../../components/UI/Spinner';
+import SettingsChangeHeader from '../../components/user/SettingsChangeHeader';
+import SettingsChangeResponseMessage from '../../components/user/SettingsChangeResponseMessage';
 
 
 const PersonalData = () => {
@@ -45,15 +49,7 @@ const PersonalData = () => {
     const [phone, setPhone] = useState();
 
     if (loading) {
-        return (
-            <View style={styles.spinnerContainer}>
-                <ActivityIndicator
-                    style={styles.spinner}
-                    size='large'
-                    color={Colors.primary}
-                />
-            </View>
-        )
+        return <Spinner/>
     }
 
 
@@ -71,9 +67,10 @@ const PersonalData = () => {
 
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.inner}>
-            <View style={styles.personalDataHeading}>
-                <Text style={styles.personalDataHeadingText}>Dane konta</Text>
-            </View>
+                    <SettingsChangeHeader
+                        headerTitle={"Dane konta"}
+                    />
+
                     <ScrollView>
             <View style={styles.personalDataInputsArea}>
                 <UserDataInput
@@ -145,9 +142,9 @@ const PersonalData = () => {
                     :
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.inner}>
-                            <View style={styles.personalDataHeading}>
-                                <Text style={styles.personalDataHeadingText}>Dane konta</Text>
-                            </View>
+                            <SettingsChangeHeader
+                                headerTitle={"Dane konta"}
+                            />
                                 <View style={styles.personalDataInputsArea}>
                                     <UserDataInput
                                         inputName={'Imię'}
@@ -176,44 +173,21 @@ const PersonalData = () => {
                                         inputChangeText={(value) => setPhone(value)}
                                     />
                                 </View>
-                                <View style={styles.responseMessageContainer}>
-                                    {
-
-                                        responseMessage.status === true ?
-                                            <Octicons
-                                                style={styles.responseMessageIcon}
-                                                name={'check'}
-                                                size={25}
-                                                color={Colors.primary}
-                                            /> : null
-                                            ||
-
-                                            responseMessage.status === false ?
-                                            <Ionicons
-                                                style={styles.responseMessageIcon}
-                                                name={'close'}
-                                                size={25}
-                                                color={'red'}
-                                            /> : null
-
-
-                                    }
-                                    <Text style={responseMessage.status === true ? styles.responseMessageText : styles.responseMessageTextError}>{responseMessage.message}</Text>
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => {
+                                <SettingsChangeResponseMessage
+                                    responseMessageStatus={responseMessage.status}
+                                    responseMessage={responseMessage.message}
+                                />
+                                <ActionButton
+                                    action={() => {
                                         Keyboard.dismiss();
                                         dispatch(userActions.updatePersonalData(id, name, surname, email, phone, key));
                                     }}
-                                    style={styles.button}
-                                >
-                                    <Text style={styles.buttonText}>Zapisz</Text>
-                                </TouchableOpacity>
+                                    actionName={'Zapisz'}
+                                />
                             <View style={Platform.OS === "ios" ? styles.footerContainer : styles.footerContainerAnd}>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
-
             }
         </KeyboardAvoidingView>
     );
@@ -232,70 +206,36 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
 
-    personalDataHeading: {
-        alignItems: 'center',
-        padding: 15,
-        borderBottomColor: 'black',
-        borderBottomWidth: 0.6
-    },
-
-    personalDataHeadingText: {
-        color: 'grey',
-        fontSize: 21,
-        fontWeight: 'bold'
-    },
-
     personalDataInputsArea: {
 
     },
-
-    button: {
-        width: '100%',
-        height: 40,
-        backgroundColor: Colors.primary,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'normal'
-    },
-
-    spinnerContainer: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-
-    responseMessageContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height:20,
-        marginTop: Platform.OS === 'ios' ? 5 : 20,
-        marginBottom: Platform.OS === 'ios' ? 5 : 20
-    },
-
-    responseMessageText: {
-        color: 'green',
-        textAlign: 'center',
-        height: 20,
-        marginTop: 8
-    },
-
-    responseMessageTextError: {
-        color: 'red',
-        textAlign: 'center',
-        height: 20,
-        marginTop: Platform.OS === 'ios' ? 8 : 0
-    },
-
-    responseMessageIcon: {
-        marginRight: 2
-    },
+    // responseMessageContainer: {
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     width: '100%',
+    //     height:20,
+    //     marginTop: Platform.OS === 'ios' ? 5 : 20,
+    //     marginBottom: Platform.OS === 'ios' ? 5 : 20
+    // },
+    //
+    // responseMessageText: {
+    //     color: 'green',
+    //     textAlign: 'center',
+    //     height: 20,
+    //     marginTop: 8
+    // },
+    //
+    // responseMessageTextError: {
+    //     color: 'red',
+    //     textAlign: 'center',
+    //     height: 20,
+    //     marginTop: Platform.OS === 'ios' ? 8 : 0
+    // },
+    //
+    // responseMessageIcon: {
+    //     marginRight: 2
+    // },
 
     footerContainer: {
         width: '100%',
