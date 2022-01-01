@@ -75,6 +75,11 @@ export const updateUserEmail = (email, password, newEmail) => {
 
         const authData = await AsyncStorage.getItem('authData');
         const parseAuthData = JSON.parse(authData);
+        const id = parseAuthData.user;
+        const key = parseAuthData.key;
+
+        console.log(id);
+        console.log(key);
 
         if (email === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz adres email.', status: false, code: 'email'})
@@ -95,6 +100,16 @@ export const updateUserEmail = (email, password, newEmail) => {
                 .then((userCredential) => {
                     userCredential.user.updateEmail(newEmail).then(
                         () => {
+                            database()
+                                .ref('/users/' + id + '/' + key)
+                                .update({
+                                    email: newEmail,
+                                })
+                                .then((snapshot) => {
+                                    console.log('Twoje dane email zostały uaktualnione !');
+                                    console.log(snapshot);
+                                });
+
                             dispatch({type: UPDATE_EMAIL, newEmail: newEmail, message: 'Adres email został zmieniony', status: true, code: 'email'});
                             console.log('email chanched');
                             AsyncStorage.getItem('authData').then(() => {
