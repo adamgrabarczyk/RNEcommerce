@@ -106,7 +106,13 @@ const ChangePassword = () => {
                         <ActionButton
                             action={() => {
                                 Keyboard.dismiss();
-                                dispatch(userActions.updateUserPassword(password, newPassword, confirmPassword, userEmail));
+                                dispatch(userActions.updateUserPassword(password, newPassword, confirmPassword, userEmail)).then(
+                                    () => {
+                                        setPassword('');
+                                        setNewPassword('');
+                                        setConfirmPassword('');
+                                    }
+                                );
                             }}
                             actionName={'Zapisz'}
                         />

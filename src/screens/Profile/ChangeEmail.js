@@ -93,7 +93,9 @@ const ChangeEmail = () => {
             <ActionButton
                 action={() => {
                     Keyboard.dismiss();
-                    dispatch(userActions.updateUserEmail(userEmail, password, newEmail));
+                    dispatch(userActions.updateUserEmail(userEmail, password, newEmail)).then(
+                        () => setPassword('')
+                    );
                 }}
                 actionName={'Zapisz'}
             />
