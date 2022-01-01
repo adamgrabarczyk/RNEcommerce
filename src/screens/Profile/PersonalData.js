@@ -12,11 +12,13 @@ import ActionButton from '../../components/UI/ActionButton';
 import Spinner from '../../components/UI/Spinner';
 import SettingsChangeHeader from '../../components/user/SettingsChangeHeader';
 import SettingsChangeResponseMessage from '../../components/user/SettingsChangeResponseMessage';
+import SettingsChangeFooter from '../../components/user/SettingsChangeFooter';
 
 
 const PersonalData = () => {
 
     const responseMessage = useSelector(state => state.user.responseMessage);
+    const loader = useSelector(state => state.user.loader);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -24,6 +26,9 @@ const PersonalData = () => {
         setLoading(true);
         const getUserData = async () => {
             const authData = await AsyncStorage.getItem('authData');
+
+
+
             const parseAuthData = JSON.parse(authData);
 
             setId(parseAuthData.user);
@@ -49,7 +54,9 @@ const PersonalData = () => {
     const [phone, setPhone] = useState();
 
     if (loading) {
-        return <Spinner/>
+        return <Spinner
+            spinnerSize={'fullScreen'}
+        />
     }
 
 
@@ -100,30 +107,12 @@ const PersonalData = () => {
                     inputChangeText={(value) => setPhone(value)}
                 />
             </View>
-            <View style={styles.responseMessageContainer}>
-                {
-
-                    responseMessage.status === true ?
-                        <Octicons
-                            style={styles.responseMessageIcon}
-                            name={'check'}
-                            size={25}
-                            color={Colors.primary}
-                        /> : null
-                    ||
-
-                        responseMessage.status === false ?
-                        <Ionicons
-                            style={styles.responseMessageIcon}
-                            name={'close'}
-                            size={25}
-                            color={'red'}
-                        /> : null
-
-
-                }
-                <Text style={responseMessage.status === true ? styles.responseMessageText : styles.responseMessageTextError}>{responseMessage.message}</Text>
-            </View>
+                        <SettingsChangeResponseMessage
+                            responseMessageStatus={responseMessage.status}
+                            responseMessage={responseMessage.message}
+                            responseMessageCode={responseMessage.code}
+                            code={'data'}
+                        />
             <TouchableOpacity
                 onPress={() => {
                     Keyboard.dismiss();
@@ -173,10 +162,19 @@ const PersonalData = () => {
                                         inputChangeText={(value) => setPhone(value)}
                                     />
                                 </View>
-                                <SettingsChangeResponseMessage
-                                    responseMessageStatus={responseMessage.status}
-                                    responseMessage={responseMessage.message}
-                                />
+                            {
+                                loader === true ?
+                                    <Spinner
+                                        spinnerSize={'small'}
+                                    />
+                                    :
+                                    <SettingsChangeResponseMessage
+                                        responseMessageStatus={responseMessage.status}
+                                        responseMessage={responseMessage.message}
+                                        responseMessageCode={responseMessage.code}
+                                        code={'data'}
+                                    />
+                            }
                                 <ActionButton
                                     action={() => {
                                         Keyboard.dismiss();
@@ -184,8 +182,9 @@ const PersonalData = () => {
                                     }}
                                     actionName={'Zapisz'}
                                 />
-                            <View style={Platform.OS === "ios" ? styles.footerContainer : styles.footerContainerAnd}>
-                            </View>
+                            <SettingsChangeFooter
+                                footerText={'Wpisz swoje aktualne dane w tym formularzu i zapisz je na serwerze.'}
+                            />
                         </View>
                     </TouchableWithoutFeedback>
             }
@@ -209,33 +208,6 @@ const styles = StyleSheet.create({
     personalDataInputsArea: {
 
     },
-    // responseMessageContainer: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     width: '100%',
-    //     height:20,
-    //     marginTop: Platform.OS === 'ios' ? 5 : 20,
-    //     marginBottom: Platform.OS === 'ios' ? 5 : 20
-    // },
-    //
-    // responseMessageText: {
-    //     color: 'green',
-    //     textAlign: 'center',
-    //     height: 20,
-    //     marginTop: 8
-    // },
-    //
-    // responseMessageTextError: {
-    //     color: 'red',
-    //     textAlign: 'center',
-    //     height: 20,
-    //     marginTop: Platform.OS === 'ios' ? 8 : 0
-    // },
-    //
-    // responseMessageIcon: {
-    //     marginRight: 2
-    // },
 
     footerContainer: {
         width: '100%',

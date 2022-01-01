@@ -185,7 +185,6 @@ export const signin = (email, password) => {
 
  export const autoLogin = (authData) => {
     const data = JSON.parse(authData);
-
     const user = data.user;
     const key = data.key;
 

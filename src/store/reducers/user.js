@@ -1,11 +1,13 @@
-import {UPDATE_PERSONAL_DATA, CLEAR_RESPONSE_MESSAGE, WARRINING_RESPONSE_MESSAGE} from '../actions/user';
+import {UPDATE_PERSONAL_DATA, CLEAR_RESPONSE_MESSAGE, WARRINING_RESPONSE_MESSAGE, UPDATE_EMAIL, LOADER} from '../actions/user';
 
 const initialState = {
     userData: [],
     responseMessage: {
         message: '',
-        status: ''
-    }
+        status: '',
+        code: ''
+    },
+    loader: null
 }
 
 export default (state = initialState, action) => {
@@ -17,7 +19,8 @@ export default (state = initialState, action) => {
                 ...state,
                 responseMessage: {
                     message: action.message,
-                    status: action.status
+                    status: action.status,
+                    code: action.code
                 }
             }
 
@@ -27,7 +30,8 @@ export default (state = initialState, action) => {
                 ...state,
                 responseMessage: {
                     message: action.message,
-                    status: action.status
+                    status: action.status,
+                    code: action.code
                 }
             }
 
@@ -37,8 +41,27 @@ export default (state = initialState, action) => {
                 ...state,
                 responseMessage: {
                     message: action.message,
-                    status: action.status
+                    status: action.status,
+                    code: action.code
                 }
+            }
+
+        case UPDATE_EMAIL:
+
+            return {
+                ...state,
+                responseMessage: {
+                    message: action.message,
+                    status: action.status,
+                    code: action.code
+                }
+            }
+
+        case LOADER:
+
+            return {
+                ...state,
+                loader: action.loader
             }
     }
 

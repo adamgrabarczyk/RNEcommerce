@@ -12,7 +12,7 @@ const SettingsChangeResponseMessage = (props) => {
         <View style={styles.responseMessageContainer}>
             {
 
-                props.responseMessageStatus === true ?
+                props.responseMessageStatus === true && props.responseMessageCode === props.code ?
                     <Octicons
                         style={styles.responseMessageIcon}
                         name={'check'}
@@ -21,7 +21,7 @@ const SettingsChangeResponseMessage = (props) => {
                     /> : null
                     ||
 
-                    props.responseMessageStatus === false ?
+                    props.responseMessageStatus === false && props.responseMessageCode === props.code ?
                     <Ionicons
                         style={styles.responseMessageIcon}
                         name={'close'}
@@ -31,7 +31,17 @@ const SettingsChangeResponseMessage = (props) => {
 
 
             }
-            <Text style={props.responseMessageStatus === true ? styles.responseMessageText : styles.responseMessageTextError}>{props.responseMessage}</Text>
+            {
+                props.responseMessageCode === props.code ?
+                <Text
+                    style={props.responseMessageStatus === true ? styles.responseMessageText : styles.responseMessageTextError}>
+                    {props.responseMessage}
+                </Text>
+                    :
+                    <Text
+                        style={styles.emptyText}>
+                    </Text>
+            }
         </View>
     );
 }
@@ -46,7 +56,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height:20,
         marginTop: Platform.OS === 'ios' ? 5 : 20,
-        marginBottom: Platform.OS === 'ios' ? 5 : 20
+        marginBottom: Platform.OS === 'ios' ? 10 : 20
     },
 
     responseMessageText: {
@@ -61,6 +71,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 20,
         marginTop: Platform.OS === 'ios' ? 8 : 0
+    },
+
+    emptyText: {
+            height: 20,
+            marginTop: 8
     },
 
     responseMessageIcon: {

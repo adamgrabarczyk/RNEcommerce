@@ -15,6 +15,8 @@ const UserDataInput = (props) => {
                 placeholder={props.inputPalceholder}
                 textContentType={props.textContentType}
                 keyboardType={props.keyboardType}
+                autoCapitalize={'none'}
+                secureTextEntry={props.secureTextEntry}
                 value={props.inputValue}
                 onChangeText={props.inputChangeText}
                 />
