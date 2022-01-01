@@ -6,6 +6,7 @@ export const UPDATE_PERSONAL_DATA =  'UPDATE_PERSONAL_DATA';
 export const CLEAR_RESPONSE_MESSAGE =  'CLEAR_RESPONSE_MESSAGE';
 export const WARRINING_RESPONSE_MESSAGE =  'WARRINING_RESPONSE_MESSAGE';
 export const UPDATE_EMAIL =  'UPDATE_EMAIL';
+export const UPDATE_PASSWORD =  'UPDATE_PASSWORD';
 export const LOADER =  'LOADER';
 
 
@@ -75,11 +76,15 @@ export const updateUserEmail = (email, password, newEmail) => {
         const authData = await AsyncStorage.getItem('authData');
         const parseAuthData = JSON.parse(authData);
 
-        if (email === '' || password === '') {
-            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Uzupełnij wszystkie pola.', status: false, code: 'email'})
-            console.log('Uzupełnij wszystkie pola.');
+        if (email === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz adres email.', status: false, code: 'email'})
+            console.log('Wpisz adres email.');
             dispatch({type:LOADER, loader: false});
-        } else if (email === newEmail) {
+        } else if (password === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz adres hasło.', status: false, code: 'email'})
+            console.log('Wpisz adres hasło.');
+            dispatch({type:LOADER, loader: false});
+        }  else if (email === newEmail) {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Nie zmieniłeś emaila', status: false, code: 'email'})
             console.log('Nie zmieniłeś emaila');
             dispatch({type:LOADER, loader: false});
@@ -132,6 +137,63 @@ export const updateUserEmail = (email, password, newEmail) => {
     }
 }
 
+
+export const updateUserPassword = (password, newPassword, confirmPassword, userEmail) => {
+
+    console.log(password);
+    console.log(newPassword);
+    console.log(confirmPassword);
+    console.log(userEmail);
+
+    return async (dispatch) => {
+        dispatch({type:LOADER, loader: true});
+
+        if (password === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz hasło.', status: false, code: 'password'})
+            console.log('Wpisz hasło.');
+            dispatch({type:LOADER, loader: false});
+        } else if (newPassword === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz nowe hasło.', status: false, code: 'password'})
+            console.log('Wpisz adres hasło.');
+            dispatch({type:LOADER, loader: false});
+        }  else if (confirmPassword === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Potwierdź nowe hasło.', status: false, code: 'password'})
+            console.log('Potwierdź nowe hasło.');
+            dispatch({type:LOADER, loader: false});
+        } else if (password === newPassword) {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Nowe hasło nie może być takie samo jak stare.', status: false, code: 'password'})
+            console.log('Nowe hasło nie może być takie samo jak stare.');
+            dispatch({type:LOADER, loader: false});
+        } else if (confirmPassword !== newPassword) {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podane nowe hasło jest inne od potwierdzonego.', status: false, code: 'password'})
+            console.log('Podane nowe hasło jest inne od potwierdzonego.');
+            dispatch({type:LOADER, loader: false});
+        } else {
+
+            auth()
+                .signInWithEmailAndPassword(userEmail, password)
+                .then((userCredential) => {
+                    userCredential.user.updatePassword(newPassword).then(
+                        () => {
+                            dispatch({type: UPDATE_PASSWORD, message: 'Hsło zostało zmienione', status: true, code: 'password'});
+                            console.log('password chanched');
+                            dispatch({type:LOADER, loader: false});
+                        }
+                    ).catch(error => {
+                        console.log(error)
+                    });
+                })
+                .catch(error => {
+                    if (error.code === 'auth/wrong-password') {
+                        dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podane hasło jest błędne.', status: false, code: 'password'})
+                        console.log('That password is invalid!');
+                        dispatch({type:LOADER, loader: false});
+                    }
+                });
+
+        }
+    }
+}
 
 export const clearResponseMessage = () => {
     return async (dispatch) => dispatch({type: CLEAR_RESPONSE_MESSAGE, message: '', status: '', code: ''})

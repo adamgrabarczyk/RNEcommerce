@@ -1,5 +1,5 @@
-import {View, ScrollView,  Text, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform, KeyboardAvoidingView} from 'react-native';
-import React, {useEffect, useMemo, useState} from 'react';
+import {View, ScrollView, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform, KeyboardAvoidingView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import UserDataInput from '../../components/user/UserDataInput';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch, useSelector} from 'react-redux';

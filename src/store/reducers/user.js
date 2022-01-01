@@ -1,4 +1,11 @@
-import {UPDATE_PERSONAL_DATA, CLEAR_RESPONSE_MESSAGE, WARRINING_RESPONSE_MESSAGE, UPDATE_EMAIL, LOADER} from '../actions/user';
+import {
+    UPDATE_PERSONAL_DATA,
+    CLEAR_RESPONSE_MESSAGE,
+    WARRINING_RESPONSE_MESSAGE,
+    UPDATE_EMAIL,
+    LOADER,
+    UPDATE_PASSWORD,
+} from '../actions/user';
 
 const initialState = {
     userData: [],
@@ -47,6 +54,16 @@ export default (state = initialState, action) => {
             }
 
         case UPDATE_EMAIL:
+
+            return {
+                ...state,
+                responseMessage: {
+                    message: action.message,
+                    status: action.status,
+                    code: action.code
+                }
+            }
+        case UPDATE_PASSWORD:
 
             return {
                 ...state,
