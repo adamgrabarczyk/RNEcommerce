@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
 
     footerText: {
         marginTop: 8,
+        marginBottom: 20,
         marginLeft: 5,
-        color: 'grey',
-        margin: 20,
+        marginRight: 50,
+        color: 'grey'
     }
 });
 

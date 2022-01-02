@@ -1,12 +1,9 @@
 import {Platform, ScrollView, Keyboard, TouchableWithoutFeedback, View, KeyboardAvoidingView, Text, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import UserDataInput from '../../components/user/UserDataInput';
-import Colors from '../../constans/Colors';
 import * as userActions from '../../store/actions/user';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useDispatch, useSelector} from 'react-redux';
-import Octicons from 'react-native-vector-icons/Octicons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Header } from '@react-navigation/stack';
 import ActionButton from '../../components/UI/ActionButton';
 import Spinner from '../../components/UI/Spinner';
@@ -205,19 +202,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
 
-    personalDataInputsArea: {
-
-    },
-
-    footerContainer: {
-        width: '100%',
-        height: 120
-    },
-
-    footerContainerAnd: {
-        width: '100%',
-        height: 10
-    }
 
 
 });

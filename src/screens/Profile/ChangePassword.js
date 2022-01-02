@@ -118,7 +118,7 @@ const ChangePassword = () => {
                         />
 
                         <SettingsChangeFooter
-                            footerText={'Ze względów bezpieczeństwa, wprowadź hasło żeby zmienić adres email.'}
+                            footerText={'Ze względów bezpieczeństwa, wprowadź obecne hasło żeby zmienić je na nowe.'}
                         />
                     </ScrollView>
                 </View>
