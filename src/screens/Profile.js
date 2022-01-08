@@ -11,7 +11,7 @@ const Profile = () => {
     return(
         <Tab.Navigator>
             <Tab.Screen name="Zamówienia" component={OrderScreen} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
+            <Tab.Screen name="Ustawienia" component={SettingsScreen} />
         </Tab.Navigator>
     )
 }

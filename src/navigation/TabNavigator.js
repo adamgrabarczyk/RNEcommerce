@@ -64,7 +64,7 @@ export function HomeStackScreen({navigation}) {
                         fontFamily: "OpenSans-SemiBoldItalic"
                     },
                     headerTintColor: Platform.OS === 'android' ? '#fff' : Colors.primary,
-                    headerTitle: 'All Products',
+                    headerTitle: 'Strona główna',
                     headerLeft: () => (
                         <HeaderButtons HeaderButtonComponent={HeaderButton}>
                             <Item
@@ -95,13 +95,17 @@ export function HomeStackScreen({navigation}) {
 
                 }}
             />
-            <HomeStack.Screen name="Details" component={DetailsScreen} />
+            <HomeStack.Screen name="Details" component={DetailsScreen}  options={{
+                headerTitle: 'Szczegóły'
+            }} />
             <HomeStack.Screen name="ProductDetails"
                               component={ProductDetails}
                               options={({ route }) => ({ title: route.params.productTitle })}
 
             />
-            <HomeStack.Screen name="CartScreen" component={Cart} />
+            <HomeStack.Screen name="CartScreen" component={Cart}  options={{
+                headerTitle: 'Koszyk'
+            }} />
         </HomeStack.Navigator>
     );
 }
@@ -123,6 +127,7 @@ function CartStackScreen({navigation}) {
                         color: 'red',
                         fontFamily: "OpenSans-SemiBoldItalic"
                     },
+                    headerTitle: 'Koszyk',
                     headerLeft: () => (
                         <HeaderButtons HeaderButtonComponent={HeaderButton}>
                             <Item
@@ -214,7 +219,8 @@ function FavouriteStackScreen({navigation}) {
                                 onPress={() => {navigation.toggleDrawer()} }
                             />
                         </HeaderButtons>
-                    )
+                    ),
+                    headerTitle: 'Ulubione'
                 }}
             />
             <FavouriteStack.Screen name="ProductDetails"
@@ -243,42 +249,64 @@ function ProfileStackScreen({navigation}) {
                                 onPress={() => {navigation.toggleDrawer()} }
                             />
                         </HeaderButtons>
-                    )
+                    ),
+                    headerTitle: 'Profil'
                 }}
             />
 
             <ProfileStack.Screen
                 name="PersonalData"
                 component={PersonalData}
+                options={{
+                    headerTitle: ''
+                }}
             />
 
             <ProfileStack.Screen
                 name="Adresses"
                 component={Adresses}
+                options={{
+                    headerTitle: ''
+                }}
             />
             <ProfileStack.Screen
                 name="AddOrChangeAddress"
                 component={AddOrChangeAddress}
+                options={{
+                    headerTitle: ''
+                }}
             />
 
             <ProfileStack.Screen
                 name="NotificationsPermission"
                 component={NotificationsPermission}
+                options={{
+                    headerTitle: ''
+                }}
             />
 
             <ProfileStack.Screen
                 name="EmailPassword"
                 component={EmailPassword}
+                options={{
+                    headerTitle: ''
+                }}
             />
 
             <ProfileStack.Screen
                 name="ChangeEmail"
                 component={ChangeEmail}
+                options={{
+                    headerTitle: ''
+                }}
             />
 
             <ProfileStack.Screen
                 name="ChangePassword"
                 component={ChangePassword}
+                options={{
+                    headerTitle: ''
+                }}
             />
         </ProfileStack.Navigator>
     );
@@ -384,11 +412,11 @@ const TabNavigator  = () => {
             }}
 
         >
-            <Tab.Screen name={'Home'} component={HomeStackScreen}/>
-            <Tab.Screen name={'Search'} component={SearchStackScreen}/>
-            <Tab.Screen name={'Cart'} component={CartStackScreen}/>
-            <Tab.Screen name={'Favourite'} component={FavouriteStackScreen}/>
-            <Tab.Screen name={'Profile'} component={ProfileStackScreen}/>
+            <Tab.Screen name={'Home'} component={HomeStackScreen} options={{title: 'Strona główna'}}/>
+            <Tab.Screen name={'Search'} component={SearchStackScreen} options={{title: 'Szukaj'}}/>
+            <Tab.Screen name={'Cart'} component={CartStackScreen} options={{title: 'Koszyk'}}/>
+            <Tab.Screen name={'Favourite'} component={FavouriteStackScreen} options={{title: 'Ulubione'}}/>
+            <Tab.Screen name={'Profile'} component={ProfileStackScreen} options={{title: 'Profil'}}/>
         </Tab.Navigator>
     )
 }

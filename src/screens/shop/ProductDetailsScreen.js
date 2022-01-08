@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     View,
-    Text, StyleSheet,Image, ScrollView, TouchableOpacity, TextInput
+    Text, StyleSheet,Image, ScrollView, TouchableOpacity
 
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,18 +9,15 @@ import Colors from '../../constans/Colors';
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Counter from '../../components/Counter';
-import CartItem from '../../components/shop/CartItem';
 import ItemCounter from '../../components/shop/ItemCounter';
 
 
-const ProductDetailsScreen = (props, {route, navigation}) => {
+const ProductDetailsScreen = (props) => {
 
     const [count, setCount] = useState(1);
 
     const { productId } = props.route.params;
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
-    const product = useSelector(state => state.products.availableProducts);
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId));
 
     const dispatch = useDispatch();

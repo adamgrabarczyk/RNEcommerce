@@ -7,7 +7,7 @@ const NotificationsPermission = () => {
 
     return (
         <View>
-                <Text>NotificationsPermission</Text>
+                <Text>Powiadomienia</Text>
 
         </View>
     );

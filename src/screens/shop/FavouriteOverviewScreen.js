@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import { Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
@@ -37,10 +37,10 @@ const FavouriteOverviewScreen = (props) => {
                         >
                             <TouchableOpacity onPress={() => {
                                 selectItemHandler(itemData.item.id, itemData.item.name);
-                            }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
+                            }}><Text style={styles.actionsButton}>Zobacz więcej</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => {
                                 dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
-                            }}><Text style={styles.actionsButton}>Delete</Text></TouchableOpacity>
+                            }}><Text style={styles.actionsButton}>Usuń</Text></TouchableOpacity>
                         </ProductItem>
                     )}
                 />

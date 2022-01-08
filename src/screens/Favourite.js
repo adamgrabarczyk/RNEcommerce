@@ -27,7 +27,6 @@ const Favourite = props => {
                 <Text style={styles.noFavText}>nie masz polubionych produktów</Text>
             </View>
         }
-    <Text onPress={() => console.log(userFavProducts)}>blah</Text>
 </View>
     )
 }

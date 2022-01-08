@@ -97,14 +97,13 @@ const Cart = props => {
                             />}
                     />
                     <View style={styles.summary}>
-                        <Text style={styles.summaryText}>Total:
+                        <Text style={styles.summaryText}>Razem:
                             <Text style={styles.amount}> {cartTotalAmount} PLN</Text>
                         </Text>
                         <TouchableOpacity onPress={() => {
                             dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
                         }} disabled={cartItems.length === 0}>
-                            <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Order
-                                now</Text>
+                            <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Kup teraz</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

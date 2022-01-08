@@ -100,7 +100,7 @@ const ProductsOverviewScreen = (props) => {
                     >
                     <TouchableOpacity onPress={ () => {
                         selectItemHandler(itemData.item.id, itemData.item.name);
-                    }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
+                    }}><Text style={styles.actionsButton}>Zobacz więcej</Text></TouchableOpacity>
                     {userFavProducts.find(product => product.id === itemData.item.id) ?
                         <TouchableOpacity onPress={() => {
                             dispatch(productActions.deleteFromFav(itemData.item.id.toString()));
@@ -125,7 +125,7 @@ const ProductsOverviewScreen = (props) => {
                     }
                     <TouchableOpacity onPress={() => {
                         dispatch(cartActions.addToCart(itemData.item, 1));
-                    }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
+                    }}><Text style={styles.actionsButton} >Do koszyka</Text></TouchableOpacity>
                 </ProductItem>
             )}
         />

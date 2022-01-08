@@ -15,7 +15,7 @@ const OrderItem = props => {
             <TouchableOpacity>
                 <Text style={styles.detailButton} onPress={() => {
                     setShowDetails(prevState => !prevState)
-                }}>{showDetails ? 'Hide Details' : 'Show Details'}</Text>
+                }}>{showDetails ? 'Ukryj szczegóły' : 'Pokaż szczegóły'}</Text>
             </TouchableOpacity>
             {showDetails && <View style={styles.detailItems}>
                 {props.items.map(carItem => (

@@ -22,7 +22,8 @@ const DrawerNavigator = () => {
                                 size={23}
                                 color={Colors.primary}
                             />
-                        )
+                        ),
+                        title: 'Strona główna'
                     }}
                 />
                 <Drawer.Screen
@@ -35,7 +36,7 @@ const DrawerNavigator = () => {
                                 size={23}
                                 color={Colors.primary}
                             />
-                        )
+                        ),title: 'Szukaj'
                     }}
                 />
                 <Drawer.Screen
@@ -48,7 +49,7 @@ const DrawerNavigator = () => {
                                 size={23}
                                 color={Colors.primary}
                             />
-                        )
+                        ), title: 'Koszyk'
                     }}
                 />
                 <Drawer.Screen
@@ -61,7 +62,7 @@ const DrawerNavigator = () => {
                                 size={23}
                                 color={Colors.primary}
                             />
-                        )
+                        ),title: 'Ulubione'
                     }}
                 />
 
