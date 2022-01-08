@@ -110,18 +110,17 @@ const PersonalData = () => {
                             responseMessageCode={responseMessage.code}
                             code={'data'}
                         />
-            <TouchableOpacity
-                onPress={() => {
-                    Keyboard.dismiss();
-                    dispatch(userActions.updatePersonalData(id, name, surname, email, phone, key));
-                }}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Zapisz</Text>
-            </TouchableOpacity>
+                        <ActionButton
+                            action={() => {
+                                Keyboard.dismiss();
+                                dispatch(userActions.updatePersonalData(id, name, surname, email, phone, key));
+                            }}
+                            actionName={'Zapisz'}
+                        />
                     </ScrollView>
-                    <View style={Platform.OS === "ios" ? styles.footerContainer : styles.footerContainerAnd}>
-                    </View>
+                    <SettingsChangeFooter
+                        footerText={'Wpisz swoje aktualne dane w tym formularzu i zapisz je na serwerze.'}
+                    />
                 </View>
             </TouchableWithoutFeedback>
 
@@ -200,9 +199,6 @@ const styles = StyleSheet.create({
     inner: {
         flex: 1,
         justifyContent: "space-around"
-    },
-
-
-
+    }
 });
 

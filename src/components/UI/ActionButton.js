@@ -1,4 +1,4 @@
-import {Text, StyleSheet, TouchableOpacity, Keyboard} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Colors from '../../constans/Colors';
 
@@ -9,6 +9,7 @@ const ActionButton = (props) => {
         <TouchableOpacity
             onPress={props.action}
             style={styles.button}
+            disabled={props.disabled}
         >
             <Text style={styles.buttonText}>{props.actionName}</Text>
         </TouchableOpacity>

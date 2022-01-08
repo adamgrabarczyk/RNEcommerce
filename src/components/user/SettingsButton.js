@@ -6,9 +6,10 @@ const SettingsButton = (props) => {
 
 
     return (
-                <View style={styles.accountSettingsHandleContainer}>
-                        <TouchableOpacity style={styles.accountSettingsHandle}
+                <View style={props.disabled === true ? styles.accountSettingsHandleContainerDisabled : [styles.accountSettingsHandleContainer, props.accountSettingsHandleContainerWithDelete]}>
+                    <TouchableOpacity style={styles.accountSettingsHandle}
                         onPress={props.settingsActionButton}
+                                          disabled={props.disabled}
                         >
                             <View>
                                 <Text style={styles.accountSettingsHandleText}>{props.accountSettingsHandleText}</Text>
@@ -16,6 +17,7 @@ const SettingsButton = (props) => {
                             </View>
                             <Text style={styles.accountSettingsHandlePress}>{props.accountSettingsHandlePress}</Text>
                         </TouchableOpacity>
+                    <TouchableOpacity onPress={props.delete} style={props.deleteStyle}>{props.deleteContnet}</TouchableOpacity>
                 </View>
     );
 }
@@ -26,7 +28,12 @@ const styles = StyleSheet.create({
 
     accountSettingsHandleContainer: {
         borderBottomColor: 'black',
-        borderBottomWidth: 0.5
+        borderBottomWidth: 0.5,
+    },
+    accountSettingsHandleContainerDisabled: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.5,
+        opacity: 0.4
     },
     accountSettingsHandle: {
         flexDirection: 'row',

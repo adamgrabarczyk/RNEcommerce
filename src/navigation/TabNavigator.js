@@ -22,6 +22,7 @@ import NotificationsPermission from '../screens/Profile/NotificationsPermission'
 import EmailPassword from '../screens/Profile/EmailPassword';
 import ChangePassword from '../screens/Profile/ChangePassword';
 import ChangeEmail from '../screens/Profile/ChangeEmail';
+import AddOrChangeAddress from '../screens/Profile/AddOrChangeAddress';
 
 
 const HomeStack = createStackNavigator();
@@ -254,6 +255,10 @@ function ProfileStackScreen({navigation}) {
             <ProfileStack.Screen
                 name="Adresses"
                 component={Adresses}
+            />
+            <ProfileStack.Screen
+                name="AddOrChangeAddress"
+                component={AddOrChangeAddress}
             />
 
             <ProfileStack.Screen

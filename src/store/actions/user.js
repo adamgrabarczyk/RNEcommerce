@@ -7,12 +7,15 @@ export const CLEAR_RESPONSE_MESSAGE =  'CLEAR_RESPONSE_MESSAGE';
 export const WARRINING_RESPONSE_MESSAGE =  'WARRINING_RESPONSE_MESSAGE';
 export const UPDATE_EMAIL =  'UPDATE_EMAIL';
 export const UPDATE_PASSWORD =  'UPDATE_PASSWORD';
+export const ADD_ADDRESS =  'ADD_ADDRESS';
+export const UPDATE_ADDRESS =  'UPDATE_ADDRESS';
+export const DELETE_ADDRESS =  'DELETE_ADDRESS';
+export const GET_ADDRESSES =  'GET_ADDRESSES';
 export const LOADER =  'LOADER';
 
 
 export const updatePersonalData = (id, name, surname, email, phone, key) => {
 
-    console.log(name + ' ' + surname + ' ' + id);
     return async (dispatch) => {
 
         const authData = await AsyncStorage.getItem('authData');
@@ -40,9 +43,7 @@ export const updatePersonalData = (id, name, surname, email, phone, key) => {
                     email: email,
                     phone: phone
                 })
-                .then((snapshot) => {
-                    console.log('Twoje dane zostały uaktualnione !');
-                    console.log(snapshot);
+                .then(() => {
                 });
 
             AsyncStorage.getItem('authData').then(() => {
@@ -78,20 +79,14 @@ export const updateUserEmail = (email, password, newEmail) => {
         const id = parseAuthData.user;
         const key = parseAuthData.key;
 
-        console.log(id);
-        console.log(key);
-
         if (email === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz adres email.', status: false, code: 'email'})
-            console.log('Wpisz adres email.');
             dispatch({type:LOADER, loader: false});
         } else if (password === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz adres hasło.', status: false, code: 'email'})
-            console.log('Wpisz adres hasło.');
             dispatch({type:LOADER, loader: false});
         }  else if (email === newEmail) {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Nie zmieniłeś emaila', status: false, code: 'email'})
-            console.log('Nie zmieniłeś emaila');
             dispatch({type:LOADER, loader: false});
         } else {
 
@@ -105,13 +100,10 @@ export const updateUserEmail = (email, password, newEmail) => {
                                 .update({
                                     email: newEmail,
                                 })
-                                .then((snapshot) => {
-                                    console.log('Twoje dane email zostały uaktualnione !');
-                                    console.log(snapshot);
+                                .then(() => {
                                 });
 
                             dispatch({type: UPDATE_EMAIL, newEmail: newEmail, message: 'Adres email został zmieniony', status: true, code: 'email'});
-                            console.log('email chanched');
                             AsyncStorage.getItem('authData').then(() => {
                                 AsyncStorage.setItem('authData', JSON.stringify({
                                     token: parseAuthData.token,
@@ -130,13 +122,11 @@ export const updateUserEmail = (email, password, newEmail) => {
                     ).catch(error => {
                         if (error.code === 'auth/email-already-in-use') {
                             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podany adres jest już zajęty.', status: false, code: 'email'})
-                            console.log('That email address is already in use!');
                             dispatch({type:LOADER, loader: false});
                         }
 
                         if (error.code === 'auth/invalid-email') {
                             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wprowadź poprawny adres email.', status: false, code: 'email'})
-                            console.log('That email address is invalid!');
                             dispatch({type:LOADER, loader: false});
                         }
                     });
@@ -144,7 +134,6 @@ export const updateUserEmail = (email, password, newEmail) => {
                 .catch(error => {
                     if (error.code === 'auth/wrong-password') {
                         dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podane hasło jest błędne.', status: false, code: 'email'})
-                        console.log('That password is invalid!');
                         dispatch({type:LOADER, loader: false});
                     }
                 });
@@ -155,33 +144,23 @@ export const updateUserEmail = (email, password, newEmail) => {
 
 export const updateUserPassword = (password, newPassword, confirmPassword, userEmail) => {
 
-    console.log(password);
-    console.log(newPassword);
-    console.log(confirmPassword);
-    console.log(userEmail);
-
     return async (dispatch) => {
         dispatch({type:LOADER, loader: true});
 
         if (password === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz hasło.', status: false, code: 'password'})
-            console.log('Wpisz hasło.');
             dispatch({type:LOADER, loader: false});
         } else if (newPassword === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz nowe hasło.', status: false, code: 'password'})
-            console.log('Wpisz adres hasło.');
             dispatch({type:LOADER, loader: false});
         }  else if (confirmPassword === '') {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Potwierdź nowe hasło.', status: false, code: 'password'})
-            console.log('Potwierdź nowe hasło.');
             dispatch({type:LOADER, loader: false});
         } else if (password === newPassword) {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Nowe hasło nie może być takie samo jak stare.', status: false, code: 'password'})
-            console.log('Nowe hasło nie może być takie samo jak stare.');
             dispatch({type:LOADER, loader: false});
         } else if (confirmPassword !== newPassword) {
             dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podane nowe hasło jest inne od potwierdzonego.', status: false, code: 'password'})
-            console.log('Podane nowe hasło jest inne od potwierdzonego.');
             dispatch({type:LOADER, loader: false});
         } else {
 
@@ -191,7 +170,6 @@ export const updateUserPassword = (password, newPassword, confirmPassword, userE
                     userCredential.user.updatePassword(newPassword).then(
                         () => {
                             dispatch({type: UPDATE_PASSWORD, message: 'Hsło zostało zmienione', status: true, code: 'password'});
-                            console.log('password chanched');
                             dispatch({type:LOADER, loader: false});
                         }
                     ).catch(error => {
@@ -201,13 +179,152 @@ export const updateUserPassword = (password, newPassword, confirmPassword, userE
                 .catch(error => {
                     if (error.code === 'auth/wrong-password') {
                         dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Podane hasło jest błędne.', status: false, code: 'password'})
-                        console.log('That password is invalid!');
                         dispatch({type:LOADER, loader: false});
                     }
                 });
 
         }
     }
+}
+
+export const addAddress = (city, street, house, apartment, postcode) => {
+
+    return async (dispatch) => {
+        dispatch({type:LOADER, loader: true});
+        const authData = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(authData);
+        const id = parseAuthData.user;
+        const key = parseAuthData.key;
+
+        if (city === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz miasto.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (street === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz ulicę.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (house === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz numer domu.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (postcode === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz kod pocztowy.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else {
+
+            database()
+                .ref('/users/' + id + '/' + key + '/addresses/').push()
+                .set({
+                    city: city,
+                    street: street,
+                    houseNumber: house,
+                    apartmentNumber: apartment,
+                    postcode: postcode
+                })
+                .then(() => {
+                    dispatch({type: ADD_ADDRESS, message: 'Address został dodany', status: true, code: 'address'});
+                    dispatch({type: LOADER, loader: false});
+                });
+        }
+
+
+    }
+}
+
+
+export const updateAddress = (addressId, city, street, house, apartment, postcode) => {
+
+    return async (dispatch) => {
+        dispatch({type:LOADER, loader: true});
+        const authData = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(authData);
+        const id = parseAuthData.user;
+        const key = parseAuthData.key;
+
+        if (city === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz miasto.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (street === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz ulicę.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (house === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz numer domu.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else if (postcode === '') {
+            dispatch({type: WARRINING_RESPONSE_MESSAGE, message: 'Wpisz kod pocztowy.', status: false, code: 'address'})
+            dispatch({type:LOADER, loader: false});
+        } else {
+            database()
+                .ref('/users/' + id + '/' + key + '/addresses/' + addressId)
+                .update({
+                    city: city,
+                    street: street,
+                    houseNumber: house,
+                    apartmentNumber: apartment,
+                    postcode: postcode
+                })
+                .then(() => {
+                    dispatch({
+                        type: UPDATE_ADDRESS,
+                        message: 'Address został zmieniony',
+                        status: true,
+                        code: 'address'
+                    });
+                    dispatch({type: LOADER, loader: false});
+                });
+
+        }
+
+    }
+}
+
+export const _getUserAddresses = () => {
+
+    return async (dispatch) => {
+        const authData = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(authData);
+        const id = parseAuthData.user;
+        const key = parseAuthData.key;
+
+        database()
+            .ref('/users/' + id + '/' + key + '/addresses/')
+            .on('value', snapshot => {
+                const data = snapshot.val();
+                const ids = Object.keys(data);
+                let arr = [];
+
+                ids.forEach((key) => {
+                        const values = Object.values(data[key]);
+                        arr.push({'id': key, 'city': values[3], 'street': values[2], 'houseNumber': values[1], 'apartmentNumber': values[0], 'postcode': values[4] })
+                    });
+
+                dispatch({type: GET_ADDRESSES, addresses: arr});
+            })
+    }
+}
+
+export const deleteAddress = (addressId) => {
+
+    return async (dispatch, getState) => {
+        const authData = await AsyncStorage.getItem('authData');
+        const parseAuthData = JSON.parse(authData);
+        const id = parseAuthData.user;
+        const key = parseAuthData.key;
+
+        const currentAddresses = getState().user.addresses;
+
+        const updatedAddresses = currentAddresses.filter(
+            (address) => address.id !== addressId
+        );
+
+        await database()
+            .ref('/users/' + id + '/' + key + '/addresses/' + addressId)
+            .remove()
+            .then(() => {
+                console.log('Twój adres o id ' + addressId + ' został usuniety');
+                dispatch({type: DELETE_ADDRESS, addresses: updatedAddresses});
+            });
+
+  }
+
 }
 
 export const clearResponseMessage = () => {

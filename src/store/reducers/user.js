@@ -5,6 +5,7 @@ import {
     UPDATE_EMAIL,
     LOADER,
     UPDATE_PASSWORD,
+    GET_ADDRESSES, ADD_ADDRESS, UPDATE_ADDRESS, DELETE_ADDRESS,
 } from '../actions/user';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
         status: '',
         code: ''
     },
+    addresses: [],
     loader: null
 }
 
@@ -72,6 +74,44 @@ export default (state = initialState, action) => {
                     status: action.status,
                     code: action.code
                 }
+            }
+
+        case ADD_ADDRESS:
+
+            return {
+                ...state,
+                responseMessage: {
+                    message: action.message,
+                    status: action.status,
+                    code: action.code
+                }
+            }
+
+        case UPDATE_ADDRESS:
+
+            return {
+                ...state,
+                responseMessage: {
+                    message: action.message,
+                    status: action.status,
+                    code: action.code
+                }
+            }
+
+        case DELETE_ADDRESS:
+
+            return {
+                ...state,
+                addresses: action.addresses
+            }
+
+        case GET_ADDRESSES:
+
+            const addresses = action.addresses;
+
+            return {
+                ...state,
+                addresses: addresses
             }
 
         case LOADER:
