@@ -6,9 +6,10 @@ const NotificationsPermission = () => {
 
 
     return (
-        <View>
-                <Text>Powiadomienia</Text>
-
+        <View style={styles.container}>
+            <View style={styles.noOrdersTextContainer}>
+                <Text style={styles.noNotificationText}>powiadomienia</Text>
+            </View>
         </View>
     );
 }
@@ -16,7 +17,20 @@ const NotificationsPermission = () => {
 export default NotificationsPermission;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 
+    noOrdersTextContainer: {
+        textAlign: 'center'
+    },
+
+    noNotificationText: {
+
+    }
 });
 
 

@@ -288,15 +288,26 @@ export const _getUserAddresses = () => {
             .ref('/users/' + id + '/' + key + '/addresses/')
             .on('value', snapshot => {
                 const data = snapshot.val();
-                const ids = Object.keys(data);
-                let arr = [];
 
-                ids.forEach((key) => {
+                if (data !== null) {
+
+                    const ids = Object.keys(data);
+                    let arr = [];
+
+                    ids.forEach((key) => {
                         const values = Object.values(data[key]);
-                        arr.push({'id': key, 'city': values[3], 'street': values[2], 'houseNumber': values[1], 'apartmentNumber': values[0], 'postcode': values[4] })
+                        arr.push({
+                            'id': key,
+                            'city': values[3],
+                            'street': values[2],
+                            'houseNumber': values[1],
+                            'apartmentNumber': values[0],
+                            'postcode': values[4]
+                        })
                     });
 
-                dispatch({type: GET_ADDRESSES, addresses: arr});
+                    dispatch({type: GET_ADDRESSES, addresses: arr});
+                }
             })
     }
 }

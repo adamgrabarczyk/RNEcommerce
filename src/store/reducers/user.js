@@ -16,6 +16,7 @@ const initialState = {
         code: ''
     },
     addresses: [],
+    notifications: [],
     loader: null
 }
 

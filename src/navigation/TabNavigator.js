@@ -23,6 +23,7 @@ import EmailPassword from '../screens/Profile/EmailPassword';
 import ChangePassword from '../screens/Profile/ChangePassword';
 import ChangeEmail from '../screens/Profile/ChangeEmail';
 import AddOrChangeAddress from '../screens/Profile/AddOrChangeAddress';
+import user from '../store/reducers/user';
 
 
 const HomeStack = createStackNavigator();
@@ -46,6 +47,8 @@ export function HomeStackScreen({navigation}) {
         return transformedCartItems.sort((a, b) =>
             a.productId > b.productId ? 1 : -1 );
     });
+
+    const notifications = useSelector(state => state.user.notifications);
 
     return (
         <HomeStack.Navigator>
@@ -77,13 +80,13 @@ export function HomeStackScreen({navigation}) {
                     headerRight: () => (
                         <HeaderButtons HeaderButtonComponent={HeaderButton}>
                         <Item
-                            title='cart'
-                            iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-                            onPress={() => {navigation.navigate('Cart')} }
+                            title='notifications'
+                            iconName={'notifications-sharp'}
+                            onPress={() => {navigation.navigate('NotificationsPermission')} }
                             />
-                            { cartItems.length > 0 ?
+                            { notifications.length > 0 ?
                                 <View style={styles.cartValueContainer}>
-                                    <Text style={styles.value}>{cartItems.length}</Text>
+                                    <Text style={styles.value}>{notifications.length}</Text>
                                 </View>
                                 :
                                 <View>
@@ -106,6 +109,14 @@ export function HomeStackScreen({navigation}) {
             <HomeStack.Screen name="CartScreen" component={Cart}  options={{
                 headerTitle: 'Koszyk'
             }} />
+
+            <HomeStack.Screen
+                name="NotificationsPermission"
+                component={NotificationsPermission}
+                options={{
+                    headerTitle: ''
+                }}
+            />
         </HomeStack.Navigator>
     );
 }

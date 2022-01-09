@@ -1,9 +1,8 @@
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Keyboard} from 'react-native';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import * as authActions from '../../store/actions/auth';
 import UserProfile from '../../components/user/UserProfile';
 import {useDispatch, useSelector} from 'react-redux';
-import Colors from '../../constans/Colors';
 import SettingsButton from '../../components/user/SettingsButton';
 import PersonalData from './PersonalData';
 import ActionButton from '../../components/UI/ActionButton';
