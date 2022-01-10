@@ -1,44 +1,46 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
-    View,
-    Text, StyleSheet,Button
+    StyleSheet,
+    View,ScrollView
 } from 'react-native';
 
+import * as productActioncs from '../store/actions/products';
+import {useDispatch} from 'react-redux';
+import * as userActions from '../store/actions/user';
+import HomeHeader from '../components/Home/HomeHeader';
 
-import ProductOverviewScreen from './shop/ProductOverviewScreen';
 
+const Home = ({navigation}) => {
+    const dispatch = useDispatch();
 
-
-
-const Home = (props, { navigation }) => {
-
+    useEffect(() => {
+        dispatch(productActioncs.fetchFavs());
+        dispatch(userActions._getUserAddresses());
+    }, [dispatch]);
     return(
-        <View style={{  justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={styles.text}>Home!</Text>
-            <Text>Home!</Text>
-            <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate('Details')}
-            />
-
-            <Button
-                title="ProductDetails"
-                onPress={() => navigation.navigate('ProductDetails')}
-            />
-
-            <ProductOverviewScreen {...props}/>
-        </View>
+        <ScrollView style={styles.container}>
+            {/*<ProductOverviewScreen {...props}/>*/}
+            <View style={styles.headerContainer}>
+                <HomeHeader
+                navigation={() => navigation.jumpTo('Search')}
+                />
+            </View>
+        </ScrollView>
     )
 }
 
-const styles = StyleSheet.create({
 
-    text: {
-        fontFamily: 'OpenSans-SemiBoldItalic'
-    }
-})
 
 
 export default Home;
 
 
+const styles = StyleSheet.create({
+
+    container: {
+       flex: 1
+    },
+    headerContainer: {
+
+    }
+});

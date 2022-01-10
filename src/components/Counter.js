@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
 import {connect} from 'react-redux';
 
 
@@ -12,13 +12,18 @@ class Counter extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flexDirection: 'row', width: 200, justifyContent: 'space-around'}}>
-                    <TouchableOpacity onPress={() => this.props.increaseCounter()}>
-                        <Text>Increase</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                    <TouchableOpacity
+                        style={{margin: 5}}
+                        onPress={() => this.props.increaseCounter()}>
+                        <Text>+</Text>
                     </TouchableOpacity>
-                    <Text>{this.props.counter.counter}</Text>
-                    <TouchableOpacity onPress={() => this.props.decreaseCounter()}>
-                        <Text>Decrease</Text>
+                    <Text style={{margin: 5}}>{this.props.counter.counter}</Text>
+                    <TextInput/>
+                    <TouchableOpacity
+                        style={{margin: 5}}
+                        onPress={() => this.props.decreaseCounter()}>
+                        <Text>-</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity>
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
         // flex: ,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        // backgroundColor: '#F5FCFF',
     },
     welcome: {
         fontSize: 20,

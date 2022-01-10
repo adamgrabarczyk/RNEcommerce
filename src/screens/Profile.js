@@ -1,19 +1,18 @@
 import React from 'react';
-import {
-    View,
-    Text, StyleSheet,
-
-} from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import OrderScreen from './Profile/OrderScreen';
+import SettingsScreen from './Profile/Settings';
 
 
-
+const Tab = createMaterialTopTabNavigator();
 
 const Profile = () => {
 
     return(
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile!</Text>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen name="Zamówienia" component={OrderScreen} />
+            <Tab.Screen name="Ustawienia" component={SettingsScreen} />
+        </Tab.Navigator>
     )
 }
 
