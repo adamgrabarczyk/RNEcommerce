@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import {
-    View
+    StyleSheet,
+    View,ScrollView
 } from 'react-native';
 
-import ProductOverviewScreen from './shop/ProductOverviewScreen';
 import * as productActioncs from '../store/actions/products';
 import {useDispatch} from 'react-redux';
 import * as userActions from '../store/actions/user';
+import HomeHeader from '../components/Home/HomeHeader';
 
 
-const Home = (props) => {
+const Home = ({navigation}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,9 +18,14 @@ const Home = (props) => {
         dispatch(userActions._getUserAddresses());
     }, [dispatch]);
     return(
-        <View style={{  justifyContent: 'center', alignItems: 'center' }}>
-            <ProductOverviewScreen {...props}/>
-        </View>
+        <ScrollView style={styles.container}>
+            {/*<ProductOverviewScreen {...props}/>*/}
+            <View style={styles.headerContainer}>
+                <HomeHeader
+                navigation={() => navigation.jumpTo('Search')}
+                />
+            </View>
+        </ScrollView>
     )
 }
 
@@ -29,3 +35,12 @@ const Home = (props) => {
 export default Home;
 
 
+const styles = StyleSheet.create({
+
+    container: {
+       flex: 1
+    },
+    headerContainer: {
+
+    }
+});
