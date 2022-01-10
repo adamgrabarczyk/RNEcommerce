@@ -10,7 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HomeHeader = (props) => {
     const userName = useSelector(state => state.auth.userName);
-    // const navigation = useNavigation();
 
     return(
         <View style={styles.header}>
@@ -65,13 +64,12 @@ const styles = StyleSheet.create({
     userNameContainer: {
         width: '100%',
         alignItems: 'flex-start',
-        margin: 20
     },
 
     userNameText: {
         fontSize: 20,
         margin: 30,
-        color: 'grey'
+        color: '#5c5c5c'
     },
 
     container: {

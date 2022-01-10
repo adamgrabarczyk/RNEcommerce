@@ -188,8 +188,8 @@ const Search = (props) => {
                     >
                         <TouchableOpacity onPress={ () => {
                             selectItemHandler(product.id, product.name);
-                        }}><Text style={styles.actionsButton}>View Details</Text></TouchableOpacity>
-                        { userFavProducts.find(prod => prod.id === product.id) ?
+                        }}><Text style={styles.actionsButton}>Zobacz</Text></TouchableOpacity>
+                        { userFavProducts.find(prod => prod.id.toString() === product.id.toString()) ?
                             <TouchableOpacity onPress={() => {
                                 dispatch(productActions.deleteFromFav(product.id.toString()));
                             }}>
@@ -213,7 +213,7 @@ const Search = (props) => {
                         }
                         <TouchableOpacity onPress={() => {
                             dispatch(cartActions.addToCart(product, 1));
-                        }}><Text style={styles.actionsButton} >To cart</Text></TouchableOpacity>
+                        }}><Text style={styles.actionsButton} >Do koszyka</Text></TouchableOpacity>
                     </ProductItem>
                 )
             )
