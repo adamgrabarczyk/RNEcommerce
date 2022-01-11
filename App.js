@@ -42,6 +42,7 @@ const App: () => React$Node = () => {
             } else {
                 dispatch(authActions.correctData())
             }
+            await  dispatch(productActioncs.fetchProducts());
             await  dispatch(productActioncs.fetchFavs());
             await  dispatch(orderActioncs.fetchOrders());
             setIsLoading(false);
