@@ -44,6 +44,7 @@ const Home = ({navigation}, props) => {
             <View style={styles.headerContainer}>
                 <HomeHeader
                 navigation={() => navigation.jumpTo('Search')}
+                navigateCategory={() => navigation.navigate('ChooseCategory')}
                 />
             </View>
             <View style={styles.bestDeals}>
@@ -124,7 +125,6 @@ const Home = ({navigation}, props) => {
                     }
                 />
             </View>
-
         </ScrollView>
     )
 }

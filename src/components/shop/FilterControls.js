@@ -9,7 +9,7 @@ import ResetFiltersButton from './ResetFiltersButton';
 import PriceSlider from './PriceSlider';
 import AvailableProductsSwitch from './AvailableProductsSwitch';
 
-const categoryFilters = [
+export const categoryFilters = [
     {
         name: 'category_electronic',
         label: 'Elektronika',

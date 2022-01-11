@@ -24,6 +24,8 @@ import ChangePassword from '../screens/Profile/ChangePassword';
 import ChangeEmail from '../screens/Profile/ChangeEmail';
 import AddOrChangeAddress from '../screens/Profile/AddOrChangeAddress';
 import user from '../store/reducers/user';
+import ChooseCategoryScreen from '../screens/Home/ChooseCategoryScreen';
+import CategoryScreen from '../screens/Home/CategoryScreen';
 
 
 const HomeStack = createStackNavigator();
@@ -105,6 +107,16 @@ export function HomeStackScreen({navigation}) {
                               component={ProductDetails}
                               options={({ route }) => ({ title: route.params.productTitle })}
 
+            />
+            <HomeStack.Screen name="ChooseCategory"
+                              component={ChooseCategoryScreen}
+                              options={{
+                                  headerTitle: 'Wybierz kategorię'
+                              }}
+            />
+            <HomeStack.Screen name="Category"
+                              component={CategoryScreen}
+                              options={({ route }) => ({ title: route.params.categoryName})}
             />
             <HomeStack.Screen name="CartScreen" component={Cart}  options={{
                 headerTitle: 'Koszyk'

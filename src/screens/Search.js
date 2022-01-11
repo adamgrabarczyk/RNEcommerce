@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
 import * as cartActions from '../store/actions/cart';
 import FilterControls from '../components/shop/FilterControls';
-
+import * as productActioncs from '../store/actions/products';
 
 const filters = {
     phrase: (product, searchPhrase) => [
@@ -86,6 +86,7 @@ const Search = (props) => {
 
     useEffect(() => {
         setLoading(true);
+        dispatch(productActioncs.fetchFavs());
         availableProducts().then(
             () => {
                 setLoading(false);

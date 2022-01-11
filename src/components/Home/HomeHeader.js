@@ -35,6 +35,7 @@ const HomeHeader = (props) => {
             </Pressable>
 
             <Pressable
+                onPress={props.navigateCategory}
                 style={styles.container}
             >
                 <View style={styles.categoryButton}>
