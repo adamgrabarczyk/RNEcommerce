@@ -31,7 +31,7 @@ export const categoryFilters = [
         subcategory: [
             {
                 name: 'subcategory_clothing',
-                label: 'Odzież'
+                label: 'Odziez sportowa'
             },
 
             {
@@ -106,12 +106,12 @@ export const categoryFilters = [
         subcategory: [
             {
                 name: 'subcategory_remote_toys',
-                label: 'Sterowane zdalnie'
+                label: 'Zabawki sterowane zdalnie'
             },
 
             {
                 name: 'subcategory_plush_toys',
-                label: 'Pluszowe'
+                label: 'Pluszaki'
             }
         ]
     }
@@ -119,10 +119,11 @@ export const categoryFilters = [
 
 ];
 
-const markFilters = [
+export const markFilters = [
     {
         name: 'mark_sony',
         label: 'Sony',
+        logo: 'http://assets.stickpng.com/thumbs/5848242ecef1014c0b5e49c8.png',
         subcategory: [
             {
                 name: null,
@@ -133,6 +134,7 @@ const markFilters = [
     {
         name: 'mark_brembo',
         label: 'Brembo',
+        logo: 'https://logoeps.com/wp-content/uploads/2012/05/brembo-logo-vector-01.png',
         subcategory: [
             {
                 name: null,
@@ -143,6 +145,7 @@ const markFilters = [
     {
         name: 'mark_haier',
         label: 'Haier',
+        logo: 'https://freepngimg.com/thumb/logo/110054-logo-haier-free-download-png-hq-thumb.png',
         subcategory: [
             {
                 name: null,
@@ -153,6 +156,7 @@ const markFilters = [
     {
         name: 'mark_kipsta',
         label: 'Kipsta',
+        logo: 'https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/072013/untitled-1_87.png?itok=EAtfoGDs',
         subcategory: [
             {
                 name: null,
@@ -163,6 +167,7 @@ const markFilters = [
     {
         name: 'mark_samsung',
         label: 'Samsung',
+        logo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAaVBMVEX///8dHRs5OTisrKtycnFWVlTGxsbj4+KPj4709PQoKCYhIR9SUlGEhINnZ2ZkZGPU1NTq6uoyMjC2trahoaDNzc2ampnf39+8vLt5eXhISEZdXVtvb21AQD/4+PilpaRLS0kvLy2Li4pAvJU7AAAEqElEQVR4nO2YW3uqOhCGOSlyUhBRqBV3+/9/5MZkMpNECrarN2s933vRSghJvpnJZCAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/yxpXCVJUsXpbw2YtbtpwGTXZ78wVjxsblG5P1/Wem7L0HCwO98jppfWSlrH6XLPz0YydVWYxrxiKa1+6DT9LNWv0tzZ6L6FtqO+iM3Ncy6rWzb0LrTIa7kxSPNZWhNpfah+exaS3ewRS6Mk1te76WfkPkBCwmpGSGWPdVxSsg0dbnJHHBXuZ4W00yXbXtZlGUCW94qQPHsS4q0uWRCSuF1DcYn4NHyT/hJLDz9drCdnnrNNsy4kfIQd3Yyd2XJycjF+LUTbPbpkZMituZFai7EG2EjrMAX+sxB67j27/Oe0vyDk9iTkQ9sxCz51j4UNHxlbpJ6QXs+m7St+soRMu/X8pZBpyvt3hYS9L0Q3JxxjvLqvhLw/C9FrHPQsrSdEBeQHBeZ1TkjPS/+GkM0fCynuQbZTcGLQ4XnWEVdxfz2rNnYTqOihvNc4Qo51UOsRXSHDkpCH58tZIU2saL4WYnLTpvZu6MTaasccPCFbFXGd3titDj8yQUMDFpU7a8yLWhAymCtfyDqSqA+d3T7qxFq37qSkb6tccdeLTiNbCC1TSbHz/poQ1Vg0PxZSy0ngeKXWTQ395wNaL2KrIq5SCSEPXCHWCVvIwb4qREfrbl5It9UshJaTeIodN2tP5EGm77BEEnJSPlR/S2ozqXG0TtLwg928JqRWvj6O+zkhxstcucxxt3wixYhO3G/mfLt7QrrH35vyy2DaTJfs3RqQi541IVvdIU5+LCRIE5FSGOcd1OW0yfWxxmmLFq0cVSiRJ1/IlCylBFMp9SUh41GZ7g+ETBviwPOeqOlm1q9dffWEBFIZds9CpsiU++mLQijIZ88RSp6rQoKgM4FN9WHGsnRa+zAdQ5pVpGdzQoIxPtL99lUhmVWl+VkrXRPCbwkjnc8UCZSsei40TMgZIZybbmZhtGB6YUmD5uhMviakd2r2bwuRwiF1hFD7xdRcbG9zxeXiwasqqJxOOR++KGTqlspe/amQTz6RSQgZZ+RK3ewdI4QL+N28kMkEpzkhU+iOOoT41UdODkl3jpA9R4jUfD5k2Kg2OZP2yJWNNur2wRHSyWtHOy9k31xuzuSdviralIzE+UOE1L4QUwmaLfx10Wi/ddiW1/FdymD0hk2yUinSLqYHHTUnf0TKWuPRa+cjyzrLuewiIe/eMwsn+97tedQ1BSWtRAbPHeEpv9HmLJWqgsx7Q+TXZE9hxNXLRizYe0LsAiq0nDhD43wqyKmioPJfrW2wDStCKJuVvpCgdyYvpdpyPyTIy97GetycpGZXx/Zg0eJnlMbyCX9wsfcpJdreE0LxPPDsXKd1cq7nO/stO2ajFYMVJLaQ2BMS1FcjJa+WSka1uNN+E0Wb5P5rH+i6z0MZvV2r1v9Y0J2H62Zftd/5cNc8vvYN5+3ChwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBfzv/c2yzyOqD6GAAAAABJRU5ErkJggg==',
         subcategory: [
             {
                 name: null,
@@ -500,11 +505,11 @@ const FilterControls = (props) => {
                                                 style={styles.removeActiveFilterButton}
                                                 onPress={
                                                     () => {
-                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        const isActive = props.activeFilterNames.includes(filter.name);
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                         filter.label === categoryFilter ? setCategoryFilter('Wszystkie kategorie') : console.log(filter.label);
                                                         filter.label === markFilter ? setMarkFilter('Wszystkie marki') : console.log(filter.label);
-                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory[0 || 1].name === phrase.activeSubCategory[0].name ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('blah');
+                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory.some(sub => sub.name === phrase.activeSubCategory[0].name) ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log(isActive);
                                                     }
                                                 }
                                             >
@@ -520,7 +525,7 @@ const FilterControls = (props) => {
                                 )
                             }
 
-                            {
+                             {
                                 subCat.length > 0 ?
                                 <View
                                     style={styles.activeFilterBox}

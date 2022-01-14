@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     StyleSheet,
-    View, Text, TouchableOpacity, Image
+    View, Text, Image, Pressable
 } from 'react-native';
 import Colors from '../../constans/Colors';
 
@@ -10,7 +10,7 @@ const Suggestions = (props) => {
 
     return(
 
-        <View style={styles.suggestionsContainer}>
+        <Pressable onPress={props.details} style={styles.suggestionsContainer}>
             <View style={styles.suggestionsImageContainer}>
                 <Image source={props.imageUri}
                        style={styles.suggestionsImage}
@@ -18,16 +18,11 @@ const Suggestions = (props) => {
             </View>
 
             <View style={styles.suggestionProductDetails}>
-                <Text style={styles.suggestionProductName}>{props.imageName}</Text>
-                <TouchableOpacity
-                    style={styles.suggestionProductButton}
-                    onPress={props.details}
-                >
-                    <Text style={styles.suggestionProductButtonText}>szczegóły</Text>
-                </TouchableOpacity>
+                <Text style={styles.suggestionProductName}>{props.imageName.length <= 20 ? props.imageName : props.imageName.slice(0, 20) + '...'}</Text>
+                <Text style={styles.suggestionProductPrice}>{props.price} PLN</Text>
             </View>
 
-        </View>
+        </Pressable>
     )
 }
 
@@ -68,18 +63,12 @@ const styles = StyleSheet.create({
     },
 
     suggestionProductName: {
-
+        color: 'black'
     },
 
-    suggestionProductButton: {
-
-    },
-
-    suggestionProductButtonText: {
-        color: Colors.primary,
-        fontSize: 12,
-        fontWeight: '700',
-        marginTop: 10
+    suggestionProductPrice: {
+        marginTop: 5,
+        color: Colors.accent
     }
 
 

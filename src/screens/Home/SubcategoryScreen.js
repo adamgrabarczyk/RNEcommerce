@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
     StyleSheet,
-    View, Text, TouchableOpacity, FlatList, ActivityIndicator,
+    View, Text, TouchableOpacity, FlatList,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../../constans/Colors';
@@ -10,10 +10,11 @@ import ProductItem from '../../components/shop/ProductItem';
 import * as productActions from '../../store/actions/products';
 import * as cartActions from '../../store/actions/cart';
 import Spinner from '../../components/UI/Spinner';
+import {categoryFilters} from '../../components/shop/FilterControls';
 
 
-const CategoryScreen = (props) => {
-    const { categoryName } = props.route.params;
+const SubcategoryScreen = (props) => {
+    const { subcategoryName } = props.route.params;
     const products = useSelector(state => state.products.availableProducts);
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
     const dispatch = useDispatch();
@@ -21,8 +22,12 @@ const CategoryScreen = (props) => {
     const [refresh, setRefresh] = useState(false);
     const [error, setError] = useState();
 
-    const categoryProducts= products.filter(
-        product => product.category_desc === categoryName
+    const subcategories = categoryFilters.map(
+        category => category.subcategory
+    ).flat();
+
+    const subcategoryProducts = products.filter(
+        product => product.subcategory[0].subcategory_title === subcategoryName
     );
 
 
@@ -90,11 +95,11 @@ const CategoryScreen = (props) => {
 
         <View style={styles.container}>
             {
-                categoryProducts.length > 0 ?
+                subcategoryProducts.length > 0 ?
                     <FlatList
                         onRefresh={availableProducts}
                         refreshing={refresh}
-                        data={categoryProducts}
+                        data={subcategoryProducts}
                         keyExtractor={item => item.id.toString()}
                         renderItem={itemData => (
                             <ProductItem
@@ -138,7 +143,7 @@ const CategoryScreen = (props) => {
                     />
                     :
                     <View style={styles.notFind}>
-                        <Text style={styles.notFindText}>Nie znaleziono produktów w tej kategorii.</Text>
+                        <Text onPress={() => console.log(subcategoryProducts)} style={styles.notFindText}>Nie znaleziono produktów w tej kategorii.</Text>
                     </View>
             }
         </View>
@@ -148,7 +153,7 @@ const CategoryScreen = (props) => {
 
 
 
-export default CategoryScreen;
+export default SubcategoryScreen;
 
 
 const styles = StyleSheet.create({

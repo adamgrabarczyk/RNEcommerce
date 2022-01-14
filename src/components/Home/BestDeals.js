@@ -8,7 +8,7 @@ import Colors from '../../constans/Colors';
 const BestDeals = (props) => {
 
     return(
-        <View style={styles.BestDealsContainer}>
+        <View style={[styles.BestDealsContainer, props.container]}>
             <View style={styles.BestDealsHeader}>
                 <Text style={styles.BestDealsHeaderText}>{props.headerTitle}</Text>
             </View>
