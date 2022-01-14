@@ -26,6 +26,8 @@ import AddOrChangeAddress from '../screens/Profile/AddOrChangeAddress';
 import user from '../store/reducers/user';
 import ChooseCategoryScreen from '../screens/Home/ChooseCategoryScreen';
 import CategoryScreen from '../screens/Home/CategoryScreen';
+import SubcategoryScreen from '../screens/Home/SubcategoryScreen';
+import SelectedMarkScreen from '../screens/Home/SelectedMarkScreen';
 
 
 const HomeStack = createStackNavigator();
@@ -118,6 +120,17 @@ export function HomeStackScreen({navigation}) {
                               component={CategoryScreen}
                               options={({ route }) => ({ title: route.params.categoryName})}
             />
+
+            <HomeStack.Screen name="Subcategory"
+                              component={SubcategoryScreen}
+                              options={({ route }) => ({ title: route.params.categoryName})}
+            />
+
+            <HomeStack.Screen name="Mark"
+                              component={SelectedMarkScreen}
+                              options={({ route }) => ({ title: route.params.categoryName})}
+            />
+
             <HomeStack.Screen name="CartScreen" component={Cart}  options={{
                 headerTitle: 'Koszyk'
             }} />

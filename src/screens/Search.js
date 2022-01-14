@@ -36,7 +36,7 @@ const filters = {
 
     subcategory_tv: product => product.subcategory[0].subcategory_title === 'Telewizory',
     subcategory_fridge: product => product.subcategory[0].subcategory_title === 'Lodowki',
-    subcategory_clothing: product => product.subcategory[0].subcategory_title === 'Odzież',
+    subcategory_clothing: product => product.subcategory[0].subcategory_title === 'Odziez sportowa',
     subcategory_sport_equipment: product => product.subcategory[0].subcategory_title === 'Sprzęt sportowy',
     subcategory_car_lamp: product => product.subcategory[0].subcategory_title === 'Lampy',
     subcategory_brakes: product => product.subcategory[0].subcategory_title === 'Hamulce',
