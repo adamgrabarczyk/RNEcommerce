@@ -505,11 +505,11 @@ const FilterControls = (props) => {
                                                 style={styles.removeActiveFilterButton}
                                                 onPress={
                                                     () => {
-                                                        const isActive = props.activeFilterNames.includes(filter.name)
+                                                        const isActive = props.activeFilterNames.includes(filter.name);
                                                         dispatch(searchActions.categoryFilter(filter.name, !isActive));
                                                         filter.label === categoryFilter ? setCategoryFilter('Wszystkie kategorie') : console.log(filter.label);
                                                         filter.label === markFilter ? setMarkFilter('Wszystkie marki') : console.log(filter.label);
-                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory[0 || 1].name === phrase.activeSubCategory[0].name ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log('blah');
+                                                        isActive && phrase.activeSubCategory.length > 0 && filter.subcategory.some(sub => sub.name === phrase.activeSubCategory[0].name) ? dispatch(searchActions.categoryFilter(phrase.activeSubCategory[0].name, !isActive)) && dispatch({ type: 'RESET_SUBCATEGORY' }) : console.log(isActive);
                                                     }
                                                 }
                                             >
@@ -525,7 +525,7 @@ const FilterControls = (props) => {
                                 )
                             }
 
-                            {
+                             {
                                 subCat.length > 0 ?
                                 <View
                                     style={styles.activeFilterBox}
