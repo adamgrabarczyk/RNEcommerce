@@ -18,7 +18,7 @@ const Suggestions = (props) => {
             </View>
 
             <View style={styles.suggestionProductDetails}>
-                <Text style={styles.suggestionProductName}>{props.imageName}</Text>
+                <Text style={styles.suggestionProductName}>{props.imageName.length <= 20 ? props.imageName : props.imageName.slice(0, 20) + '...'}</Text>
                 <Text style={styles.suggestionProductPrice}>{props.price} PLN</Text>
             </View>
 
