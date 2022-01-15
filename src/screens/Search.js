@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import { useScrollToTop } from '@react-navigation/native';
 import {
     Text, StyleSheet, TouchableOpacity, ScrollView, View,RefreshControl, ActivityIndicator
 
@@ -71,6 +72,11 @@ const Search = (props) => {
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [error, setError] = useState();
+
+    const ref = React.useRef(null);
+
+    useScrollToTop(ref);
+
 
     const availableProducts = useCallback(async () => {
         setError(null);
@@ -150,11 +156,11 @@ const Search = (props) => {
     }
 
     return (
-        <View  style={styles.searchTabContainer}>
+        <View style={styles.searchTabContainer}>
             <FilterControls
                 activeFilterNames={phrase.activeFilterNames}
             />
-        <ScrollView style={styles.container}
+        <ScrollView ref={ref} style={styles.container}
                     refreshControl={
                         <RefreshControl
                             refreshing={refresh}
