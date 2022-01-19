@@ -12,6 +12,9 @@ const OrderItem = props => {
             <Text style={styles.totalAmount}>{props.amount} PLN</Text>
             <Text style={styles.date}>{props.date}</Text>
             </View>
+            <View style={styles.summary}>
+                <Text style={styles.totalAmount}>{props.status}</Text>
+            </View>
             <TouchableOpacity>
                 <Text style={styles.detailButton} onPress={() => {
                     setShowDetails(prevState => !prevState)
@@ -28,6 +31,9 @@ const OrderItem = props => {
                     />
                 )
                 )}
+                <Text>{props.delivery}</Text>
+                <Text>{props.payment}</Text>
+                <Text>{props.address}</Text>
             </View>}
         </View>
 
