@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import OrderItem from '../../components/shop/OrderItem';
@@ -34,6 +34,13 @@ const OrderScreen = props => {
                                 amount={itemData.item.totalAmount}
                                 date={itemData.item.readableDate}
                                 items={itemData.item.items}
+                                status={itemData.item.status}
+                                delivery={itemData.item.delivery.method}
+                                payment={itemData.item.payment.method}
+                                address={
+                                    itemData.item.address.city + ' ' + itemData.item.address.street + ' ' + itemData.item.address.houseNumber + ' ' + itemData.item.address.apartmentNumber + ' ' + itemData.item.address.postcode
+
+                                }
                             />)}
                     />
         </View>

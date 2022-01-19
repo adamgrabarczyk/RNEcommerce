@@ -25,7 +25,12 @@ export const fetchOrders = () => {
                         key,
                         resData[key].cartItems,
                         resData[key].totalAmount,
-                        new Date(resData[key].date)
+                        new Date(resData[key].date),
+                        resData[key].selectedAddress,
+                        resData[key].selectedDeliveryMethod,
+                        resData[key].selectedPaymentMethod,
+                        resData[key].status
+
                     )
                 )
             }
@@ -41,7 +46,7 @@ export const fetchOrders = () => {
 }
 
 
-export const addOrder = (cartItems, totalAmount) => {
+export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod) => {
 
     return async (dispatch, getState) => {
 
@@ -58,7 +63,11 @@ export const addOrder = (cartItems, totalAmount) => {
                 body: JSON.stringify({
                     cartItems,
                     totalAmount,
-                    date: date.toISOString()
+                    date: date.toISOString(),
+                    selectedAddress,
+                    selectedDeliveryMethod,
+                    selectedPaymentMethod,
+                    status: 'W trakcie przetwarzania'
                 })
 
             });
@@ -75,7 +84,11 @@ export const addOrder = (cartItems, totalAmount) => {
                 id: resData.name,
                 items: cartItems,
                 amount: totalAmount,
-                date: date
+                date: date,
+                address: selectedAddress,
+                delivery: selectedDeliveryMethod,
+                payment: selectedPaymentMethod,
+                status: 'W trakcie przetwarzania'
             }
         })
     }

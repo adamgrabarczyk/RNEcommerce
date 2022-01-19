@@ -8,7 +8,7 @@ const ActionButton = (props) => {
     return (
         <TouchableOpacity
             onPress={props.action}
-            style={styles.button}
+            style={props.disabled === true ? styles.disabledButton : styles.button}
             disabled={props.disabled}
         >
             <Text style={styles.buttonText}>{props.actionName}</Text>
@@ -24,8 +24,18 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: Colors.primary,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
+
+    disabledButton: {
+        backgroundColor: 'grey',
+        width: '100%',
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        opacity: 0.4
+    },
+
     buttonText: {
         color: 'white',
         fontSize: 18,

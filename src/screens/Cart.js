@@ -4,9 +4,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import Colors from '../constans/Colors';
 import CartItem from '../components/shop/CartItem';
 import * as cartActions from '../store/actions/cart'
-import * as ordersActions from '../store/actions/orders'
+import CartSummary from '../components/UI/CartSummary';
 
-const Cart = props => {
+const Cart = ({ navigation },props) => {
 
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const cartItems = useSelector(state => {
@@ -96,16 +96,18 @@ const Cart = props => {
                                 minus={itemData.item.quantity <= 1 ? styles.disabledMinus : styles.plusMinus}
                             />}
                     />
-                    <View style={styles.summary}>
-                        <Text style={styles.summaryText}>Razem:
-                            <Text style={styles.amount}> {cartTotalAmount} PLN</Text>
-                        </Text>
-                        <TouchableOpacity onPress={() => {
-                            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-                        }} disabled={cartItems.length === 0}>
-                            <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>Kup teraz</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <CartSummary
+                    totalAmount={cartTotalAmount}
+                    actionsButton={<TouchableOpacity onPress={() => navigation.navigate('Modal', {
+                        screen: 'ChooseAddress',
+                        params: {
+                            cartItems,
+                            cartTotalAmount
+                        }
+                    })} disabled={cartItems.length === 0}>
+                        <Text style={(cartItems.length === 0) ? styles.orderButtonDisabled : styles.orderButton}>DO KASY</Text>
+                    </TouchableOpacity>}
+                    />
                 </View>
             </View>
                 :
@@ -131,30 +133,10 @@ const styles = StyleSheet.create({
       marginTop: 30,
     },
 
-    summary: {
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: 'space-between',
-        padding: 10,
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: {width : 0, height: 2},
-        shadowRadius: 8,
-        elevation: 5,
-        backgroundColor: 'white'
-    },
-
-    summaryText: {
-        fontFamily: "OpenSans-Regular",
-        fontSize: 18
-    },
-
-    amount: {
-        color: Colors.accent
-    },
-
     orderButton: {
-        color: Colors.primary
+        color: Colors.primary,
+        fontWeight: '500',
+        fontSize: 18
     },
 
     orderButtonDisabled: {
