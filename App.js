@@ -10,6 +10,7 @@ import Colors from './src/constans/Colors';
 import AuthStackScreen from './src/navigation/AuthNaviagator';
 import * as orderActioncs from './src/store/actions/orders';
 import * as productActioncs from './src/store/actions/products';
+import * as userActions from './src/store/actions/user';
 
 const App: () => React$Node = () => {
 
@@ -42,9 +43,11 @@ const App: () => React$Node = () => {
             } else {
                 dispatch(authActions.correctData())
             }
+            await  dispatch(userActions._getUserAddresses());
             await  dispatch(productActioncs.fetchProducts());
             await  dispatch(productActioncs.fetchFavs());
             await  dispatch(orderActioncs.fetchOrders());
+
             setIsLoading(false);
         };
         checkToken();

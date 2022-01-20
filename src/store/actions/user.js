@@ -278,14 +278,13 @@ export const updateAddress = (addressId, city, street, house, apartment, postcod
 
 export const _getUserAddresses = () => {
 
-    return async (dispatch) => {
-        const authData = await AsyncStorage.getItem('authData');
-        const parseAuthData = JSON.parse(authData);
-        const id = parseAuthData.user;
-        const key = parseAuthData.key;
+    return async (dispatch, getState) => {
+
+        const userId = getState().auth.user;
+        const userKey = getState().auth.key;
 
         database()
-            .ref('/users/' + id + '/' + key + '/addresses/')
+            .ref('/users/' + userId + '/' + userKey + '/addresses/')
             .on('value', snapshot => {
                 const data = snapshot.val();
 
