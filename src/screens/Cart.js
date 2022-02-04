@@ -81,7 +81,7 @@ const Cart = ({ navigation },props) => {
                                 }
                                 input={true}
                                 name={itemData.item.productTitle}
-                                amount={itemData.item.sum}
+                                amount={itemData.item.sum.toFixed(2)}
                                 deletable
                                 onRemove={() => {
                                     dispatch(cartActions.removeFromCart(itemData.item.productId))
@@ -97,7 +97,7 @@ const Cart = ({ navigation },props) => {
                             />}
                     />
                     <CartSummary
-                    totalAmount={cartTotalAmount}
+                    totalAmount={cartTotalAmount.toFixed(2)}
                     actionsButton={<TouchableOpacity onPress={() => navigation.navigate('Modal', {
                         screen: 'ChooseAddress',
                         params: {

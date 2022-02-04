@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/pl'
 
 class Order {
     constructor(id, items, totalAmount, date, address, delivery, payment, status) {
@@ -14,7 +15,8 @@ class Order {
     }
 
     get readableDate() {
-        return moment(this.date).format('MMMM Do YYYY, hh:mm');
+        moment.locale('pl');
+        return moment(this.date).format('D MMMM YYYY, k:m');
     }
 }
 

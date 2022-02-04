@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
             const addedProduct = action.product;
             const addedProductQty = action.quantity;
             const prodPriceString = addedProduct.price;
-            const prodPrice = parseInt(prodPriceString, 10);
+            const prodPrice = parseFloat(prodPriceString);
             const prodTitle = addedProduct.name;
             const prodId = addedProduct.id;
 

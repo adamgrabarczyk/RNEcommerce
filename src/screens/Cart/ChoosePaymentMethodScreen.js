@@ -66,7 +66,7 @@ const ChoosePaymentMethodScreen = ({navigation, route}, props) => {
                         </View>
                     </View>
                 </ScrollView>
-                <CartSummary totalAmount={totalAmount}/>
+                <CartSummary totalAmount={totalAmount.toFixed(2)}/>
                 <View style={styles.actionsButtonContainer}>
                     <ActionButton
                         action={() => navigation.navigate('OrderSummary',

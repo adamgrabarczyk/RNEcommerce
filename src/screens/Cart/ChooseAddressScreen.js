@@ -101,7 +101,7 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
 
             </View>
             </ScrollView>
-            <CartSummary totalAmount={cartTotalAmount + deliveryCost}/>
+            <CartSummary totalAmount={(cartTotalAmount + deliveryCost).toFixed(2)}/>
             <View style={styles.actionsButtonContainer}>
             <ActionButton
                 action={() => navigation.navigate('ChoosePaymentMethod',

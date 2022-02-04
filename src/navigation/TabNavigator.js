@@ -33,7 +33,6 @@ import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen
 import CustomCloseOrGoBackButton from '../components/UI/CustomCloseOrGoBackButton';
 import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
 
-
 const HomeStack = createStackNavigator();
 
 
@@ -216,7 +215,6 @@ function ModalCartStackScreen({navigation}) {
                     ),
                 }}
             />
-
         </ModalCartStack.Navigator>
     );
 }
