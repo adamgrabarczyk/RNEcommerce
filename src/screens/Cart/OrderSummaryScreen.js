@@ -51,7 +51,8 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
             const data = await response.json();
 
             setClientSecret(data[0].client_secret);
-            const { error } = await initPaymentSheet({ paymentIntentClientSecret: data[0].client_secret, customerId: data[0].customer})
+            const { error } = await initPaymentSheet({ paymentIntentClientSecret: data[0].client_secret, customerId: data[0].customer, googlePay: true,
+                merchantDisplayName: 'Merchant Name',})
 
             console.log(error)
         };
@@ -91,7 +92,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         })
 
         if (error) {
-            alert(`Error code: ${error.code}`, error.message);
+            alert(`Error code: ${error.code}`+ 'lazoe' + error.message);
         } else {
             alert(
                 `The payment was confirmed successfully! currency: eur`
