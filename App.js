@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
-import DrawerNav from './src/navigation/DrawerNavigator';
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from './src/store/actions/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +10,7 @@ import AuthStackScreen from './src/navigation/AuthNaviagator';
 import * as orderActioncs from './src/store/actions/orders';
 import * as productActioncs from './src/store/actions/products';
 import * as userActions from './src/store/actions/user';
+import MainStackNavigator from './src/navigation/MainNavigator';
 
 const App: () => React$Node = () => {
 
@@ -76,7 +76,7 @@ const App: () => React$Node = () => {
             {
                 !isLoading && correctData === true ?
 
-                <RootStack.Screen name="AppScreen" component={DrawerNav} />
+                <RootStack.Screen name="AppScreen" component={MainStackNavigator} />
                 :
                 <RootStack.Screen name="AuthScreen" component={AuthStackScreen} />
 

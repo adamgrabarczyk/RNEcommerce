@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
-    View,ScrollView, Text, Image
+    View,ScrollView, Image
 } from 'react-native';
 import { useScrollToTop } from '@react-navigation/native';
 
@@ -90,7 +90,6 @@ const Home = ({navigation}, props) => {
                 navigateCategory={() => navigation.navigate('ChooseCategory')}
                 />
             </View>
-
             <View style={styles.bestDeals}>
                 <BestDeals
                     headerTitle={'Sprawdź najlepsze oferty'}

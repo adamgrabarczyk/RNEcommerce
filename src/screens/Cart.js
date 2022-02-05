@@ -98,7 +98,7 @@ const Cart = ({ navigation },props) => {
                     />
                     <CartSummary
                     totalAmount={cartTotalAmount.toFixed(2)}
-                    actionsButton={<TouchableOpacity onPress={() => navigation.navigate('Modal', {
+                    actionsButton={<TouchableOpacity onPress={() => navigation.navigate('PaymentNavigator', {
                         screen: 'ChooseAddress',
                         params: {
                             cartItems,

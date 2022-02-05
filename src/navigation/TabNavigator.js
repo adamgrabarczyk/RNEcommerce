@@ -23,18 +23,12 @@ import EmailPassword from '../screens/Profile/EmailPassword';
 import ChangePassword from '../screens/Profile/ChangePassword';
 import ChangeEmail from '../screens/Profile/ChangeEmail';
 import AddOrChangeAddress from '../screens/Profile/AddOrChangeAddress';
-import user from '../store/reducers/user';
 import ChooseCategoryScreen from '../screens/Home/ChooseCategoryScreen';
 import CategoryScreen from '../screens/Home/CategoryScreen';
 import SubcategoryScreen from '../screens/Home/SubcategoryScreen';
 import SelectedMarkScreen from '../screens/Home/SelectedMarkScreen';
-import ChooseAddressScreen from '../screens/Cart/ChooseAddressScreen';
-import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen';
-import CustomCloseOrGoBackButton from '../components/UI/CustomCloseOrGoBackButton';
-import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
 
 const HomeStack = createStackNavigator();
-
 
 export function HomeStackScreen({navigation}) {
 
@@ -149,81 +143,11 @@ export function HomeStackScreen({navigation}) {
     );
 }
 
-
-const ModalCartStack = createStackNavigator();
-
-function ModalCartStackScreen({navigation}) {
-    return (
-        <ModalCartStack.Navigator>
-            <ModalCartStack.Screen
-                name="ChooseAddress"
-                component={ChooseAddressScreen}
-                options={{
-                    headerTitle: '',
-                    headerStyle: {
-                        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
-                    },
-                    headerLeft: () => (
-                        <HeaderButtons HeaderButtonComponent={CustomCloseOrGoBackButton}>
-                            <Item
-                                title='close'
-                                iconName={'close-circle'}
-                                onPress={() => {navigation.goBack()} }
-                            />
-                        </HeaderButtons>
-                    ),
-                }}
-            />
-
-            <ModalCartStack.Screen
-                name="ChoosePaymentMethod"
-                component={ChoosePaymentMethodScreen}
-                options={{
-                    headerTitle: '',
-                    headerStyle: {
-                        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
-                    },
-                    headerLeft: () => (
-                        <HeaderButtons HeaderButtonComponent={CustomCloseOrGoBackButton}>
-                            <Item
-                                title='close'
-                                iconName={Platform.OS === 'android' ? "md-arrow-back-sharp" : 'ios-chevron-back-sharp'}
-                                onPress={() => navigation.navigate('ChooseAddress')}
-                            />
-                        </HeaderButtons>
-                    ),
-                }}
-            />
-
-
-            <ModalCartStack.Screen
-                name="OrderSummary"
-                component={OrderSummaryScreen}
-                options={{
-                    headerTitle: '',
-                    headerStyle: {
-                        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
-                    },
-                    headerLeft: () => (
-                        <HeaderButtons HeaderButtonComponent={CustomCloseOrGoBackButton}>
-                            <Item
-                                title='close'
-                                iconName={Platform.OS === 'android' ? "md-arrow-back-sharp" : 'ios-chevron-back-sharp'}
-                                onPress={() => navigation.navigate('ChoosePaymentMethod')}
-                            />
-                        </HeaderButtons>
-                    ),
-                }}
-            />
-        </ModalCartStack.Navigator>
-    );
-}
-
 const CartStack = createStackNavigator();
 
 function CartStackScreen({navigation}) {
     return (
-        <CartStack.Navigator  mode="modal">
+        <CartStack.Navigator>
             <CartStack.Screen
                 name="Cart"
                 component={Cart}
@@ -245,13 +169,7 @@ function CartStackScreen({navigation}) {
                             />
                         </HeaderButtons>
                     )
-
                 }}
-            />
-            <CartStack.Screen
-                name="Modal"
-                component={ModalCartStackScreen}
-                options={{ headerShown: false }}
             />
 
         </CartStack.Navigator>
