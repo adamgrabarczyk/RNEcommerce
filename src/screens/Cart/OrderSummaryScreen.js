@@ -55,7 +55,8 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
 
             setClientSecret(data[0].client_secret);
             const { error } = await initPaymentSheet({ paymentIntentClientSecret: data[0].client_secret, customerId: data[0].customer, googlePay: true,
-                merchantDisplayName: 'Merchant Name',})
+                merchantDisplayName: 'Merchant Name', applePay: true,
+                merchantCountryCode: 'PL',})
 
             console.log(error)
         };
