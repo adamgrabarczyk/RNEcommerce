@@ -22,6 +22,8 @@
 		2D4170A625F413F100076F18 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 2D4170A525F413F100076F18 /* Fonts */; };
 		2D4E6D9B27566FAF00C4495C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E6D9A27566FAF00C4495C /* GoogleService-Info.plist */; };
 		2DCD954D1E0B4F2C00145EB5 /* RNEcomerceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RNEcomerceTests.m */; };
+		2DFFEFAE27AFEAD300F9203C /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2DFFEFB127AFEAD300F9203C /* infoPlist.strings */; };
+		2DFFEFAF27AFEAD300F9203C /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2DFFEFB127AFEAD300F9203C /* infoPlist.strings */; };
 		5DC07AD44EFB49A982C87F81 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C776F9EE26144DD9CACB9D9 /* FontAwesome5_Regular.ttf */; };
 		6CBE7DE12CBF40147FCCDC08 /* libPods-RNEcomerce-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D09779477E101095D9040E71 /* libPods-RNEcomerce-tvOSTests.a */; };
 		7251E3BF19C24C08967C00D6 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEEE3A833FB2440EA9237C0D /* MaterialCommunityIcons.ttf */; };
@@ -81,6 +83,8 @@
 		2D106230279D79300001CDFB /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D4170A525F413F100076F18 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		2D4E6D9A27566FAF00C4495C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2DFFEFB027AFEAD300F9203C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		2DFFEFB627AFEBDE00F9203C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		343E60C7F85D317D93429318 /* Pods-RNEcomerce-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNEcomerce-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RNEcomerce-tvOSTests/Pods-RNEcomerce-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		35E616E001284544825DFE8E /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		3E27D38B05DC8E8B35C0A6A8 /* Pods-RNEcomerce-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNEcomerce-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RNEcomerce-tvOS/Pods-RNEcomerce-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				2DFFEFB127AFEAD300F9203C /* infoPlist.strings */,
 			);
 			name = RNEcomerce;
 			sourceTree = "<group>";
@@ -388,7 +393,6 @@
 				en,
 				Base,
 				pl,
-				"pl-PL",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -434,6 +438,7 @@
 				BE82E2CE40AA4A63B8AD5D4B /* MaterialIcons.ttf in Resources */,
 				16C67DE4F0DC41BDA5B410C8 /* Octicons.ttf in Resources */,
 				7A3B0B52A68345C9ADF4D5EE /* SimpleLineIcons.ttf in Resources */,
+				2DFFEFAE27AFEAD300F9203C /* infoPlist.strings in Resources */,
 				2D4E6D9B27566FAF00C4495C /* GoogleService-Info.plist in Resources */,
 				7CFDF67F0F6B4534A9303635 /* Zocial.ttf in Resources */,
 				E376B4F578AD4BA4BAF760BA /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -445,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				2DFFEFAF27AFEAD300F9203C /* infoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +778,18 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2DFFEFB127AFEAD300F9203C /* infoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DFFEFB027AFEAD300F9203C /* en */,
+				2DFFEFB627AFEBDE00F9203C /* pl */,
+			);
+			name = infoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {

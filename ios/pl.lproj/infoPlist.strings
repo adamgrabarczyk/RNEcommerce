@@ -1,0 +1,9 @@
+/* 
+  infoPlist.strings
+  RNEcomerce
+
+  Created by Dominika Panek on 06/02/2022.
+  
+*/
+"CFBundleDisplayName" = "RNEcomerce";
+"CFBundleName" = "RNEcomerce";
