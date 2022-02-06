@@ -8,6 +8,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import CustomCloseOrGoBackButton from '../components/UI/CustomCloseOrGoBackButton';
 import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen';
 import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
+import SuccessScreen from '../screens/Cart/SuccessScreen';
 
 
 const PaymentStack = createStackNavigator();
@@ -79,6 +80,25 @@ const PaymentNavigator = ({navigation}) => {
                 }}
             />
 
+            <PaymentStack.Screen
+                name="SuccessScreen"
+                component={SuccessScreen}
+                options={{
+                    headerTitle: '',
+                    headerStyle: {
+                        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+                    },
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomCloseOrGoBackButton}>
+                            <Item
+                                title='close'
+                                iconName={'close-circle'}
+                                onPress={() => {navigation.navigate('Cart')} }
+                            />
+                        </HeaderButtons>
+                    ),
+                }}
+            />
         </PaymentStack.Navigator>
     );
 }

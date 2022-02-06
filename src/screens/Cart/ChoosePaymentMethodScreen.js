@@ -1,8 +1,5 @@
-import {View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import React, {useState} from 'react';
-import Colors from '../../constans/Colors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as ordersActions from '../../store/actions/orders';
 import ActionButton from '../../components/UI/ActionButton';
 import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';

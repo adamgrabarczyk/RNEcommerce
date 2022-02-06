@@ -8,6 +8,8 @@ import {StripeProvider} from '@stripe/stripe-react-native';
 import React, {useEffect, useState} from 'react';
 import { useStripe, initPaymentSheet, presentPaymentSheet} from '@stripe/stripe-react-native';
 import Spinner from '../../components/UI/Spinner';
+import Colors from '../../constans/Colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const OrderSummaryScreen = ({navigation, route}, props) => {
 
@@ -19,6 +21,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
 
     const [loading, setLoading] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('');
+    const [paymentError, setPaymentError] = useState('');
     const dispatch = useDispatch();
 
     const publishableKey = 'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
@@ -92,13 +95,15 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         })
 
         if (error) {
-            alert(`Error code: ${error.code}`+ 'lazoe' + error.message);
+            console.log(`Error code: ${error.code}`+ 'lazoe' + error.message);
+            setPaymentError('Twoja płatność nie powiodła się. Sprubój ponownie.');
         } else {
-            alert(
+            console.log(
                 `The payment was confirmed successfully! currency: eur`
             );
+            setPaymentError('');
             dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
-            navigation.navigate('Cart');
+            navigation.navigate('SuccessScreen');
         }
     }
 
@@ -113,13 +118,15 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         });
 
         if (error) {
-            alert(`Error code: ${error.code}`, error.message);
+            console.log(`Error code: ${error.code}`, error.message);
+            setPaymentError('Twoja płatność nie powiodła się. Sprubój ponownie.');
         } else if (paymentIntent) {
-            alert(
+            console.log(
                 `The payment was confirmed successfully! currency: ${paymentIntent.currency}`
             );
+            setPaymentError('');
             dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
-            navigation.navigate('Cart');
+            navigation.navigate('SuccessScreen');
         }
     }
 
@@ -180,6 +187,21 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                         actionName={'Zamawiam i płacę'}
                     />
                 </View>
+                {
+                    paymentError !== '' ?
+                        <View style={styles.errorContainer}>
+
+                            <Ionicons
+                                name={'warning-outline'}
+                                size={20}
+                                color={'red'}
+                                // style={styles.icon}
+                            />
+                            <Text style={styles.error}> {paymentError}</Text>
+                        </View>
+                        :
+                        null
+                }
 
             </View>
         </View>
@@ -197,6 +219,19 @@ const styles = StyleSheet.create({
 
     catItemsContainer: {
         textAlign: 'center',
+    },
+
+    errorContainer: {
+        width: '100%',
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+
+    error: {
+      color: 'red',
+        marginTop: 3
     },
 
     cartSection: {},
