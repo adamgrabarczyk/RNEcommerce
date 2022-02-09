@@ -18,7 +18,7 @@ const PaymentNavigator = ({navigation}) => {
 
 
     return (
-        <PaymentStack.Navigator>
+        <PaymentStack.Navigator screenOptions={{gestureEnabled: false}}>
                 <PaymentStack.Screen
                     name="ChooseAddress"
                     component={ChooseAddressScreen}
