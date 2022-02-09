@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import ActionButton from '../../components/UI/ActionButton';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 
@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
-const SuccessScreen = ({navigation, route}, props) => {
+const SuccessScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
