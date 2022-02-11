@@ -56,7 +56,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
             setClientSecret(data[0].client_secret);
             const { error } = await initPaymentSheet({ paymentIntentClientSecret: data[0].client_secret, customerId: data[0].customer, googlePay: true,
                 merchantDisplayName: 'Merchant Name', applePay: true,
-                merchantCountryCode: 'PL',})
+                merchantCountryCode: 'PL',testEnv: true,})
 
             console.log(error)
         };
@@ -89,7 +89,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         }
     };
 
-    const handleSheet = async () => {
+    const handleTransferSheet = async () => {
         const { error } = await presentPaymentSheet({
             clientSecret: clientSecret,
             allowsDelayedPaymentMethods: true
@@ -108,7 +108,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         }
     }
 
-    const handlePayPress = async () => {
+    const handlePayCardPress = async () => {
 
 
         const { error, paymentIntent } = await confirmPayment(clientSecret, {
@@ -131,6 +131,10 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
         }
     }
 
+    const handlePayOnDelivery = () => {
+        dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
+        navigation.navigate('SuccessScreen');
+    }
 
 
 
@@ -166,9 +170,15 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                                 )
                             }
                         </View>
-                        <View style={styles.customContainer}>
-                            <Text style={styles.customText}>Adres dostawy: {selectedAddress.city + ' ' + selectedAddress.street + ' ' + selectedAddress.houseNumber + ' ' + selectedAddress.apartmentNumber + ' ' + selectedAddress.postcode}</Text>
-                        </View>
+                        {
+                            selectedAddress !== undefined ?
+                            <View style={styles.customContainer}>
+                                <Text style={styles.customText}>Adres
+                                    dostawy: {selectedAddress.city + ' ' + selectedAddress.street + ' ' + selectedAddress.houseNumber + ' ' + selectedAddress.apartmentNumber + ' ' + selectedAddress.postcode}</Text>
+                            </View>
+                                :
+                                null
+                        }
                         <View style={styles.customContainer}>
                             <Text style={styles.customText}>Dostawa: {selectedDeliveryMethod.method + ' +' + selectedDeliveryMethod.price} zł</Text>
                         </View>
@@ -182,7 +192,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                 <View style={styles.actionsButtonContainer}>
                     <ActionButton
                         action={
-                            paymentMethod === 'Karta płatnicza' ? handleSheet : null || paymentMethod === 'Przelew bankowy' ? handlePayPress : null
+                            paymentMethod === 'Karta płatnicza' ? handleTransferSheet : null || paymentMethod === 'Przelew bankowy' ? handlePayCardPress : null || paymentMethod === 'Płatność przy odbiorze' ? handlePayOnDelivery : null
                         }
 
                         actionName={'Zamawiam i płacę'}
@@ -196,7 +206,6 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                                 name={'warning-outline'}
                                 size={20}
                                 color={'red'}
-                                // style={styles.icon}
                             />
                             <Text style={styles.error}> {paymentError}</Text>
                         </View>

@@ -40,9 +40,9 @@ const OrderScreen = props => {
                                 status={itemData.item.status}
                                 delivery={itemData.item.delivery.method}
                                 payment={itemData.item.payment.method}
-                                address={
+                                address={ itemData.item.address !== undefined ?
                                     itemData.item.address.city + ' ' + itemData.item.address.street + ' ' + itemData.item.address.houseNumber + ' ' + itemData.item.address.apartmentNumber + ' ' + itemData.item.address.postcode
-
+                                    : null
                                 }
                             />)}
                     />

@@ -54,6 +54,19 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
         method => method.id === activeMethod
     )[0];
 
+
+    if (activeMethod === '5') {
+       setTimeout(() => {
+           setActiveAddress('odbiór osobisty')
+       },0)
+    }
+
+    if (activeAddress === 'odbiór osobisty' && activeMethod !== '5' ) {
+        setTimeout(() => {
+            setActiveAddress('')
+        },0)
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
