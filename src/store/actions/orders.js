@@ -46,7 +46,7 @@ export const fetchOrders = () => {
 }
 
 
-export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod) => {
+export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod, status) => {
 
     return async (dispatch, getState) => {
 
@@ -67,7 +67,7 @@ export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDelive
                     selectedAddress,
                     selectedDeliveryMethod,
                     selectedPaymentMethod,
-                    status: 'W trakcie przetwarzania'
+                    status: status
                 })
 
             });
@@ -88,7 +88,7 @@ export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDelive
                 address: selectedAddress,
                 delivery: selectedDeliveryMethod,
                 payment: selectedPaymentMethod,
-                status: 'W trakcie przetwarzania'
+                status: status
             }
         })
     }

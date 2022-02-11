@@ -103,7 +103,7 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                 `The payment was confirmed successfully! currency: eur`
             );
             setPaymentError('');
-            dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
+            dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod, 'Opłacone'));
             navigation.navigate('SuccessScreen');
         }
     }
@@ -126,13 +126,13 @@ const OrderSummaryScreen = ({navigation, route}, props) => {
                 `The payment was confirmed successfully! currency: ${paymentIntent.currency}`
             );
             setPaymentError('');
-            dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
+            dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod, 'Opłacone'));
             navigation.navigate('SuccessScreen');
         }
     }
 
     const handlePayOnDelivery = () => {
-        dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod));
+        dispatch(ordersActions.addOrder(cartItems, totalAmount, selectedAddress, selectedDeliveryMethod, selectedPaymentMethod, 'Nieopłacone'));
         navigation.navigate('SuccessScreen');
     }
 
