@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constans/Colors';
 
@@ -9,6 +9,7 @@ import CustomCloseOrGoBackButton from '../components/UI/CustomCloseOrGoBackButto
 import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen';
 import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
 import SuccessScreen from '../screens/Cart/SuccessScreen';
+import StepProgressBar from '../components/UI/StepProgressBar';
 
 
 const PaymentStack = createStackNavigator();
@@ -23,7 +24,9 @@ const PaymentNavigator = ({navigation}) => {
                     name="ChooseAddress"
                     component={ChooseAddressScreen}
                     options={{
-                        headerTitle: '',
+                        headerTitle: () => (<StepProgressBar
+                            firstCompletedStep={styles.completedStep}
+                        />),
                         headerStyle: {
                             backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                         },
@@ -36,6 +39,7 @@ const PaymentNavigator = ({navigation}) => {
                                 />
                             </HeaderButtons>
                         ),
+                        headerRight: () => (<View style={styles.stepTextContainer}><Text style={styles.stepText}>Krok: 1/4</Text></View>)
                     }}
                 />
 
@@ -43,7 +47,10 @@ const PaymentNavigator = ({navigation}) => {
                 name="ChoosePaymentMethod"
                 component={ChoosePaymentMethodScreen}
                 options={{
-                    headerTitle: '',
+                    headerTitle: () => (<StepProgressBar
+                        firstCompletedStep={styles.completedStep}
+                        secondCompletedStep={styles.completedStep}
+                    />),
                     headerStyle: {
                         backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                     },
@@ -56,6 +63,7 @@ const PaymentNavigator = ({navigation}) => {
                             />
                         </HeaderButtons>
                     ),
+                    headerRight: () => (<View style={styles.stepTextContainer}><Text style={styles.stepText}>Krok: 2/4</Text></View>)
                 }}
             />
 
@@ -64,7 +72,11 @@ const PaymentNavigator = ({navigation}) => {
                 name="OrderSummary"
                 component={OrderSummaryScreen}
                 options={{
-                    headerTitle: '',
+                    headerTitle: () => (<StepProgressBar
+                    firstCompletedStep={styles.completedStep}
+                    secondCompletedStep={styles.completedStep}
+                    thirdCompletedStep={styles.completedStep}
+                    />),
                     headerStyle: {
                         backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                     },
@@ -77,6 +89,7 @@ const PaymentNavigator = ({navigation}) => {
                             />
                         </HeaderButtons>
                     ),
+                    headerRight: () => (<View style={styles.stepTextContainer}><Text style={styles.stepText}>Krok: 3/4</Text></View>)
                 }}
             />
 
@@ -84,7 +97,12 @@ const PaymentNavigator = ({navigation}) => {
                 name="SuccessScreen"
                 component={SuccessScreen}
                 options={{
-                    headerTitle: '',
+                    headerTitle: () => (<StepProgressBar
+                        firstCompletedStep={styles.completedStep}
+                        secondCompletedStep={styles.completedStep}
+                        thirdCompletedStep={styles.completedStep}
+                        fourthCompletedStep={styles.completedStep}
+                    />),
                     headerStyle: {
                         backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
                     },
@@ -97,6 +115,7 @@ const PaymentNavigator = ({navigation}) => {
                             />
                         </HeaderButtons>
                     ),
+                    headerRight: () => (<View style={styles.stepTextContainer}><Text style={styles.stepText}>Krok: 4/4</Text></View>)
                 }}
             />
         </PaymentStack.Navigator>
@@ -106,3 +125,25 @@ const PaymentNavigator = ({navigation}) => {
 
 export default PaymentNavigator;
 
+const styles = StyleSheet.create({
+    stepTextContainer: {
+    margin: 5
+    },
+    stepText: {
+        color: 'grey',
+        fontWeight: '600'
+    },
+    step: {
+        width: 50,
+        height: 5,
+        backgroundColor: Colors.primary,
+        margin: 3
+    },
+
+    completedStep: {
+        backgroundColor: Colors.primary
+    }
+
+
+
+});
