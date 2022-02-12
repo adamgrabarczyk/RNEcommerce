@@ -37,12 +37,12 @@ const OrderScreen = props => {
                                 amount={itemData.item.totalAmount}
                                 date={itemData.item.readableDate}
                                 items={itemData.item.items}
-                                status={itemData.item.status}
+                                status={'Zamówienie ' + itemData.item.status}
                                 delivery={itemData.item.delivery.method}
                                 payment={itemData.item.payment.method}
-                                address={
+                                address={ itemData.item.address !== undefined ?
                                     itemData.item.address.city + ' ' + itemData.item.address.street + ' ' + itemData.item.address.houseNumber + ' ' + itemData.item.address.apartmentNumber + ' ' + itemData.item.address.postcode
-
+                                    : null
                                 }
                             />)}
                     />
