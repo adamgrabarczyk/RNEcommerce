@@ -10,7 +10,7 @@ const showNotification= (title, message) => {
 };
 
 
-const handleShudleNotification= (title, message) => {
+const handleScheduleNotification= (title, message) => {
     const date = new Date();
     date.setSeconds(date.getSeconds() + 5);
     PushNotificationIOS.scheduleLocalNotification({
@@ -25,4 +25,4 @@ const handleCancelNotification= () => {
 };
 
 
-export { showNotification, handleCancelNotification, handleShudleNotification };
+export { showNotification, handleCancelNotification, handleScheduleNotification };

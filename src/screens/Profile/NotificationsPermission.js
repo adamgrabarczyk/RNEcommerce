@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {showNotification, handleCancelNotification, handleShudleNotification} from '../../notification/notification';
+import {showNotification, handleCancelNotification, handleScheduleNotification} from '../../notification/notification';
 
 
 
@@ -18,7 +18,7 @@ const NotificationsPermission = () => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => handleShudleNotification('hallo', 'lorem ipsum')}
+                    onPress={() => handleScheduleNotification('hallo', 'lorem ipsum')}
                 >
                     <Text>notyfikacja po succes</Text>
                 </TouchableOpacity>
