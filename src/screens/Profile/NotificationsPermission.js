@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {showNotification, handleCancelNotification, handleShudleNotification} from '../../notification/notification.android';
+import {showNotification, handleCancelNotification, handleShudleNotification} from '../../notification/notification';
 
 
 
