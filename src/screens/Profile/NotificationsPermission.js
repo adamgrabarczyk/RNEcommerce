@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {showNotification, handleCancelNotification, handleShudleNotification} from '../../notification/notification';
+
 
 
 const NotificationsPermission = () => {
@@ -9,6 +11,23 @@ const NotificationsPermission = () => {
         <View style={styles.container}>
             <View style={styles.noOrdersTextContainer}>
                 <Text style={styles.noNotificationText}>powiadomienia</Text>
+                <TouchableOpacity
+                onPress={() => showNotification('hallo', 'lorem impsum')}
+                >
+                    <Text>notyfikacja</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => handleShudleNotification('hallo', 'lorem ipsum')}
+                >
+                    <Text>notyfikacja po succes</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={handleCancelNotification}
+                >
+                    <Text>notyfikacja anuluj</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
