@@ -49,7 +49,7 @@ export function HomeStackScreen({navigation}) {
             a.productId > b.productId ? 1 : -1 );
     });
 
-    const notifications = useSelector(state => state.user.notifications);
+    const unreadNotifications = useSelector(state => state.notifications.unreadNotifications);
 
     return (
         <HomeStack.Navigator>
@@ -85,9 +85,9 @@ export function HomeStackScreen({navigation}) {
                             iconName={'notifications-sharp'}
                             onPress={() => {navigation.navigate('NotificationsPermission')} }
                             />
-                            { notifications.length > 0 ?
+                            { unreadNotifications.length > 0 ?
                                 <View style={styles.cartValueContainer}>
-                                    <Text style={styles.value}>{notifications.length}</Text>
+                                    <Text style={styles.value}>{unreadNotifications.length}</Text>
                                 </View>
                                 :
                                 <View>

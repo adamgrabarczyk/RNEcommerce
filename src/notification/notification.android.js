@@ -1,4 +1,6 @@
 import PushNotification from "react-native-push-notification";
+import {store} from '../store/store';
+import * as notificationActions from '../store/actions/notifications';
 
 PushNotification.createChannel(
     {
@@ -26,9 +28,28 @@ const handleScheduleNotification= (title, message) => {
     PushNotification.localNotificationSchedule({
         title: title,
         message: message,
-        date: new Date(Date.now() + 5 * 1000),
+        date: new Date(Date.now() + 30000),
         channelId: "your-channel-id"
     })
+    setTimeout(
+        () => {
+            store.dispatch(notificationActions.setNotification(title, message))
+        }, 30000
+    )
+};
+
+const handleScheduleNotificationReadyOrder= (title, message) => {
+    PushNotification.localNotificationSchedule({
+        title: title,
+        message: message,
+        date: new Date(Date.now() + 3600000),
+        channelId: "your-channel-id"
+    })
+    setTimeout(
+        () => {
+            store.dispatch(notificationActions.setNotification(title,message))
+        }, 3600000
+    )
 };
 
 const handleCancelNotification= () => {
@@ -36,4 +57,4 @@ const handleCancelNotification= () => {
 };
 
 
-export { showNotification, handleCancelNotification, handleScheduleNotification };
+export { showNotification, handleCancelNotification, handleScheduleNotification, handleScheduleNotificationReadyOrder };

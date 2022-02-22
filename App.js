@@ -11,6 +11,7 @@ import * as orderActioncs from './src/store/actions/orders';
 import * as productActioncs from './src/store/actions/products';
 import * as userActions from './src/store/actions/user';
 import MainStackNavigator from './src/navigation/MainNavigator';
+import * as notificationActions from './src/store/actions/notifications';
 
 const App: () => React$Node = () => {
 
@@ -47,6 +48,7 @@ const App: () => React$Node = () => {
             await  dispatch(productActioncs.fetchProducts());
             await  dispatch(productActioncs.fetchFavs());
             await  dispatch(orderActioncs.fetchOrders());
+            await  dispatch(notificationActions._getUserNotifications());
 
             setIsLoading(false);
         };
