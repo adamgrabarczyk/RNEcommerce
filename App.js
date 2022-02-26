@@ -40,7 +40,8 @@ const App: () => React$Node = () => {
             }
 
             if (expiryDate <= new Date() || !token || !user) {
-                dispatch(authActions.unCorrectData())
+                dispatch(authActions.unCorrectData());
+
             } else {
                 dispatch(authActions.correctData())
             }

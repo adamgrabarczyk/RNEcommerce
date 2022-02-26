@@ -7,6 +7,7 @@ import {
     UPDATE_PASSWORD,
     GET_ADDRESSES, ADD_ADDRESS, UPDATE_ADDRESS, DELETE_ADDRESS,
 } from '../actions/user';
+import {LOGOUT} from '../actions/auth';
 
 const initialState = {
     userData: [],
@@ -120,6 +121,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loader: action.loader
+            }
+
+        case LOGOUT:
+            return {
+                ...initialState
             }
     }
 
