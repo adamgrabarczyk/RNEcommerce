@@ -4,7 +4,7 @@ import Spinner from '../../components/UI/Spinner';
 import {useDispatch} from 'react-redux';
 import Address from '../../components/user/Address';
 
-const AddOrChangeAddress = ({route}) => {
+const AddAddress = ({route}) => {
     const dispatch = useDispatch();
 
     const [city, setCity] = useState('');
@@ -32,10 +32,14 @@ const AddOrChangeAddress = ({route}) => {
                 setUpdate(true);
             }
             dispatch(userActions.clearResponseMessage);
-        };
+        }
         getUserData().then(
             () => {
-                setLoading(false);
+                setTimeout(
+                    () => {
+                        setLoading(false);
+                    }, 1000
+                )
             }
         );
     },[]);
@@ -45,7 +49,6 @@ const AddOrChangeAddress = ({route}) => {
             spinnerSize={'fullScreen'}
         />
     }
-
 
     return (
         <Address
@@ -61,12 +64,12 @@ const AddOrChangeAddress = ({route}) => {
             setApartmentNumber={(value) => setApartmentNumber(value)}
             postcode={postcode}
             setPostcode={(value) => setPostcode(value)}
-            route={'Adresses'}
-        />
+            route={'ChooseAddress'}
+            />
     );
 }
 
-export default AddOrChangeAddress;
+export default AddAddress;
 
 
 

@@ -10,6 +10,7 @@ import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen
 import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
 import SuccessScreen from '../screens/Cart/SuccessScreen';
 import StepProgressBar from '../components/UI/StepProgressBar';
+import AddAddress from '../screens/Cart/AddAddress';
 
 
 const PaymentStack = createStackNavigator();
@@ -42,6 +43,27 @@ const PaymentNavigator = ({navigation}) => {
                         headerRight: () => (<View style={styles.stepTextContainer}><Text style={styles.stepText}>Krok: 1/4</Text></View>)
                     }}
                 />
+
+            <PaymentStack.Screen
+                name="AddAddress"
+                component={AddAddress}
+                options={{
+                    headerTitle: () => (<Text>Dodaj adres</Text>),
+                    headerStyle: {
+                        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+                    },
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomCloseOrGoBackButton}>
+                            <Item
+                                title='close'
+                                iconName={Platform.OS === 'android' ? "md-arrow-back-sharp" : 'ios-chevron-back-sharp'}
+                                onPress={() => navigation.navigate('ChooseAddress')}
+                            />
+                        </HeaderButtons>
+                    ),
+                   }}
+            />
+
 
             <PaymentStack.Screen
                 name="ChoosePaymentMethod"

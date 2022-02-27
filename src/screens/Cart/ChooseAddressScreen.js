@@ -1,10 +1,14 @@
-import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import ActionButton from '../../components/UI/ActionButton';
 import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 import ItemFrame from '../../components/UI/ItemFrame';
+import * as userActions from '../../store/actions/user';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useIsFocused} from '@react-navigation/native';
+import Spinner from '../../components/UI/Spinner';
 
 const deliveryMethod = [
     {
@@ -39,10 +43,30 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
     const { cartItems } = route.params;
     const { cartTotalAmount } = route.params;
     const address = useSelector(state => state.user.addresses);
+    const isFocused = useIsFocused();
 
     const [activeAddress, setActiveAddress] = useState('');
     const [activeMethod, setActiveMethod] = useState('');
     const [deliveryCost, setDeliveryCost] = useState(0);
+
+    useEffect(() => {
+        setLoading(true);
+        const onValueChange = async () =>
+        {
+                   await console.log('siema')
+        }
+        onValueChange().then(
+            () => {
+                setTimeout(
+                    () => {
+                        setLoading(false);
+                    }, 1000
+                )
+            }
+        );
+    }, [isFocused]);
+
+    const [loading, setLoading] = useState(false);
 
     const totalAmount = cartTotalAmount + deliveryCost;
 
@@ -67,6 +91,12 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
         },0)
     }
 
+    if (loading) {
+        return <Spinner
+            spinnerSize={'fullScreen'}
+        />
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -88,6 +118,16 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
                     )}
                     )
                 }
+                </View>
+                <View>
+                    {
+                        address.length < 5 ? <ItemFrame
+                            itemAction={() => navigation.navigate('AddAddress')}
+                            itemText={'Dodaj adres'}
+                            add={true}
+                            />
+                            : null
+                    }
                 </View>
             </View>
 

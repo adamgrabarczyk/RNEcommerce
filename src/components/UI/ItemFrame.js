@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const ItemFrame = (props) => {
 
@@ -17,11 +18,20 @@ const ItemFrame = (props) => {
                 </Text>
             </View>
             <View style={styles.addressIconContainer}>
-                {props.isActive === true ? <Ionicons
+                {
+                    props.isActive === true ? <Ionicons
                     name={'md-checkmark'}
                     size={30}
                     color={Colors.primary}
-                /> : null}
+                /> : null
+                    ||
+                    props.add === true ? <Octicons
+                        style={styles.addIcon}
+                        name={'plus'}
+                        size={20}
+                        color={Colors.primary}
+                    /> : null
+                }
             </View>
         </Pressable>
     );
