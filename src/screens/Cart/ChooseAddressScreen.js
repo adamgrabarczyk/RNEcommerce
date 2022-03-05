@@ -8,6 +8,7 @@ import ItemFrame from '../../components/UI/ItemFrame';
 import {useIsFocused} from '@react-navigation/native';
 import Spinner from '../../components/UI/Spinner';
 import * as userActions from '../../store/actions/user';
+import ManageOption from '../../components/UI/ManageOption';
 
 const deliveryMethod = [
     {
@@ -104,17 +105,10 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
             <ScrollView>
             <View>
                 <CartStepHeader headerText={'Adres dostawy'}/>
-                <View>
-                    {
-
-                        <TouchableOpacity
-                            onPress={() => setMangeAddress(!manageAddress)}
-                            isActive={manageAddress}
-                        >
-                            <Text>{manageAddress === false ? 'Zarządzaj adresami' : 'Zakończ'}</Text>
-                        </TouchableOpacity>
-                    }
-                </View>
+                <ManageOption
+                    setMangeAddress={() => setMangeAddress(!manageAddress)}
+                    manageAddress={manageAddress}
+                />
                 <View style={styles.addressesOrDeliveryMethodList}>
                 {
                     manageAddress === false ?
@@ -229,7 +223,6 @@ const styles = StyleSheet.create({
 
 
     frameContainer: {
-        // flexDirection: 'row'
     }
 });
 
