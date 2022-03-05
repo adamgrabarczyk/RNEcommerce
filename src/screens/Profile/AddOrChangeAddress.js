@@ -35,7 +35,12 @@ const AddOrChangeAddress = ({route}) => {
         };
         getUserData().then(
             () => {
-                setLoading(false);
+                setTimeout(
+                    () => {
+                        setLoading(false);
+                    }, 1000
+                )
+
             }
         );
     },[]);

@@ -1,14 +1,13 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ActionButton from '../../components/UI/ActionButton';
 import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 import ItemFrame from '../../components/UI/ItemFrame';
-import * as userActions from '../../store/actions/user';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useIsFocused} from '@react-navigation/native';
 import Spinner from '../../components/UI/Spinner';
+import * as userActions from '../../store/actions/user';
 
 const deliveryMethod = [
     {
@@ -44,16 +43,19 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
     const { cartTotalAmount } = route.params;
     const address = useSelector(state => state.user.addresses);
     const isFocused = useIsFocused();
+    const dispatch = useDispatch();
 
     const [activeAddress, setActiveAddress] = useState('');
     const [activeMethod, setActiveMethod] = useState('');
+    const [activeButtonAction, setActiveButtonAction] = useState('');
+    const [manageAddress, setMangeAddress] = useState(false);
     const [deliveryCost, setDeliveryCost] = useState(0);
 
     useEffect(() => {
         setLoading(true);
         const onValueChange = async () =>
         {
-                   await console.log('siema')
+                   await setMangeAddress(false);
         }
         onValueChange().then(
             () => {
@@ -102,8 +104,20 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
             <ScrollView>
             <View>
                 <CartStepHeader headerText={'Adres dostawy'}/>
+                <View>
+                    {
+
+                        <TouchableOpacity
+                            onPress={() => setMangeAddress(!manageAddress)}
+                            isActive={manageAddress}
+                        >
+                            <Text>{manageAddress === false ? 'Zarządzaj adresami' : 'Zakończ'}</Text>
+                        </TouchableOpacity>
+                    }
+                </View>
                 <View style={styles.addressesOrDeliveryMethodList}>
                 {
+                    manageAddress === false ?
                     address.map(
                         item => {
                     const isActive = activeAddress.includes(item.id);
@@ -117,6 +131,29 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
                             />
                     )}
                     )
+                        :
+                        address.map(
+                            item => {
+                                return (
+                                    <View style={styles.frameContainer} key={item.id}>
+                                    <ItemFrame
+                                        manage={true}
+                                        itemAction={() => navigation.navigate('AddAddress', {
+                                            address: {
+                                                id: item.id.toString(),
+                                                city: item.city,
+                                                street: item.street,
+                                                houseNumber: item.houseNumber,
+                                                apartmentNumber: item.apartmentNumber,
+                                                postcode: item.postcode
+                                            },
+                                        })}
+                                        deleteAddress={() => dispatch(userActions.deleteAddress(item.id.toString()))}
+                                        itemText={item.city + ' ul.' + item.street + " "  + item.houseNumber + [item.houseNumber !== '' && item.apartmentNumber !== ''? '/' + item.apartmentNumber : ' ' + item.apartmentNumber] + ' ' + item.postcode}
+                                    />
+                                    </View>
+                                )}
+                        )
                 }
                 </View>
                 <View>
@@ -190,6 +227,10 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
 
+
+    frameContainer: {
+        // flexDirection: 'row'
+    }
 });
 
 
