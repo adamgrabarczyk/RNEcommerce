@@ -38,7 +38,7 @@ const deliveryMethod = [
 ];
 
 
-const ChooseAddressScreen = ({ navigation, route }, props) => {
+const ChooseAddressScreen = ({ navigation, route }) => {
 
     const { cartItems } = route.params;
     const { cartTotalAmount } = route.params;
@@ -48,7 +48,6 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
 
     const [activeAddress, setActiveAddress] = useState('');
     const [activeMethod, setActiveMethod] = useState('');
-    const [activeButtonAction, setActiveButtonAction] = useState('');
     const [manageAddress, setMangeAddress] = useState(false);
     const [deliveryCost, setDeliveryCost] = useState(0);
 
@@ -105,10 +104,16 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
             <ScrollView>
             <View>
                 <CartStepHeader headerText={'Adres dostawy'}/>
-                <ManageOption
-                    setMangeAddress={() => setMangeAddress(!manageAddress)}
-                    manageAddress={manageAddress}
-                />
+                {
+                    address.length > 0 ?
+                        <ManageOption
+                            setMangeAddress={() => setMangeAddress(!manageAddress)}
+                            manageAddress={manageAddress}
+                        />
+                        :
+                        null
+                }
+
                 <View style={styles.addressesOrDeliveryMethodList}>
                 {
                     manageAddress === false ?
