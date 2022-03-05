@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import ActionButton from '../../components/UI/ActionButton';
@@ -107,7 +107,10 @@ const ChooseAddressScreen = ({ navigation, route }) => {
                 {
                     address.length > 0 ?
                         <ManageOption
-                            setMangeAddress={() => setMangeAddress(!manageAddress)}
+                            setMangeAddress={() => {
+                                setMangeAddress(!manageAddress);
+                                setActiveAddress('');
+                            }}
                             manageAddress={manageAddress}
                         />
                         :
