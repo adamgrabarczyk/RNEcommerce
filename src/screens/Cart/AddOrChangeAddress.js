@@ -4,7 +4,7 @@ import Spinner from '../../components/UI/Spinner';
 import {useDispatch} from 'react-redux';
 import Address from '../../components/user/Address';
 
-const AddAddress = ({route}) => {
+const AddOrChangeAddress = ({route}) => {
     const dispatch = useDispatch();
 
     const [city, setCity] = useState('');
@@ -69,7 +69,7 @@ const AddAddress = ({route}) => {
     );
 }
 
-export default AddAddress;
+export default AddOrChangeAddress;
 
 
 

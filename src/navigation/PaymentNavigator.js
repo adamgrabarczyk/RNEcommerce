@@ -10,7 +10,7 @@ import ChoosePaymentMethodScreen from '../screens/Cart/ChoosePaymentMethodScreen
 import OrderSummaryScreen from '../screens/Cart/OrderSummaryScreen';
 import SuccessScreen from '../screens/Cart/SuccessScreen';
 import StepProgressBar from '../components/UI/StepProgressBar';
-import AddAddress from '../screens/Cart/AddAddress';
+import AddOrChangeAddress from '../screens/Cart/AddOrChangeAddress';
 
 
 const PaymentStack = createStackNavigator();
@@ -45,8 +45,8 @@ const PaymentNavigator = ({navigation}) => {
                 />
 
             <PaymentStack.Screen
-                name="AddAddress"
-                component={AddAddress}
+                name="AddOrChangeAddress"
+                component={AddOrChangeAddress}
                 options={{
                     headerTitle: () => (<Text>Dodaj adres</Text>),
                     headerStyle: {

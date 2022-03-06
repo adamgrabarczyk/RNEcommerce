@@ -140,7 +140,7 @@ const ChooseAddressScreen = ({ navigation, route }) => {
                                     <View style={styles.frameContainer} key={item.id}>
                                     <ItemFrame
                                         manage={true}
-                                        itemAction={() => navigation.navigate('AddAddress', {
+                                        itemAction={() => navigation.navigate('AddOrChangeAddress', {
                                             address: {
                                                 id: item.id.toString(),
                                                 city: item.city,
@@ -161,7 +161,7 @@ const ChooseAddressScreen = ({ navigation, route }) => {
                 <View>
                     {
                         address.length < 5 ? <ItemFrame
-                            itemAction={() => navigation.navigate('AddAddress')}
+                            itemAction={() => navigation.navigate('AddOrChangeAddress')}
                             itemText={'Dodaj adres'}
                             add={true}
                             />
