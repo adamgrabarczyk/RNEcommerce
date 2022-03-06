@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet} from 'react-native';
+import { View, ScrollView, Text, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import * as notificationActions from '../../store/actions/notifications'
 import {useDispatch, useSelector} from 'react-redux';
+import CartStepHeader from '../../components/UI/CartStepHeader';
+import BoxItem from '../../components/UI/BoxItem';
 
 
 const NotificationsPermission = () => {
@@ -19,23 +21,23 @@ const NotificationsPermission = () => {
     const dispatch = useDispatch();
     return (
         <View style={styles.container}>
-            <View style={styles.noOrdersTextContainer}>
-                <Text style={styles.noNotificationText}>powiadomienia</Text>
-            </View>
+            <CartStepHeader headerText={'Powiadomienia'}/>
 
-            <View>
+            <ScrollView style={styles.notificationList}>
                 {
                     notifications.sort((a,b) => {
                         return (a.date < b.date) ? 1 : ((a.date > b.date) ? -1 : 0)
                     }).map(
                         notification =>
-                            <View key={notification.date}>
-                                <Text style={notification.status === 'unread' ? styles.unreadTitle : styles.title} onPress={notification.status === 'unread' ? () => dispatch(notificationActions.readNotification(notification.title, notification.message, notification.date, notification.id)) : null}>{notification.title}</Text>
-                                <Text>{notification.message}</Text>
-                            </View>
+                            <BoxItem
+                                key={notification.id}
+                                notificationTitleStyle={notification.status === 'unread' ? styles.unreadTitle : styles.title}
+                                notificationTitle={notification.title}
+                                notificationMessage={notification.message}
+                            />
                     )
                 }
-            </View>
+            </ScrollView>
         </View>
     );
 }
@@ -45,9 +47,8 @@ export default NotificationsPermission;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        width: '100%',
+
     },
 
     noOrdersTextContainer: {
@@ -64,6 +65,10 @@ const styles = StyleSheet.create({
 
     unreadTitle: {
         fontWeight: "800"
+    },
+
+    notificationList: {
+        margin: 10
     }
 });
 
