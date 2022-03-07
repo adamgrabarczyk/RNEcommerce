@@ -29,10 +29,11 @@ export const _getUserNotifications = () => {
                         const values = Object.values(data[key]);
                         userNotification.push({
                             'id': key,
-                            'title': values[2],
+                            'title': values[3],
                             'message': values[1],
                             'status': values[0],
-                            'date': values[3]
+                            'date': values[4],
+                            'orderId': values[2]
                         })
                     });
                     dispatch({type: GET_NOTIFICATION, notification: userNotification});
@@ -41,7 +42,7 @@ export const _getUserNotifications = () => {
     }
 }
 
-export const setNotification = (title, message) => {
+export const setNotification = (title, message, orderId) => {
 
     return async dispatch => {
         const authData = await AsyncStorage.getItem('authData');
@@ -56,7 +57,8 @@ export const setNotification = (title, message) => {
                 title: title,
                 message: message,
                 status: 'unread',
-                date: date
+                date: date,
+                order: orderId
             })
             .then(() => {
 
@@ -76,10 +78,11 @@ export const setNotification = (title, message) => {
                                 const values = Object.values(data[key]);
                                 userNotification.push({
                                     'id': key,
-                                    'title': values[2],
+                                    'title': values[3],
                                     'message': values[1],
                                     'status': values[0],
-                                    'date': values[3]
+                                    'date': values[4],
+                                    'orderId': values[2]
                                 })
                             });
 
@@ -92,7 +95,7 @@ export const setNotification = (title, message) => {
     }
 };
 
-export const readNotification = (title, message, date, id) => {
+export const readNotification = (title, message, date, id, orderId) => {
     return async dispatch => {
         const authData = await AsyncStorage.getItem('authData');
         const parseAuthData = JSON.parse(authData);
@@ -105,7 +108,8 @@ export const readNotification = (title, message, date, id) => {
                 title: title,
                 message: message,
                 status: 'read',
-                date: date
+                date: date,
+                order: orderId
             })
             .then(() => {
                 dispatch({type: READ_NOTIFICATION, notification: date })

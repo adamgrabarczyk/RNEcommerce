@@ -9,7 +9,7 @@ const CartItem = props => {
 
 return (
 
-    <View style={styles.cartItem}>
+    <View style={[styles.cartItem, props.additionalStyles]}>
         {props.deletable &&
         (<TouchableOpacity onPress={props.deleteCart} style={styles.deleteButton}>
             <Ionicons

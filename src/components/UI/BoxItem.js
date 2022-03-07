@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet} from 'react-native';
+import { Pressable, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
 const BoxItem = (props) => {
 
     return (
-        <View style={styles.boxItemContainer}>
+        <Pressable style={styles.boxItemContainer} onPress={props.showDetails}>
             <Text style={[props.notificationTitleStyle, styles.notificationTitleSize]}>{props.notificationTitle}</Text>
             <Text style={styles.notificationText}>{props.notificationMessage}</Text>
-        </View>
+        </Pressable>
     );
 }
 

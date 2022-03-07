@@ -94,7 +94,7 @@ export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDelive
                 status: status
             }
         })
-        handleScheduleNotification('Zamówienie ' + resData.name, 'Dziękujemy za złożenie zamówienia. Jesteśmy w trakcie jego reallizacji. Poinformujemy Cie o następnych krokach.')
-        handleScheduleNotificationReadyOrder('Zamówienie ' + resData.name, 'Twoje zamowienie zostało skompletowane. Już wkrótce będzie u Ciebie!')
+        handleScheduleNotification('Zamówienie ' + resData.name, 'Dziękujemy za złożenie zamówienia. Jesteśmy w trakcie jego reallizacji. Poinformujemy Cie o następnych krokach.', resData.name)
+        handleScheduleNotificationReadyOrder('Zamówienie ' + resData.name, 'Twoje zamowienie zostało skompletowane. Już wkrótce będzie u Ciebie!', resData.name)
     }
 }

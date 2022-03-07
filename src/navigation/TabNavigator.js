@@ -27,6 +27,7 @@ import ChooseCategoryScreen from '../screens/Home/ChooseCategoryScreen';
 import CategoryScreen from '../screens/Home/CategoryScreen';
 import SubcategoryScreen from '../screens/Home/SubcategoryScreen';
 import SelectedMarkScreen from '../screens/Home/SelectedMarkScreen';
+import NotificationDetailsScreen from '../screens/Profile/NotificationDetailsScreen';
 
 const HomeStack = createStackNavigator();
 
@@ -139,6 +140,15 @@ export function HomeStackScreen({navigation}) {
                     headerTitle: ''
                 }}
             />
+
+            <HomeStack.Screen
+                name="NotificationDetails"
+                component={NotificationDetailsScreen}
+                options={{
+                    headerTitle: ''
+                }}
+            />
+
         </HomeStack.Navigator>
     );
 }
@@ -312,6 +322,14 @@ function ProfileStackScreen({navigation}) {
             <ProfileStack.Screen
                 name="NotificationsPermission"
                 component={NotificationsPermission}
+                options={{
+                    headerTitle: ''
+                }}
+            />
+
+            <ProfileStack.Screen
+                name="NotificationDetails"
+                component={NotificationDetailsScreen}
                 options={{
                     headerTitle: ''
                 }}

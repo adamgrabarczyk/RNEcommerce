@@ -6,7 +6,7 @@ import CartStepHeader from '../../components/UI/CartStepHeader';
 import BoxItem from '../../components/UI/BoxItem';
 
 
-const NotificationsPermission = () => {
+const NotificationsPermission = ({navigation}) => {
     const notifications = useSelector(state => state.notifications.notifications);
 
     useEffect(() => {
@@ -22,8 +22,7 @@ const NotificationsPermission = () => {
     return (
         <View style={styles.container}>
             <CartStepHeader headerText={'Powiadomienia'}/>
-
-            <ScrollView style={styles.notificationList}>
+             <ScrollView style={styles.notificationList}>
                 {
                     notifications.sort((a,b) => {
                         return (a.date < b.date) ? 1 : ((a.date > b.date) ? -1 : 0)
@@ -31,9 +30,25 @@ const NotificationsPermission = () => {
                         notification =>
                             <BoxItem
                                 key={notification.id}
+                                showDetails={notification.status === 'unread' ? () => {
+                                    dispatch(notificationActions.readNotification(notification.title, notification.message, notification.date, notification.id, notification.order))
+                                    navigation.navigate('NotificationDetails', {
+                                        notificationId: notification.id,
+                                        notificationTitle: notification.title,
+                                        notificationMessage: notification.message,
+                                        orderId: notification.orderId
+                                         });
+                                } : () => {
+                                    navigation.navigate('NotificationDetails', {
+                                        notificationId: notification.id,
+                                        notificationTitle: notification.title,
+                                        notificationMessage: notification.message,
+                                        orderId: notification.orderId
+                                    });
+                                }}
                                 notificationTitleStyle={notification.status === 'unread' ? styles.unreadTitle : styles.title}
                                 notificationTitle={notification.title}
-                                notificationMessage={notification.message}
+                                notificationMessage={notification.message.substring(0,59) + '...'}
                             />
                     )
                 }
