@@ -6,7 +6,7 @@ import CartStepHeader from '../../components/UI/CartStepHeader';
 import BoxItem from '../../components/UI/BoxItem';
 
 
-const NotificationsPermission = ({navigation}) => {
+const NotificationsScreen = ({navigation}) => {
     const notifications = useSelector(state => state.notifications.notifications);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const NotificationsPermission = ({navigation}) => {
     );
 }
 
-export default NotificationsPermission;
+export default NotificationsScreen;
 
 const styles = StyleSheet.create({
     container: {

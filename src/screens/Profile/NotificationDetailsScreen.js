@@ -53,11 +53,11 @@ const NotificationDetailsScreen = ({navigation, route}) => {
     return (
         <View style={styles.container}>
             <CartStepHeader headerText={notificationTitle}/>
-<ScrollView style={styles.scroll}>
+
             <View style={styles.messageContainer}>
                 <Text style={styles.messageText}>{notificationMessage}</Text>
             </View>
-
+            <ScrollView style={styles.scroll}>
             {
                 orderItems.map(carItem => (
                     <CartItem

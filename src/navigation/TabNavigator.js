@@ -18,7 +18,7 @@ import Cart from '../screens/Cart';
 import SearchBar from '../components/shop/SearchBar';
 import PersonalData from '../screens/Profile/PersonalData';
 import Adresses from '../screens/Profile/Adresses';
-import NotificationsPermission from '../screens/Profile/NotificationsPermission';
+import NotificationsScreen from '../screens/Profile/NotificationsScreen';
 import EmailPassword from '../screens/Profile/EmailPassword';
 import ChangePassword from '../screens/Profile/ChangePassword';
 import ChangeEmail from '../screens/Profile/ChangeEmail';
@@ -28,6 +28,7 @@ import CategoryScreen from '../screens/Home/CategoryScreen';
 import SubcategoryScreen from '../screens/Home/SubcategoryScreen';
 import SelectedMarkScreen from '../screens/Home/SelectedMarkScreen';
 import NotificationDetailsScreen from '../screens/Profile/NotificationDetailsScreen';
+import Permissions from '../screens/Profile/Permissions';
 
 const HomeStack = createStackNavigator();
 
@@ -84,7 +85,7 @@ export function HomeStackScreen({navigation}) {
                         <Item
                             title='notifications'
                             iconName={'notifications-sharp'}
-                            onPress={() => {navigation.navigate('NotificationsPermission')} }
+                            onPress={() => {navigation.navigate('NotificationsScreen')} }
                             />
                             { unreadNotifications.length > 0 ?
                                 <View style={styles.cartValueContainer}>
@@ -134,8 +135,8 @@ export function HomeStackScreen({navigation}) {
             }} />
 
             <HomeStack.Screen
-                name="NotificationsPermission"
-                component={NotificationsPermission}
+                name="NotificationsScreen"
+                component={NotificationsScreen}
                 options={{
                     headerTitle: ''
                 }}
@@ -320,8 +321,8 @@ function ProfileStackScreen({navigation}) {
             />
 
             <ProfileStack.Screen
-                name="NotificationsPermission"
-                component={NotificationsPermission}
+                name="Permissions"
+                component={Permissions}
                 options={{
                     headerTitle: ''
                 }}
