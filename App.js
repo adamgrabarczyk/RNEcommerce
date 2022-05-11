@@ -12,6 +12,7 @@ import * as productActioncs from './src/store/actions/products';
 import * as userActions from './src/store/actions/user';
 import MainStackNavigator from './src/navigation/MainNavigator';
 import * as notificationActions from './src/store/actions/notifications';
+import * as permissionActions from './src/store/actions/permissions';
 
 const App: () => React$Node = () => {
 
@@ -50,6 +51,7 @@ const App: () => React$Node = () => {
             await  dispatch(productActioncs.fetchFavs());
             await  dispatch(orderActioncs.fetchOrders());
             await  dispatch(notificationActions._getUserNotifications());
+            await  dispatch(permissionActions._getUserPermissions());
 
             setIsLoading(false);
         };
