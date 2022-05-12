@@ -22,37 +22,47 @@ const NotificationsScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <CartStepHeader headerText={'Powiadomienia'}/>
-             <ScrollView style={styles.notificationList}>
+
+
                 {
-                    notifications.sort((a,b) => {
-                        return (a.date < b.date) ? 1 : ((a.date > b.date) ? -1 : 0)
-                    }).map(
-                        notification =>
-                            <BoxItem
-                                key={notification.id}
-                                showDetails={notification.status === 'unread' ? () => {
-                                    dispatch(notificationActions.readNotification(notification.title, notification.message, notification.date, notification.id, notification.order))
-                                    navigation.navigate('NotificationDetails', {
-                                        notificationId: notification.id,
-                                        notificationTitle: notification.title,
-                                        notificationMessage: notification.message,
-                                        orderId: notification.orderId
-                                         });
-                                } : () => {
-                                    navigation.navigate('NotificationDetails', {
-                                        notificationId: notification.id,
-                                        notificationTitle: notification.title,
-                                        notificationMessage: notification.message,
-                                        orderId: notification.orderId
-                                    });
-                                }}
-                                notificationTitleStyle={notification.status === 'unread' ? styles.unreadTitle : styles.title}
-                                notificationTitle={notification.title}
-                                notificationMessage={notification.message.substring(0,59) + '...'}
-                            />
-                    )
+                    notifications.length > 0 ?
+                        <ScrollView style={styles.notificationList}>
+                            {
+                                notifications.sort((a, b) => {
+                                    return (a.date < b.date) ? 1 : ((a.date > b.date) ? -1 : 0)
+                                }).map(
+                                    notification =>
+                                        <BoxItem
+                                            key={notification.id}
+                                            showDetails={notification.status === 'unread' ? () => {
+                                                dispatch(notificationActions.readNotification(notification.title, notification.message, notification.date, notification.id, notification.order))
+                                                navigation.navigate('NotificationDetails', {
+                                                    notificationId: notification.id,
+                                                    notificationTitle: notification.title,
+                                                    notificationMessage: notification.message,
+                                                    orderId: notification.orderId
+                                                });
+                                            } : () => {
+                                                navigation.navigate('NotificationDetails', {
+                                                    notificationId: notification.id,
+                                                    notificationTitle: notification.title,
+                                                    notificationMessage: notification.message,
+                                                    orderId: notification.orderId
+                                                });
+                                            }}
+                                            notificationTitleStyle={notification.status === 'unread' ? styles.unreadTitle : styles.title}
+                                            notificationTitle={notification.title}
+                                            notificationMessage={notification.message.substring(0, 59) + '...'}
+                                        />
+                                )
+                            }
+                        </ScrollView>
+                        :
+                        <View style={styles.noDataContainer}>
+                            <Text>Nie masz żadnych powiadomień</Text>
+                        </View>
                 }
-            </ScrollView>
+
         </View>
     );
 }
@@ -66,24 +76,14 @@ const styles = StyleSheet.create({
 
     },
 
+    noDataContainer: {
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
     noOrdersTextContainer: {
         textAlign: 'center'
-    },
-
-    noNotificationText: {
-
-    },
-
-    title: {
-
-    },
-
-    unreadTitle: {
-        fontWeight: "800"
-    },
-
-    notificationList: {
-        margin: 10
     }
 });
 
