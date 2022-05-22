@@ -1,14 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {View,  Text, StyleSheet} from 'react-native';
+import {View,  Text, StyleSheet, Platform} from 'react-native';
 import SwitchUI from '../../components/UI/SwitchUI';
 import {useDispatch, useSelector} from 'react-redux';
 import * as permissionsActions from '../../store/actions/permissions';
+import Spinner from '../../components/UI/Spinner';
 
 const EmailPermissions = () => {
     const dispatch = useDispatch();
     const emailPermission = useSelector(state => state.permissions.emailPermissions);
     const key = useSelector(state => state.permissions.key);
     const category = 'emailPermission';
+
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isEnabledOrderStatus, setIsEnabledOrderStatus] = useState(true);
+    const [isEnabledNews, setIsEnabledNews] = useState(false);
+    const [isEnabledPromotion, setIsEnabledPromotion] = useState(false);
+    const [isEnabledChanges, setIsEnabledChanges] = useState(false);
 
     const toggleSwitch = (enabled, setEnabled, value) => {
         setEnabled(previousState => !previousState);
@@ -20,37 +28,46 @@ const EmailPermissions = () => {
     }
 
     useEffect(() => {
-
-        emailPermission.filter(
-            permission => {
-                if (permission.title === 'orderStatus') {
-                    setIsEnabledOrderStatus(permission.status)
-                } else if (permission.title === 'news') {
-                    setIsEnabledNews(permission.status)
-                } else if (permission.title === 'promotion') {
-                    setIsEnabledPromotion(permission.status)
-                } else if (permission.title === 'changes') {
-                    setIsEnabledChanges(permission.status)
-                }
+        setIsLoading(true);
+            const setData = async () => {
+                emailPermission.filter(
+                    permission => {
+                        if (permission.title === 'orderStatus') {
+                            setIsEnabledOrderStatus(permission.status)
+                        } else if (permission.title === 'news') {
+                            setIsEnabledNews(permission.status)
+                        } else if (permission.title === 'promotion') {
+                            setIsEnabledPromotion(permission.status)
+                        } else if (permission.title === 'changes') {
+                            setIsEnabledChanges(permission.status)
+                        }
+                    }
+                )
             }
-        )
+       setData().then(
+           () => {
+               setIsLoading(false)
+           }
+       )
 
     }, []);
 
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [isEnabledOrderStatus, setIsEnabledOrderStatus] = useState(true);
-    const [isEnabledNews, setIsEnabledNews] = useState(false);
-    const [isEnabledPromotion, setIsEnabledPromotion] = useState(false);
-    const [isEnabledChanges, setIsEnabledChanges] = useState(false);
 
-
+    if (isLoading) {
+        return <Spinner spinnerSize='fullScreen'/>
+    }
 
 
     return(
         <View style={styles.container}>
             <View style={styles.switchContainer}>
-                <Text style={styles.header} onPress={() => console.log(emailPermission)}>Powiadomienia Email</Text>
+                <Text style={styles.header} onPress={() => {
+                    Platform.OS === 'android' ?
+                        console.warn(emailPermission)
+
+                        : console.log(emailPermission)
+                }}>Powiadomienia Email</Text>
                 <SwitchUI
                     switchCondition={isEnabledOrderStatus}
                     onValueChange={() => toggleSwitch(isEnabledOrderStatus, setIsEnabledOrderStatus, 'orderStatus')}

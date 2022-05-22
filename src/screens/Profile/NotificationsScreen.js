@@ -21,10 +21,8 @@ const NotificationsScreen = ({navigation}) => {
     const dispatch = useDispatch();
     return (
         <View style={styles.container}>
-            <CartStepHeader headerText={'Powiadomienia'}/>
-
-
-                {
+            <CartStepHeader headerText={'Powiadomienia'} />
+            {
                     notifications.length > 0 ?
                         <ScrollView style={styles.notificationList}>
                             {
@@ -32,7 +30,7 @@ const NotificationsScreen = ({navigation}) => {
                                     return (a.date < b.date) ? 1 : ((a.date > b.date) ? -1 : 0)
                                 }).map(
                                     notification =>
-                                        <BoxItem
+                                     <BoxItem
                                             key={notification.id}
                                             showDetails={notification.status === 'unread' ? () => {
                                                 dispatch(notificationActions.readNotification(notification.title, notification.message, notification.date, notification.id, notification.order))
@@ -40,14 +38,14 @@ const NotificationsScreen = ({navigation}) => {
                                                     notificationId: notification.id,
                                                     notificationTitle: notification.title,
                                                     notificationMessage: notification.message,
-                                                    orderId: notification.orderId
+                                                    orderId: notification.order
                                                 });
                                             } : () => {
                                                 navigation.navigate('NotificationDetails', {
                                                     notificationId: notification.id,
                                                     notificationTitle: notification.title,
                                                     notificationMessage: notification.message,
-                                                    orderId: notification.orderId
+                                                    orderId: notification.order
                                                 });
                                             }}
                                             notificationTitleStyle={notification.status === 'unread' ? styles.unreadTitle : styles.title}

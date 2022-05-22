@@ -1,5 +1,6 @@
 import database from '@react-native-firebase/database';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Platform} from 'react-native';
 
 export const GET_USER_PERMISSIONS = 'GET_USER_PERMISSIONS';
 export const SET_PERMISSIONS = 'SET_PERMISSIONS';
@@ -20,41 +21,21 @@ export const _getUserPermissions = () => {
 
                 if (data !== null) {
 
-                    console.log(data);
-
                     const key = Object.keys(data);
                     const k = key[0];
 
-                    console.log(key)
-                    console.log(k)
-
                     const ids = Object.keys(data[k]);
-
-                    console.log(ids);
 
                     let emailPermission = [];
                     let pushPermission = [];
 
                     key.forEach((key) => {
                         const values = Object.values(data[key]);
-                        const valuesEmail = Object.values(values[0]);
-                        const valuesPush = Object.values(values[1]);
-
-                        console.log(values);
-                        console.log('bla');
-                        console.log(values[0]);
-                        console.log('le');
-                        console.log(values[1]);
-                        console.log('kmin');
-                        console.log(valuesEmail);
+                        const valuesEmail = Platform.OS === 'android' ? Object.values(values[1]) : Object.values(values[0]);
+                        const valuesPush = Platform.OS === 'android' ? Object.values(values[0]) : Object.values(values[1]);
 
                         emailPermission = valuesEmail;
-
                         pushPermission = valuesPush;
-
-                        console.log('kiwi');
-                        console.log(emailPermission);
-
 
                     });
                     dispatch({type: GET_USER_PERMISSIONS, emailPermission: emailPermission, pushPermission: pushPermission, key: k});

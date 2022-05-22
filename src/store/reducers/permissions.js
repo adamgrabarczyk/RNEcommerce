@@ -19,9 +19,6 @@ export default (state = initialState, action) => {
             const key = action.key;
 
 
-            console.log('blah');
-            console.log(emailPermission);
-
             return {
                 ...state,
                 emailPermissions: emailPermission,
@@ -33,8 +30,6 @@ export default (state = initialState, action) => {
 
             const permission = action.permission;
 
-            console.log('blah');
-            console.log(permission);
             return {
                 ...state,
                 emailPermissions: permission

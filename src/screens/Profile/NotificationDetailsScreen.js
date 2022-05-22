@@ -45,7 +45,7 @@ const NotificationDetailsScreen = ({navigation, route}) => {
     const [orderItems, setOrderItems] = useState([]);
 
     if (loading) {
-        return <Spinner
+        return<Spinner
             spinnerSize={'fullScreen'}
         />
     }

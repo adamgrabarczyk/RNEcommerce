@@ -1,10 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { ScrollView, View,  Text, StyleSheet} from 'react-native';
 import SwitchUI from '../../components/UI/SwitchUI';
+import {checkNotifications} from 'react-native-permissions';
 
 const PushNotificationPermissions = () => {
 
     const [isEnabled, setIsEnabled] = useState(false);
+    const [permission, setPermission] = useState('');
+
+    useEffect(() => {
+        checkNotifications().then(({status, settings}) => {
+            console.log(status);
+        }).then(
+            () => {
+                console.log('stop')
+            }
+        );
+    }, []);
 
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
@@ -15,6 +27,7 @@ const PushNotificationPermissions = () => {
         <View style={styles.container}>
             <View style={styles.switchContainer}>
                 <Text style={styles.header}>Powiadomienia PUSH</Text>
+                <Text>{permission}</Text>
                 <SwitchUI
                     switchCondition={isEnabled}
                     onValueChange={toggleSwitch}

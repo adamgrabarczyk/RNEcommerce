@@ -26,15 +26,10 @@ export const _getUserNotifications = () => {
                     let userNotification = [];
 
                     ids.forEach((key) => {
-                        const values = Object.values(data[key]);
-                        userNotification.push({
-                            'id': key,
-                            'title': values[3],
-                            'message': values[1],
-                            'status': values[0],
-                            'date': values[4],
-                            'orderId': values[2]
-                        })
+                        let obj = data[key];
+                        obj.id = key;
+
+                        userNotification.push(obj)
                     });
                     dispatch({type: GET_NOTIFICATION, notification: userNotification});
                 }
@@ -75,15 +70,9 @@ export const setNotification = (title, message, orderId) => {
                             let userNotification = [];
 
                             ids.forEach((key) => {
-                                const values = Object.values(data[key]);
-                                userNotification.push({
-                                    'id': key,
-                                    'title': values[3],
-                                    'message': values[1],
-                                    'status': values[0],
-                                    'date': values[4],
-                                    'orderId': values[2]
-                                })
+                                let obj = data[key];
+                                obj.id = key;
+                                userNotification.push(obj)
                             });
 
                             dispatch({type: SET_NOTIFICATION, notification: userNotification});
