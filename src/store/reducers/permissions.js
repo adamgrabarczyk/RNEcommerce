@@ -32,7 +32,8 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
-                emailPermissions: permission
+                emailPermissions: permission,
+                pushNotificationPermissions: permission
             }
 
         case CHANGE_PERMISSIONS:

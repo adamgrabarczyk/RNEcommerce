@@ -24,7 +24,6 @@ const EmailPermissions = () => {
         console.log(!enabled);
 
         dispatch(permissionsActions._changePermission(value, !enabled, category, key, value));
-        // dispatch(permissionsActions._setPermission(value, !enabled));
     }
 
     useEffect(() => {
