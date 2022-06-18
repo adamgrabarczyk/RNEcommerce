@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, StyleSheet, Platform} from 'react-native';
+import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
 import SwitchUI from '../../components/UI/SwitchUI';
-import {checkNotifications} from 'react-native-permissions';
+import {checkNotifications, openSettings} from 'react-native-permissions';
 import * as permissionsActions from '../../store/actions/permissions';
 import {useDispatch, useSelector} from 'react-redux';
+import Colors from '../../constans/Colors';
+import Spinner from '../../components/UI/Spinner';
 
 const PushNotificationPermissions = () => {
 
@@ -21,6 +23,14 @@ const PushNotificationPermissions = () => {
 
     useEffect(() => {
         setIsLoading(true);
+            checkNotifications().then(({status, settings}) => {
+                setPermission(status)
+            }).then(
+                () => {
+                    console.log('stop');
+                    setIsLoading(false);
+                }
+            );
         pushPermission.filter(
             permission => {
                 if (permission.title === 'orderStatus') {
@@ -32,14 +42,7 @@ const PushNotificationPermissions = () => {
                 }
             }
         );
-            checkNotifications().then(({status, settings}) => {
-                console.log(status);
-                console.warn(status);
-            }).then(
-                () => {
-                    console.log('stop');
-                }
-            );
+
     }, []);
 
     const toggleSwitch = (enabled, setEnabled, value) => {
@@ -51,17 +54,29 @@ const PushNotificationPermissions = () => {
     }
 
 
+
+    if (permission === 'blocked') {
+        return (
+            <View style={styles.container}>
+                <View style={styles.wrapper}>
+                <Text style={styles.wrapperText}>Nie wyrażono zgody na otrzymywanie powiadomień push</Text>
+                <TouchableOpacity style={styles.settingsButton}
+                    onPress={() => openSettings()}>
+                    <Text style={styles.settingsButtonText}>Zmień ustawienia</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
+    if (isLoading) {
+        return <Spinner spinnerSize='fullScreen'/>
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.switchContainer}>
                 <Text style={styles.header}>Powiadomienia PUSH</Text>
-                <Text>{permission}</Text>
-                <Text style={styles.header} onPress={() => {
-                    Platform.OS === 'android' ?
-                        console.warn(pushPermission)
-
-                        : console.log(pushPermission)
-                }}>Powiadomienia Email</Text>
                 <SwitchUI
                     switchCondition={isEnabledOrderStatus}
                     onValueChange={() => toggleSwitch(isEnabledOrderStatus, setIsEnabledOrderStatus, 'orderStatus')}
@@ -104,7 +119,6 @@ const styles = StyleSheet.create({
     },
 
     admission: {
-        // margin: 20,
         backgroundColor: 'white',
         padding: 25,
         textAlign: 'justify'
@@ -121,6 +135,27 @@ const styles = StyleSheet.create({
 
     switchContainer: {
         marginTop: 30
+    },
+
+    wrapper : {
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+
+    wrapperText: {
+        fontSize: 18,
+        margin: 10
+    },
+
+    settingsButton: {
+        marginTop: 100,
+        padding: 15,
+        backgroundColor: Colors.primary
+    },
+
+    settingsButtonText: {
+        color: 'white',
+        fontSize: 16
     }
 });
 
