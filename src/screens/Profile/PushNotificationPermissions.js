@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, StyleSheet,TouchableOpacity, AppState} from 'react-native';
 import SwitchUI from '../../components/UI/SwitchUI';
 import {checkNotifications, openSettings} from 'react-native-permissions';
 import * as permissionsActions from '../../store/actions/permissions';
@@ -8,13 +8,13 @@ import Colors from '../../constans/Colors';
 import Spinner from '../../components/UI/Spinner';
 
 const PushNotificationPermissions = () => {
-
+    const appState = useRef(AppState.currentState);
     const dispatch = useDispatch();
     const pushPermission = useSelector(state => state.permissions.pushNotificationPermissions);
     const key = useSelector(state => state.permissions.key);
     const category = 'pushPermission';
 
-
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
     const [isLoading, setIsLoading] = useState(false);
     const [isEnabledOrderStatus, setIsEnabledOrderStatus] = useState(true);
     const [isEnabledNews, setIsEnabledNews] = useState(false);
@@ -27,8 +27,10 @@ const PushNotificationPermissions = () => {
                 setPermission(status)
             }).then(
                 () => {
-                    console.log('stop');
-                    setIsLoading(false);
+                    setIsLoading(true);
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    },500)
                 }
             );
         pushPermission.filter(
@@ -42,14 +44,15 @@ const PushNotificationPermissions = () => {
                 }
             }
         );
+    }, [appStateVisible]);
 
-    }, []);
+    AppState.addEventListener("change", nextAppState => {
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
+    });
 
     const toggleSwitch = (enabled, setEnabled, value) => {
         setEnabled(previousState => !previousState);
-        console.log(value);
-        console.log(!enabled);
-
         dispatch(permissionsActions._changePermission(value, !enabled, category, key, value));
     }
 
@@ -58,7 +61,7 @@ const PushNotificationPermissions = () => {
     if (permission === 'blocked') {
         return (
             <View style={styles.container}>
-                <View style={styles.wrapper}>
+               <View style={styles.wrapper}>
                 <Text style={styles.wrapperText}>Nie wyrażono zgody na otrzymywanie powiadomień push</Text>
                 <TouchableOpacity style={styles.settingsButton}
                     onPress={() => openSettings()}>
