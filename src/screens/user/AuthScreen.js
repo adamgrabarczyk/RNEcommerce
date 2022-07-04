@@ -11,6 +11,7 @@ import SignupForm from '../../components/auth/SignupForm'
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constans/Colors';
+import WelcomeBanner from '../../components/UI/WelcomeBanner';
 
 
 const AuthScreen = () => {
@@ -74,8 +75,7 @@ const AuthScreen = () => {
                     />
                     :
                     <View style={styles.loginScreenContainer}>
-                        <View style={styles.welcomeBanner}>
-                        </View>
+                        <WelcomeBanner/>
                     <LoginForm
                         email={(email) => dispatch(authActions.userEmail(email))}
                         password={(password) => dispatch(authActions.userPassword(password))}
@@ -103,10 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 100
     },
 
-    welcomeBanner: {
-        width: '100%',
-        height: 250
-    },
+
 
     container : {
         flexGrow: 1,

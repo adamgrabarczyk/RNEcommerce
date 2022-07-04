@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
 
     inputBox: {
         width: 320,
-        height: 40,
         borderBottomWidth: 1,
         borderBottomColor: '#C9C9C9',
         paddingHorizontal: 16,
@@ -106,15 +105,15 @@ const styles = StyleSheet.create({
     },
 
     label: {
-height: 21,
-top: 10,
+        height: 21,
+        top: 10,
         marginTop: 15,
         marginBottom: 15,
-fontStyle: 'normal',
-fontWeight: '600',
-fontSize: 18,
-lineHeight: 21,
-color: '#000000'
+        fontStyle: 'normal',
+        fontWeight: '600',
+        fontSize: 18,
+        lineHeight: 21,
+        color: '#000000'
     },
 
     buttonText: {
