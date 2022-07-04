@@ -2,7 +2,9 @@ import * as React from 'react';
 import {
     View,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    SafeAreaView,
+    Text
 } from 'react-native';
 import LoginForm from '../../components/auth/LoginForm'
 import SignupForm from '../../components/auth/SignupForm'
@@ -50,7 +52,7 @@ const AuthScreen = () => {
     }
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
             {
                 isSignup ?
@@ -71,6 +73,9 @@ const AuthScreen = () => {
                         error={errorMessage}
                     />
                     :
+                    <View style={styles.loginScreenContainer}>
+                        <View style={styles.welcomeBanner}>
+                        </View>
                     <LoginForm
                         email={(email) => dispatch(authActions.userEmail(email))}
                         password={(password) => dispatch(authActions.userPassword(password))}
@@ -79,34 +84,36 @@ const AuthScreen = () => {
                             setIsSignup(prevState => !prevState)
                             setErrorMessage(null);
                         }}
-                        spinner={isLoading ? <ActivityIndicator size='small' color={Colors.primary}/> : <View style={styles.spinnerContainer}></View>}
+                        spinner={isLoading ? <ActivityIndicator size='small' color={'#5956E9'}/>
+                            : <Text></Text>
+                        }
                         spinnerContainer={styles.spinnerContainer}
                         error={errorMessage}
                     />
+                    </View>
             }
-        </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    container : {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        backgroundColor: '#ffffff'
+
+    loginScreenContainer: {
+        width:  '100%',
+        borderRadius: 100
     },
 
-    inputBox: {
-        width: 320,
-        height: 40,
-        backgroundColor: 'lightgrey',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10,
+    welcomeBanner: {
+        width: '100%',
+        height: 250
     },
+
+    container : {
+        flexGrow: 1,
+        flex: 1,
+        backgroundColor: '#5956E9'
+    },
+
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
@@ -124,9 +131,12 @@ const styles = StyleSheet.create({
     },
 
     spinnerContainer: {
-        width: '100%',
-        height: 5,
-        padding: 5
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 35,
+        padding: 5,
+        top: 15
     }
 
 
