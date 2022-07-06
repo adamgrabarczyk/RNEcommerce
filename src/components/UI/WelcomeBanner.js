@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import React from 'react';
 import Ellipse from './Ellipse';
 import EllipseWelcome from './EllipseWelcome';
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     smallEllipse: {
         width: 27,
         height: 27,
-        left: 90,
+        left: 80,
         top: 15,
     },
 

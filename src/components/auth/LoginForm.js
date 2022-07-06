@@ -26,7 +26,7 @@ const LoginForm = (props) => {
                     </View>
             <TextInput style={styles.inputBox}
                        placeholder='user@email.com'
-                       placeholderTextColor='#000000'
+                       placeholderTextColor='#545353'
                        underlineColorAndroid='rgba(0,0,0,0)'
                        selectionColor='#ffffff'
                        keyboardType='email-address'
@@ -44,7 +44,7 @@ const LoginForm = (props) => {
                 </View>
             <TextInput style={styles.inputBox}
                        placeholder='* * * * * * * * *'
-                       placeholderTextColor='#000000'
+                       placeholderTextColor='#545353'
                        underlineColorAndroid='rgba(0,0,0,0)'
                        secureTextEntry={true}
                        autoCapitalize = 'none'
@@ -57,7 +57,6 @@ const LoginForm = (props) => {
 
                     <Text style={styles.resetPasswordText}>Zapomniałeś hasła?</Text>
                 </TouchableOpacity>
-            {/*<Text style={{color: 'black'}}>{password}</Text>*/}
             <View style={props.spinnerContainer}>
             {props.spinner}
             </View>
@@ -140,7 +139,6 @@ const styles = StyleSheet.create({
         color: '#5956E9'
     },
     button: {
-        marginTop: 30,
         marginBottom: 25,
         paddingTop: 10,
         paddingBottom: 10,
