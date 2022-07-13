@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 
 const EllipseWelcome = (props) => {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         width: 125,
         height: 125,
         left: 265,
-        top: -95,
+        top: -30,
         borderRadius: 100,
         backgroundColor: '#FAB8C3',
     },

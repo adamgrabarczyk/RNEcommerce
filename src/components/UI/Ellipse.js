@@ -1,4 +1,4 @@
-import {StyleSheet, View, Animated} from 'react-native';
+import {StyleSheet, Animated} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 
 const Ellipse = (props) => {

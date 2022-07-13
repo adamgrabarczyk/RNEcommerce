@@ -4,7 +4,7 @@ import {
     Text,
     StyleSheet,
     TextInput,
-    TouchableOpacity, Image, SafeAreaView, Dimensions
+    TouchableOpacity, Image, Dimensions, Keyboard,
 } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -14,7 +14,7 @@ const deviceHeight = Dimensions.get('window').height;
 const LoginForm = (props) => {
 
     return(
-        <View style={styles.container}>
+        <View style={styles.container} onPress={Keyboard.dismiss}>
             <View>
             <Text style={styles.label}>Logowanie</Text>
                 <View style={styles.envelopeContainer}>
@@ -80,17 +80,18 @@ const LoginForm = (props) => {
 
 
 const styles = StyleSheet.create({
-    container : {
-        justifyContent: 'center',
+    container: {
         alignItems: 'center',
         backgroundColor: '#ffffff',
         width: '100%',
-        borderRadius: 15,
+        borderTopRightRadius: 15,
+        borderTopStartRadius: 15,
         paddingBottom: 100,
         shadowColor: '#171717',
         shadowOffset: {width: 2, height: -1},
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        minHeight: '60%'
     },
 
     inputBox: {
@@ -114,13 +115,11 @@ const styles = StyleSheet.create({
         lineHeight: 21,
         color: '#000000'
     },
-
-    buttonText: {
-        fontSize: 20,
-        fontWeight: '700',
-        color: 'white',
-        textAlign: 'center',
-        marginVertical: 10
+    labelText: {
+        marginLeft: 10,
+        fontSize: 14,
+        color: '#868686',
+        top: 2
     },
 
     switchText: {
@@ -151,16 +150,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
-
-    ellipse: {
-        position: 'absolute',
-        width: 27,
-        height: 27,
-        left: 89,
-        top: 26,
-        borderColor:  '#706EFD',
-        borderWidth: 6,
-        borderRadius: 100
+    buttonText: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: 'white',
+        textAlign: 'center',
+        marginVertical: 10
     },
 
     envelopeContainer: {
@@ -168,13 +163,6 @@ const styles = StyleSheet.create({
         height: 17,
         left: 2,
         marginTop: 30
-    },
-
-    errorText: {
-      textAlign: 'center',
-        color: 'red',
-        marginTop: 20,
-        minHeight: 20
     },
 
     envelopeCenter: {
@@ -187,12 +175,13 @@ const styles = StyleSheet.create({
         borderWidth: 0
     },
 
-    labelText: {
-        marginLeft: 10,
-        fontSize: 14,
-        color: '#868686',
-        top: 2
+    errorText: {
+        textAlign: 'center',
+        color: 'red',
+        marginTop: 20,
+        minHeight: 20
     }
+
 
 })
 

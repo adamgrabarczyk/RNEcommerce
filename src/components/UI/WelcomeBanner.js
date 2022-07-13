@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import React from 'react';
 import Ellipse from './Ellipse';
 import EllipseWelcome from './EllipseWelcome';
@@ -7,14 +7,14 @@ const WelcomeBanner = (props) => {
 
 
         return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
             <View style={styles.container}>
                 <EllipseWelcome/>
                 <View style={styles.shadow}>
                     <Image source={require('../../images/Rectangle4.png')} style={{width: '100%', top: -20}}/>
                     <View style={styles.left}></View>
-                    <View style={styles.right}>
-
-                    </View>
+                    <View style={styles.right}></View>
                 </View>
 
                 <Ellipse
@@ -28,6 +28,7 @@ const WelcomeBanner = (props) => {
                     ellipse={styles.bigEllipse}
                 />
             </View>
+            </TouchableWithoutFeedback>
         )
 
 }
@@ -38,14 +39,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        minHeight: 300
+        minHeight: 300,
     },
     bannerTextContainer: {
         width: '100%',
         textAlign: 'center',
         margin: 50,
         marginTop: 0,
-        top: -20
+        top: 120
     },
 
     bannerText: {
@@ -59,20 +60,22 @@ const styles = StyleSheet.create({
         width: 27,
         height: 27,
         left: 80,
-        top: 15,
+        top: 60,
     },
 
     bigEllipse: {
         width: 35,
         height: 35,
         left: 310,
-        top: 220,
+        top: 270,
     },
     shadow: {
         flex: 1,
+        position: 'absolute',
         flexDirection: 'row',
         width: '100%',
-        minHeight: 50
+        minHeight: 50,
+        top: 60
     },
 
     right: {
