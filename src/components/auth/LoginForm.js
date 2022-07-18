@@ -4,12 +4,9 @@ import {
     Text,
     StyleSheet,
     TextInput,
-    TouchableOpacity, Image, Dimensions, Keyboard,
+    TouchableOpacity, Image, Keyboard,
 } from 'react-native';
-
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
-
+import Device from '../../constans/Device';
 
 const LoginForm = (props) => {
 
@@ -17,6 +14,7 @@ const LoginForm = (props) => {
         <View style={styles.container} onPress={Keyboard.dismiss}>
             <View>
             <Text style={styles.label}>Logowanie</Text>
+
                 <View style={styles.envelopeContainer}>
                     <View>
                 <Image style={styles.envelopeCenter} source={require('../../images/icons/envelope1.png')}/>
@@ -86,12 +84,11 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopRightRadius: 15,
         borderTopStartRadius: 15,
-        paddingBottom: 100,
+        paddingBottom: Device.height < 700 ? 30 : 100,
         shadowColor: '#171717',
         shadowOffset: {width: 2, height: -1},
         shadowOpacity: 0.2,
-        shadowRadius: 3,
-        minHeight: '60%'
+        shadowRadius: 3
     },
 
     inputBox: {
@@ -105,13 +102,13 @@ const styles = StyleSheet.create({
     },
 
     label: {
-        height: 21,
+        height: Device.height < 700 ? 20 : 21,
         top: 10,
-        marginTop: 15,
-        marginBottom: 15,
+        marginTop: Device.height < 700 ? 0 : 15,
+        marginBottom: Device.height < 700 ? 0 : 15,
         fontStyle: 'normal',
         fontWeight: '600',
-        fontSize: 18,
+        fontSize: Device.height < 700 ? 16 : 18,
         lineHeight: 21,
         color: '#000000'
     },
@@ -130,7 +127,7 @@ const styles = StyleSheet.create({
     },
 
     resetPassword: {
-        marginTop: 10
+        marginTop: Device.height < 700 ? 0 : 10
     },
     resetPasswordText: {
         fontSize: 14,
@@ -162,7 +159,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 17,
         left: 2,
-        marginTop: 30
+        marginTop: Device.height < 700 ? 28 : 30
     },
 
     envelopeCenter: {
@@ -178,7 +175,7 @@ const styles = StyleSheet.create({
     errorText: {
         textAlign: 'center',
         color: 'red',
-        marginTop: 20,
+        marginTop: Device.height < 700 ? 0 : 20,
         minHeight: 20
     }
 

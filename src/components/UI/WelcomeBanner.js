@@ -2,6 +2,7 @@ import {StyleSheet, View, Text, Image, TouchableWithoutFeedback, Keyboard} from 
 import React from 'react';
 import Ellipse from './Ellipse';
 import EllipseWelcome from './EllipseWelcome';
+import Device from '../../constans/Device';
 
 const WelcomeBanner = (props) => {
 
@@ -39,19 +40,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        minHeight: 300,
+        minHeight: Device.height < 700 ? 150 : 300,
     },
     bannerTextContainer: {
         width: '100%',
         textAlign: 'center',
         margin: 50,
         marginTop: 0,
-        top: 120
+        top: Device.height < 700 ? 30: 120
     },
 
     bannerText: {
         color: 'white',
-        fontSize: 65,
+        fontSize:  Device.height < 700 ? 50 : 65,
         fontWeight: '700',
         fontStyle: 'normal'
     },
@@ -60,14 +61,14 @@ const styles = StyleSheet.create({
         width: 27,
         height: 27,
         left: 80,
-        top: 60,
+        top: Device.height < 700 ? 10 : 60,
     },
 
     bigEllipse: {
         width: 35,
         height: 35,
         left: 310,
-        top: 270,
+        top: Device.height < 700 ? 130 : 270,
     },
     shadow: {
         flex: 1,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         minHeight: 50,
-        top: 60
+        top: Device.height < 700 ? 23 : 40
     },
 
     right: {

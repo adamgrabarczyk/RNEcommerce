@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         width: 125,
         height: 125,
         left: 265,
-        top: -30,
+        top: -60,
         borderRadius: 100,
         backgroundColor: '#FAB8C3',
     },

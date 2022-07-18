@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {
     View, ScrollView,
     StyleSheet,
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width:  '100%',
         flexDirection: 'column',
-
         backgroundColor: '#5956E9'
     },
 
