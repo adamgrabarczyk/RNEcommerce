@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopRightRadius: 15,
         borderTopStartRadius: 15,
-        paddingBottom: Device.height < 700 ? 30 : 100,
+        paddingBottom: Device.height < 700 ? '5%' : '20%',
         shadowColor: '#171717',
         shadowOffset: {width: 2, height: -1},
         shadowOpacity: 0.2,
@@ -98,14 +98,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         fontSize: 16,
         color: '#000000',
-        marginVertical: 10,
+        marginVertical: Device.height < 700 ? 0 : 10,
     },
 
     label: {
-        height: Device.height < 700 ? 20 : 21,
+        height: '5%',
         top: 10,
         marginTop: Device.height < 700 ? 0 : 15,
-        marginBottom: Device.height < 700 ? 0 : 15,
+        marginBottom: Device.height < 700 ? 3 : 15,
         fontStyle: 'normal',
         fontWeight: '600',
         fontSize: Device.height < 700 ? 16 : 18,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     },
 
     resetPassword: {
-        marginTop: Device.height < 700 ? 0 : 10
+        marginTop: Device.height < 700 ? '1%' : '2%'
     },
     resetPasswordText: {
         fontSize: 14,
@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
         color: '#5956E9'
     },
     button: {
-        marginBottom: 25,
-        paddingTop: 10,
-        paddingBottom: 10,
+        marginBottom: Device.height < 700 ? '3%' : '10%',
+        paddingTop: Device.height < 700 ? '1%' : '3%',
+        paddingBottom: Device.height < 700 ? '1%' : '3%',
         backgroundColor: "#5956E9",
         borderRadius: 10,
         paddingHorizontal: 16,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: Device.height < 700 ? 18 : 20,
         fontWeight: '700',
         color: 'white',
         textAlign: 'center',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 17,
         left: 2,
-        marginTop: Device.height < 700 ? 28 : 30
+        marginTop: Device.height < 700 ? '5%' : '8%'
     },
 
     envelopeCenter: {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     errorText: {
         textAlign: 'center',
         color: 'red',
-        marginTop: Device.height < 700 ? 0 : 20,
+        marginTop: Device.height < 700 ? '0.5%' : '2%',
         minHeight: 20
     }
 

@@ -80,7 +80,7 @@ const AuthScreen = () => {
                         style={styles.loginScreenContainer}>
 
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.innerTouch}>
-                        <ScrollView>
+                        <ScrollView style={{height: '100%'}}>
                         <WelcomeBanner/>
                         </ScrollView>
                         </TouchableWithoutFeedback>
@@ -132,15 +132,18 @@ const styles = StyleSheet.create({
     loginScreenContainer: {
         flex: 1,
         width:  '100%',
+        height:  '100%',
         flexDirection: 'column',
         backgroundColor: '#5956E9'
     },
 
     innerTouch: {
-        minHeight: '40%'
+        minHeight: '40%',
+        maxHeight: '40%'
     },
     form: {
-        minHeight: '60%'
+        minHeight: '60%',
+        maxHeight: '60%',
     },
     topArea: {
         backgroundColor: '#5956E9'

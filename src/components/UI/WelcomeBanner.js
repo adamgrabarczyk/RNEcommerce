@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableWithoutFeedback, Keyboard, Platform} from 'react-native';
 import React from 'react';
 import Ellipse from './Ellipse';
 import EllipseWelcome from './EllipseWelcome';
@@ -40,19 +40,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        minHeight: Device.height < 700 ? 150 : 300,
+        height: '100%',
+        paddingBottom: Platform.OS === 'android' ? '100%' : 0
     },
     bannerTextContainer: {
         width: '100%',
         textAlign: 'center',
-        margin: 50,
+        margin: '10%',
         marginTop: 0,
-        top: Device.height < 700 ? 30: 120
+        top: Device.height < 700 ? '35%': '50%'
     },
 
     bannerText: {
         color: 'white',
-        fontSize:  Device.height < 700 ? 50 : 65,
+        fontSize:  Device.height < 700 ? 55 : 65,
         fontWeight: '700',
         fontStyle: 'normal'
     },
@@ -61,14 +62,14 @@ const styles = StyleSheet.create({
         width: 27,
         height: 27,
         left: 80,
-        top: Device.height < 700 ? 10 : 60,
+        top: Device.height < 700 ? '10%': '30%',
     },
 
     bigEllipse: {
         width: 35,
         height: 35,
         left: 310,
-        top: Device.height < 700 ? 130 : 270,
+        top: Device.height < 700 ? '100%': '130%',
     },
     shadow: {
         flex: 1,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         minHeight: 50,
-        top: Device.height < 700 ? 23 : 40
+        top: Platform.OS === 'android' ? '15%' : '18%'
     },
 
     right: {
