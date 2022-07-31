@@ -1,5 +1,6 @@
 import {ADD_ORDER, GET_ORDERS} from '../actions/orders';
 import Order from '../../models/order';
+import {LOGOUT} from '../actions/auth';
 
 const initialState = {
 
@@ -31,6 +32,11 @@ export default (state = initialState, action) => {
 
             return {
                 orders: action.orders
+            }
+
+        case LOGOUT:
+            return {
+                ...initialState
             }
     }
 

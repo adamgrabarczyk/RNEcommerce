@@ -49,7 +49,7 @@ const SettingsScreen = ({navigation}) => {
                     />
 
                     <SettingsButton
-                        settingsActionButton={() => navigation.navigate('NotificationsPermission')}
+                        settingsActionButton={() => navigation.navigate('Permissions')}
                         accountSettingsHandleText={'Zgody na powiadomienia'}
                         accountSettingsHandleTip={'Bądź na bierząco'}
                         accountSettingsHandlePress={'ZMIEŃ'}

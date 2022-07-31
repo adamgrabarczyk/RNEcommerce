@@ -1,21 +1,33 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import OrderItem from '../../components/shop/OrderItem';
 import * as orderActioncs from '../../store/actions/orders';
+import Spinner from '../../components/UI/Spinner';
 
 
 
 const OrderScreen = props => {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.orders);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        dispatch(orderActioncs.fetchOrders());
+        setLoading(true);
+        dispatch(orderActioncs.fetchOrders()).then(
+            () => {
+                setLoading(false);
+            }
+        );
     }, [dispatch]);
 
+    if (loading) {
+        return <Spinner
+            spinnerSize={'fullScreen'}
+        />
+    }
 
     if (orders.length < 1) {
         return (

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
     product: {
         shadowColor: 'black',
-        shadowOpacity: 0.26,
+        shadowOpacity: 0.40,
         shadowOffset: {width : 0, height: 2},
         shadowRadius: 8,
         elevation: 5,

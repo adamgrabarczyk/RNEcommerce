@@ -1,22 +1,33 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import FavouriteOverviewScreen from './shop/FavouriteOverviewScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import * as productActioncs from '../store/actions/products';
+import Spinner from '../components/UI/Spinner';
 
 
 
 const Favourite = props => {
     const dispatch = useDispatch();
     const userFavProducts = useSelector(state => state.products.favoriteUserProducts);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
-        dispatch(productActioncs.fetchFavs());
+        setLoading(true);
+        dispatch(productActioncs.fetchFavs()).then(
+            () => {
+                setLoading(false);
+            }
+        );
     }, [dispatch]);
 
-
+    if (loading) {
+        return <Spinner
+            spinnerSize={'fullScreen'}
+        />
+    }
 
     return(
 <View style={styles.container}>

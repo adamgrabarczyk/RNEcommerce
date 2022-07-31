@@ -5,6 +5,7 @@ import {reducer} from './reducers/counter';
 import productReducer from './reducers/products';
 import cartReducer from './reducers/cart';
 import ordersReducer from './reducers/orders';
+import permissionsReducer from './reducers/permissions';
 import searchReducer from './reducers/search';
 import authReducer from './reducers/auth';
 import userReducer from './reducers/user';
@@ -21,6 +22,7 @@ export const reducers = combineReducers({
     products: productReducer,
     cart: persistReducer(persistConfig, cartReducer),
     orders: ordersReducer,
+    permissions: permissionsReducer,
     search: searchReducer,
     auth: authReducer,
     user: userReducer,

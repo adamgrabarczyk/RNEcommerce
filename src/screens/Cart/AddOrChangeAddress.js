@@ -32,7 +32,7 @@ const AddOrChangeAddress = ({route}) => {
                 setUpdate(true);
             }
             dispatch(userActions.clearResponseMessage);
-        };
+        }
         getUserData().then(
             () => {
                 setTimeout(
@@ -40,7 +40,6 @@ const AddOrChangeAddress = ({route}) => {
                         setLoading(false);
                     }, 1000
                 )
-
             }
         );
     },[]);
@@ -50,7 +49,6 @@ const AddOrChangeAddress = ({route}) => {
             spinnerSize={'fullScreen'}
         />
     }
-
 
     return (
         <Address
@@ -66,8 +64,8 @@ const AddOrChangeAddress = ({route}) => {
             setApartmentNumber={(value) => setApartmentNumber(value)}
             postcode={postcode}
             setPostcode={(value) => setPostcode(value)}
-            route={'Adresses'}
-        />
+            route={'ChooseAddress'}
+            />
     );
 }
 

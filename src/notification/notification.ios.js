@@ -10,7 +10,7 @@ const showNotification= (title, message) => {
 };
 
 
-const handleScheduleNotification= (title, message) => {
+const handleScheduleNotification= (title, message, orderId) => {
     const date = new Date();
     date.setSeconds(date.getSeconds() + 30);
     PushNotificationIOS.scheduleLocalNotification({
@@ -18,32 +18,26 @@ const handleScheduleNotification= (title, message) => {
         alertBody: message,
         fireDate: date.toISOString()
     });
-    console.log('log after notification');
     setTimeout(
         () => {
-            store.dispatch(notificationActions.setNotification(title, message));
-            console.log('log from settimeout');
+            store.dispatch(notificationActions.setNotification(title, message, orderId));
         }, 30000
     );
-    console.log('log after settimeout');
 };
 
-const handleScheduleNotificationReadyOrder= (title, message) => {
+const handleScheduleNotificationReadyOrder= (title, message, orderId) => {
     const date = new Date();
-    date.setSeconds(date.getSeconds() + 3600000);
+    date.setSeconds(date.getSeconds() + 3600);
     PushNotificationIOS.scheduleLocalNotification({
         alertTitle: title,
         alertBody: message,
         fireDate: date.toISOString()
     });
-    console.log('log after notification2');
     setTimeout(
         () => {
-            store.dispatch(notificationActions.setNotification(title, message));
-            console.log('log from settimeout');
+            store.dispatch(notificationActions.setNotification(title, message, orderId));
         }, 3600000
     )
-    console.log('log after settimeout2');
 };
 
 const handleCancelNotification= () => {
