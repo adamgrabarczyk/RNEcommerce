@@ -1,5 +1,7 @@
+import React from 'react';
 import Order from '../../models/order';
 import {handleScheduleNotification, handleScheduleNotificationReadyOrder} from '../../notification/notification';
+
 
 export const ADD_ORDER = 'ADD_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
@@ -92,7 +94,7 @@ export const addOrder = (cartItems, totalAmount, selectedAddress, selectedDelive
                 status: status
             }
         })
-        handleScheduleNotification('Zamówienie', 'Dziękujemy za złożenie zamówienia. Jesteśmy w trakcie jego reallizacji. Poinformujemy Cie o następnych krokach.')
-        handleScheduleNotificationReadyOrder('Zamówienie', 'Twoje zamowienie zostało skompletowane. Już wkrótce będzie u Ciebie!')
+        handleScheduleNotification('Zamówienie ' + resData.name, 'Dziękujemy za złożenie zamówienia. Jesteśmy w trakcie jego reallizacji. Poinformujemy Cie o następnych krokach.', resData.name)
+        handleScheduleNotificationReadyOrder('Zamówienie ' + resData.name, 'Twoje zamowienie zostało skompletowane. Już wkrótce będzie u Ciebie!', resData.name)
     }
 }

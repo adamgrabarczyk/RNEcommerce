@@ -1,10 +1,14 @@
 import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import ActionButton from '../../components/UI/ActionButton';
 import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 import ItemFrame from '../../components/UI/ItemFrame';
+import {useIsFocused} from '@react-navigation/native';
+import Spinner from '../../components/UI/Spinner';
+import * as userActions from '../../store/actions/user';
+import ManageOption from '../../components/UI/ManageOption';
 
 const deliveryMethod = [
     {
@@ -34,15 +38,37 @@ const deliveryMethod = [
 ];
 
 
-const ChooseAddressScreen = ({ navigation, route }, props) => {
+const ChooseAddressScreen = ({ navigation, route }) => {
 
     const { cartItems } = route.params;
     const { cartTotalAmount } = route.params;
     const address = useSelector(state => state.user.addresses);
+    const isFocused = useIsFocused();
+    const dispatch = useDispatch();
 
     const [activeAddress, setActiveAddress] = useState('');
     const [activeMethod, setActiveMethod] = useState('');
+    const [manageAddress, setMangeAddress] = useState(false);
     const [deliveryCost, setDeliveryCost] = useState(0);
+
+    useEffect(() => {
+        setLoading(true);
+        const onValueChange = async () =>
+        {
+                   await setMangeAddress(false);
+        }
+        onValueChange().then(
+            () => {
+                setTimeout(
+                    () => {
+                        setLoading(false);
+                    }, 1000
+                )
+            }
+        );
+    }, [isFocused]);
+
+    const [loading, setLoading] = useState(false);
 
     const totalAmount = cartTotalAmount + deliveryCost;
 
@@ -67,13 +93,33 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
         },0)
     }
 
+    if (loading) {
+        return <Spinner
+            spinnerSize={'fullScreen'}
+        />
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView>
             <View>
                 <CartStepHeader headerText={'Adres dostawy'}/>
+                {
+                    address.length > 0 ?
+                        <ManageOption
+                            setMangeAddress={() => {
+                                setMangeAddress(!manageAddress);
+                                setActiveAddress('');
+                            }}
+                            manageAddress={manageAddress}
+                        />
+                        :
+                        null
+                }
+
                 <View style={styles.addressesOrDeliveryMethodList}>
                 {
+                    manageAddress === false ?
                     address.map(
                         item => {
                     const isActive = activeAddress.includes(item.id);
@@ -87,7 +133,40 @@ const ChooseAddressScreen = ({ navigation, route }, props) => {
                             />
                     )}
                     )
+                        :
+                        address.map(
+                            item => {
+                                return (
+                                    <View style={styles.frameContainer} key={item.id}>
+                                    <ItemFrame
+                                        manage={true}
+                                        itemAction={() => navigation.navigate('AddOrChangeAddress', {
+                                            address: {
+                                                id: item.id.toString(),
+                                                city: item.city,
+                                                street: item.street,
+                                                houseNumber: item.houseNumber,
+                                                apartmentNumber: item.apartmentNumber,
+                                                postcode: item.postcode
+                                            },
+                                        })}
+                                        deleteAddress={() => dispatch(userActions.deleteAddress(item.id.toString()))}
+                                        itemText={item.city + ' ul.' + item.street + " "  + item.houseNumber + [item.houseNumber !== '' && item.apartmentNumber !== ''? '/' + item.apartmentNumber : ' ' + item.apartmentNumber] + ' ' + item.postcode}
+                                    />
+                                    </View>
+                                )}
+                        )
                 }
+                </View>
+                <View>
+                    {
+                        address.length < 5 ? <ItemFrame
+                            itemAction={() => navigation.navigate('AddOrChangeAddress')}
+                            itemText={'Dodaj adres'}
+                            add={true}
+                            />
+                            : null
+                    }
                 </View>
             </View>
 
@@ -150,6 +229,9 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
 
+
+    frameContainer: {
+    }
 });
 
 

@@ -4,20 +4,27 @@ import {
     Text,
     StyleSheet,
     TextInput,
-    TouchableOpacity,
+    TouchableOpacity, Image, Keyboard,
 } from 'react-native';
-import {useSelector} from 'react-redux';
-
+import Device from '../../constans/Device';
 
 const LoginForm = (props) => {
-    const email = useSelector(state => state.auth.userEmail);
-    const password = useSelector(state => state.auth.userPassword);
 
     return(
-        <View style={styles.container}>
+        <View style={styles.container} onPress={Keyboard.dismiss}>
+            <View>
+            <Text style={styles.label}>Logowanie</Text>
+
+                <View style={styles.envelopeContainer}>
+                    <View>
+                <Image style={styles.envelopeCenter} source={require('../../images/icons/envelope1.png')}/>
+                <Image style={styles.envelopeOut} source={require('../../images/icons/envelope2.png')}/>
+                    </View>
+                    <Text style={styles.labelText}>Email</Text>
+                    </View>
             <TextInput style={styles.inputBox}
-                       placeholder='Email'
-                       placeholderTextColor='#ffffff'
+                       placeholder='user@email.com'
+                       placeholderTextColor='#545353'
                        underlineColorAndroid='rgba(0,0,0,0)'
                        selectionColor='#ffffff'
                        keyboardType='email-address'
@@ -27,10 +34,15 @@ const LoginForm = (props) => {
                        }
 
             />
-            <Text style={{color: 'black'}}>{email}</Text>
+                <View style={styles.envelopeContainer}>
+                    <View>
+                        <Image style={styles.envelopeOut} source={require('../../images/icons/Lock.png')}/>
+                    </View>
+                    <Text style={styles.labelText}>Hasło</Text>
+                </View>
             <TextInput style={styles.inputBox}
-                       placeholder='Hasło'
-                       placeholderTextColor='#ffffff'
+                       placeholder='* * * * * * * * *'
+                       placeholderTextColor='#545353'
                        underlineColorAndroid='rgba(0,0,0,0)'
                        secureTextEntry={true}
                        autoCapitalize = 'none'
@@ -39,59 +51,132 @@ const LoginForm = (props) => {
                           props.password
                        }
             />
-            <Text style={{color: 'black'}}>{password}</Text>
+                <TouchableOpacity  onPress={() => {}} style={styles.resetPassword}>
+
+                    <Text style={styles.resetPasswordText}>Zapomniałeś hasła?</Text>
+                </TouchableOpacity>
             <View style={props.spinnerContainer}>
             {props.spinner}
             </View>
-            <TouchableOpacity style={styles.button}
+                <Text style={styles.errorText} onPress={() => console.log(props.error)}>{props.error}</Text>
+                <TouchableOpacity style={styles.button}
                               onPress={props.login}
             >
                 <Text style={styles.buttonText}>Zaloguj</Text>
             </TouchableOpacity>
-            <Text style={{color: 'red'}} onPress={() => console.log(props.error)}>{props.error}</Text>
 
             <TouchableOpacity  onPress={props.changeToRegister}>
 
-                <Text style={styles.buttonText}>Nie masz konta? Zarejestruj się!</Text>
+                <Text style={styles.switchText}>Załóż konto</Text>
             </TouchableOpacity>
+            </View>
 
         </View>
     )
 }
 
+
+
 const styles = StyleSheet.create({
-    container : {
-        flexGrow: 1,
-        justifyContent: 'center',
+    container: {
         alignItems: 'center',
-        flex: 1,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        width: '100%',
+        borderTopRightRadius: 15,
+        borderTopStartRadius: 15,
+        paddingBottom: Device.height < 700 ? '5%' : '20%',
+        shadowColor: '#171717',
+        shadowOffset: {width: 2, height: -1},
+        shadowOpacity: 0.2,
+        shadowRadius: 3
     },
 
     inputBox: {
         width: 320,
-        height: 40,
-        backgroundColor: 'lightgrey',
-        borderRadius: 25,
+        borderBottomWidth: 1,
+        borderBottomColor: '#C9C9C9',
         paddingHorizontal: 16,
         fontSize: 16,
-        color: '#ffffff',
+        color: '#000000',
+        marginVertical: Device.height < 700 ? 0 : 10,
+    },
+
+    label: {
+        height: '5%',
+        top: 10,
+        marginTop: Device.height < 700 ? 0 : 15,
+        marginBottom: Device.height < 700 ? 3 : 15,
+        fontStyle: 'normal',
+        fontWeight: '600',
+        fontSize: Device.height < 700 ? 16 : 18,
+        lineHeight: 21,
+        color: '#000000'
+    },
+    labelText: {
+        marginLeft: 10,
+        fontSize: 14,
+        color: '#868686',
+        top: 2
+    },
+
+    switchText: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#5956E9',
+        textAlign: 'center'
+    },
+
+    resetPassword: {
+        marginTop: Device.height < 700 ? '1%' : '2%'
+    },
+    resetPasswordText: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#5956E9'
+    },
+    button: {
+        marginBottom: Device.height < 700 ? '3%' : '10%',
+        paddingTop: Device.height < 700 ? '1%' : '3%',
+        paddingBottom: Device.height < 700 ? '1%' : '3%',
+        backgroundColor: "#5956E9",
+        borderRadius: 10,
+        paddingHorizontal: 16,
         marginVertical: 10,
+        shadowColor: '#171717',
+        shadowOffset: {width: 0, height: 5},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: 'lightgrey',
+        fontSize: Device.height < 700 ? 18 : 20,
+        fontWeight: '700',
+        color: 'white',
         textAlign: 'center',
         marginVertical: 10
     },
-    button: {
-        width: 320,
-        height: 40,
-        backgroundColor: "#3e8a6f",
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        marginVertical: 10,
+
+    envelopeContainer: {
+        flexDirection: 'row',
+        height: 17,
+        left: 2,
+        marginTop: Device.height < 700 ? '5%' : '8%'
+    },
+
+    envelopeCenter: {
+        position: 'absolute',
+        top: 7,
+        left: 4
+    },
+
+    envelopeOut: {
+        borderWidth: 0
+    },
+
+    errorText: {
+        textAlign: 'center',
+        color: 'red',
+        marginTop: Device.height < 700 ? '0.5%' : '2%',
+        minHeight: 20
     }
 
 

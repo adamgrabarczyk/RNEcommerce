@@ -24,7 +24,7 @@ const showNotification= (title, message) => {
 };
 
 
-const handleScheduleNotification= (title, message) => {
+const handleScheduleNotification= (title, message, orderId) => {
     PushNotification.localNotificationSchedule({
         title: title,
         message: message,
@@ -33,12 +33,12 @@ const handleScheduleNotification= (title, message) => {
     })
     setTimeout(
         () => {
-            store.dispatch(notificationActions.setNotification(title, message))
+            store.dispatch(notificationActions.setNotification(title, message, orderId))
         }, 30000
     )
 };
 
-const handleScheduleNotificationReadyOrder= (title, message) => {
+const handleScheduleNotificationReadyOrder= (title, message, orderId) => {
     PushNotification.localNotificationSchedule({
         title: title,
         message: message,
@@ -47,7 +47,7 @@ const handleScheduleNotificationReadyOrder= (title, message) => {
     })
     setTimeout(
         () => {
-            store.dispatch(notificationActions.setNotification(title,message))
+            store.dispatch(notificationActions.setNotification(title,message, orderId))
         }, 3600000
     )
 };

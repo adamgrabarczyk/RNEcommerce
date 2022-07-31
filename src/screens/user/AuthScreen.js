@@ -1,14 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import {
-    View,
+    View, ScrollView,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform,
+    Text, Keyboard,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback
 } from 'react-native';
 import LoginForm from '../../components/auth/LoginForm'
 import SignupForm from '../../components/auth/SignupForm'
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constans/Colors';
+import WelcomeBanner from '../../components/UI/WelcomeBanner';
 
 
 const AuthScreen = () => {
@@ -50,8 +55,7 @@ const AuthScreen = () => {
     }
 
     return(
-        <View style={styles.container}>
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             {
                 isSignup ?
 
@@ -71,42 +75,88 @@ const AuthScreen = () => {
                         error={errorMessage}
                     />
                     :
-                    <LoginForm
-                        email={(email) => dispatch(authActions.userEmail(email))}
-                        password={(password) => dispatch(authActions.userPassword(password))}
-                        login={authHandler}
-                        changeToRegister={() => {
-                            setIsSignup(prevState => !prevState)
-                            setErrorMessage(null);
-                        }}
-                        spinner={isLoading ? <ActivityIndicator size='small' color={Colors.primary}/> : <View style={styles.spinnerContainer}></View>}
-                        spinnerContainer={styles.spinnerContainer}
-                        error={errorMessage}
-                    />
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        style={styles.loginScreenContainer}>
+
+                        <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.innerTouch}>
+                        <ScrollView style={{height: '100%'}}>
+                        <WelcomeBanner/>
+                        </ScrollView>
+                        </TouchableWithoutFeedback>
+                        {
+                            Platform.OS === 'android' ?
+                                <ScrollView style={styles.form}>
+                                    <LoginForm
+                                        email={(email) => dispatch(authActions.userEmail(email))}
+                                        password={(password) => dispatch(authActions.userPassword(password))}
+                                        login={authHandler}
+                                        changeToRegister={() => {
+                                            setIsSignup(prevState => !prevState)
+                                            setErrorMessage(null);
+                                        }}
+                                        spinner={isLoading ? <ActivityIndicator size='small' color={'#5956E9'}/>
+                                            : <Text></Text>
+                                        }
+                                        spinnerContainer={styles.spinnerContainer}
+                                        error={errorMessage}
+                                    />
+                                </ScrollView>
+                                :
+                                <View style={styles.form}>
+                                    <LoginForm
+                                        email={(email) => dispatch(authActions.userEmail(email))}
+                                        password={(password) => dispatch(authActions.userPassword(password))}
+                                        login={authHandler}
+                                        changeToRegister={() => {
+                                            setIsSignup(prevState => !prevState)
+                                            setErrorMessage(null);
+                                        }}
+                                        spinner={isLoading ? <ActivityIndicator size='small' color={'#5956E9'}/>
+                                            : <Text></Text>
+                                        }
+                                        spinnerContainer={styles.spinnerContainer}
+                                        error={errorMessage}
+                                    />
+                                </View>
+                        }
+
+                    </KeyboardAvoidingView>
             }
-        </View>
-    )
+        </TouchableWithoutFeedback>
+            )
 }
 
 const styles = StyleSheet.create({
-    container : {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+
+    loginScreenContainer: {
         flex: 1,
-        backgroundColor: '#ffffff'
+        width:  '100%',
+        height:  '100%',
+        flexDirection: 'column',
+        backgroundColor: '#5956E9'
     },
 
-    inputBox: {
-        width: 320,
-        height: 40,
-        backgroundColor: 'lightgrey',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10,
+    innerTouch: {
+        minHeight: '40%',
+        maxHeight: '40%'
     },
+    form: {
+        minHeight: '60%',
+        maxHeight: '60%',
+    },
+    topArea: {
+        backgroundColor: '#5956E9'
+    },
+    bottomArea: {
+      backgroundColor: 'white'
+    },
+    container : {
+        flexGrow: 1,
+        flex: 1,
+        backgroundColor: '#5956E9'
+    },
+
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
@@ -124,9 +174,12 @@ const styles = StyleSheet.create({
     },
 
     spinnerContainer: {
-        width: '100%',
-        height: 5,
-        padding: 5
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 35,
+        padding: 5,
+        top: 15
     }
 
 

@@ -1,29 +1,60 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Platform} from 'react-native';
 import React from 'react';
 import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const ItemFrame = (props) => {
 
 
     return (
-        <Pressable style={styles.addressContainer}
-                   onPress={props.itemAction}
-                   active={props.isActive}
+        props.manage === true ?
+        <Pressable onPress={props.itemAction} style={styles.addressContainer}
         >
-            <View style={styles.addressTextContainer}>
+            <Pressable style={styles.addressTextContainer} onPress={props.itemAction}>
                 <Text>
                     {props.itemText}
                 </Text>
-            </View>
+            </Pressable>
             <View style={styles.addressIconContainer}>
-                {props.isActive === true ? <Ionicons
-                    name={'md-checkmark'}
-                    size={30}
-                    color={Colors.primary}
-                /> : null}
+                <Pressable onPress={props.deleteAddress}>
+                    <Ionicons
+                        name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                        size={23}
+                        color={'#b53b36'}
+                    />
+                </Pressable>
             </View>
+
         </Pressable>
+            :
+
+            <Pressable style={styles.addressContainer}
+                       onPress={props.itemAction}
+                       active={props.isActive}
+            >
+                <View style={styles.addressTextContainer}>
+                    <Text>
+                        {props.itemText}
+                    </Text>
+                </View>
+                <View style={styles.addressIconContainer}>
+                    {
+                        props.isActive === true ? <Ionicons
+                            name={'md-checkmark'}
+                            size={30}
+                            color={Colors.primary}
+                        /> : null
+                        ||
+                        props.add === true ? <Octicons
+                            style={styles.addIcon}
+                            name={'plus'}
+                            size={20}
+                            color={Colors.primary}
+                        /> : null
+                    }
+                </View>
+            </Pressable>
     );
 };
 
@@ -46,7 +77,7 @@ const styles = StyleSheet.create({
     },
 
     addressIconContainer: {
-        width: '20%',
+        // width: '20%',
         marginLeft: '5%'
     },
 
