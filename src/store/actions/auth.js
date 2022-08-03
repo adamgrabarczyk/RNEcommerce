@@ -21,77 +21,125 @@ export const SET_USER_AVATAR_TO_STORAGE = 'SET_USER_AVATAR_TO_STORAGE';
 
 export const signup = (name, surname, phone, email, password) => {
 
+    let error;
     return async dispatch => {
-      const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCWNcZ_aSsnV-HIWEaqxwz9e0V6zB_jx2w'
-        , {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    returnSecureToken: true
-                })
 
-            });
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        let numberReg = /^[0-9\b\+\-\(\)]+$/;
 
-        if (!response.ok) {
-            const errorResponse = await response.json();
-            const errorMessage = errorResponse.error.message;
-            let error = 'Wprowadź poprawne dane';
-            if (errorMessage === 'EMAIL_EXISTS') {
-                error = 'Podany adres email jest już zajęty';
-            }
+        if (name === '' && surname === '' && phone === '' && email === '' && password === '') {
+            error = "Wprowadź wszystkie dane";
+            throw new Error(error);
+        } else if (reg.test(email) === false) {
+            error = "Wprowadź poprawny adres emial";
+            throw new Error(error);
+        } else if (email === '') {
+            error = "Wprowadź adres emial";
+            throw new Error(error);
+        } else if (password === '') {
+            error = "Wprowadź hasło";
+            throw new Error(error);
+        } else if (name === '') {
+            error = "Wprowadź imię";
+            throw new Error(error);
+        } else if (name.length < 2) {
+            error = "Wprowadź poprawne imię";
+            throw new Error(error);
+        } else if (surname === '') {
+            error = "Wprowadź nazwisko";
+            throw new Error(error);
+        } else if (password.length < 2) {
+            error = "Wprowadź poprawne nazwisko";
+            throw new Error(error);
+        } else if (phone === '') {
+            error = "Wprowadź numer kontaktowy";
+            throw new Error(error);
+        } else if (phone.length < 9) {
+            error = "Numer telefonu jest za krótki";
+            throw new Error(error);
+        } else if (numberReg.test(phone) === false) {
+            error = "Wprowadź poprawny numer telefonu";
             throw new Error(error);
         }
-        const resData = await response.json();
+        else {
 
-        const uri = {
-            uri: ''
-        };
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCWNcZ_aSsnV-HIWEaqxwz9e0V6zB_jx2w'
+                , {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        returnSecureToken: true
+                    })
 
-        const userData = await fetch(
-            `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
-            , {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    phone: phone,
-                    userId: resData.localId,
-                    avatar: uri,
+                });
 
+            if (!response.ok) {
+                const errorResponse = await response.json();
+                const errorMessage = errorResponse.error.message;
+                error = 'Wprowadź poprawne dane';
+                if (errorMessage === 'EMAIL_EXISTS') {
+                    error = 'Podany adres email jest już zajęty';
+                }
+                throw new Error(error);
+            }
+            const resData = await response.json();
+
+            const uri = {
+                uri: ''
+            };
+
+            const userData = await fetch(
+                `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
+                , {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        surname: surname,
+                        email: email,
+                        phone: phone,
+                        userId: resData.localId,
+                        avatar: uri,
+
+                    })
+
+                });
+
+            auth()
+                .signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    console.log('User account signed in!');
                 })
+                .catch(error => {
+                    if (error.code === 'auth/email-already-in-use') {
+                        console.log('That email address is already in use!');
+                    }
 
+                    if (error.code === 'auth/invalid-email') {
+                        console.log('That email address is invalid!');
+                    }
+
+                    console.error(error);
+                });
+
+
+            dispatch({
+                type: SIGNUP,
+                token: resData.idToken,
+                user: resData.localId,
+                email: email,
+                avatar: resData.avatar
             });
-
-        auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                console.log('User account signed in!');
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
-                }
-
-                console.error(error);
-            });
-
-
-        dispatch({type: SIGNUP, token: resData.idToken, user: resData.localId, email: email, avatar: resData.avatar});
-        const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-        setDataToStorage(resData.idToken, resData.localId, expireDate, email, name, surname, phone);
-        alert('Your account are registered! You can use our app now!')
+            const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
+            setDataToStorage(resData.idToken, resData.localId, expireDate, email, name, surname, phone);
+            alert('Your account are registered! You can use our app now!')
+        }
     }
 };
 
