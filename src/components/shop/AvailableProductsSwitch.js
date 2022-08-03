@@ -17,7 +17,7 @@ const AvailableProductsSwitch = props => {
         <View style={styles.container}>
             <Text>Produkty dostępne od ręki</Text>
             <Switch
-                trackColor={{ false: "#3e8a6f", true: "#3e8a6f" }}
+                trackColor={{ false: "#4b49bf", true: "#4b49bf" }}
                 thumbColor={availableProducts ? "#f4f3f4" : "lightgrey"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}

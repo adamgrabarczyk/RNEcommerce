@@ -85,7 +85,7 @@ const SignupForm = (props) => {
 
             <TouchableOpacity  onPress={props.changeToLogin}>
 
-                <Text style={styles.buttonText}>Masz już konto? Zaloguj się!</Text>
+                <Text style={styles.buttonChangeText}>Masz już konto? Zaloguj się!</Text>
             </TouchableOpacity>
 
         </View>
@@ -125,6 +125,14 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingHorizontal: 16,
         marginVertical: 10,
+    },
+
+    buttonChangeText: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: Colors.primary,
+        textAlign: 'center',
+        marginVertical: 10
     }
 
 
