@@ -369,7 +369,8 @@ export const setAvatar = (uri, imageUri) => {
         dispatch({type: SET_USER_AVATAR_TO_STORAGE, uri: uri, imageUri: imageUri})
     }
 };
-
+// service-rnecommerce-3bc8a@gcp-sa-firebasestorage.iam.gserviceaccount.com
+//Cloud Storage for Firebase
 
 export const deleteAvatar = (url) => {
 

@@ -2,6 +2,7 @@ export const ADD_TO_FAV = 'ADD_TO_FAV';
 export const DELETE_FROM_FAV = 'DELETE_FROM_FAV';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const GET_FAVS = 'GET_FAVS';
+export const SET_ERROR = 'SET_ERROR';
 
 
 export const fetchProducts = () => {
@@ -11,7 +12,13 @@ export const fetchProducts = () => {
             const response = await fetch('http://adamgrabarczyk.pl/show/simpleAPI/productJSON.php');
 
             if (!response.ok) {
-                throw new Error('Błąd pobierania')
+
+                console.log(response)
+                if (response.status === 404) {
+                    throw new Error('NOT FOUND SERVER');
+                }  else {
+                    throw new Error('Błąd pobierania danych');
+                }
             }
 
             const data = await response.json();
