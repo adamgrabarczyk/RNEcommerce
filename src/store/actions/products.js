@@ -2,8 +2,6 @@ export const ADD_TO_FAV = 'ADD_TO_FAV';
 export const DELETE_FROM_FAV = 'DELETE_FROM_FAV';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const GET_FAVS = 'GET_FAVS';
-export const SET_ERROR = 'SET_ERROR';
-
 
 export const fetchProducts = () => {
     try {
@@ -13,7 +11,6 @@ export const fetchProducts = () => {
 
             if (!response.ok) {
 
-                console.log(response)
                 if (response.status === 404) {
                     throw new Error('NOT FOUND SERVER');
                 }  else {
@@ -46,6 +43,11 @@ export const fetchFavs = () => {
             const reply = await response.json();
 
             const firebaseResponse = reply !== null ? Object.keys(reply) : [];
+
+            const index = firebaseResponse.indexOf('0');
+            if (index > -1) {
+                firebaseResponse.splice(index, 1);
+            }
 
             dispatch({
                 type: GET_FAVS,

@@ -29,7 +29,7 @@ const App: () => React$Node = () => {
                 dispatch(authActions.unCorrectData());
                 setIsLoading(false);
                 return;
-            }else  {
+            }else {
                 dispatch(authActions.autoLogin(authData));
             }
             const parseAuthData = JSON.parse(authData);

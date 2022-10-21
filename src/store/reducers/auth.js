@@ -180,7 +180,6 @@ export default (state = initialState, action) => {
                 userEmail: action.newEmail,
                 email: action.newEmail
             }
-
     }
 
     return state;

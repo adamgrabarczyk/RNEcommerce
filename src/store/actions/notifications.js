@@ -8,19 +8,15 @@ export const READ_NOTIFICATION = 'READ_NOTIFICATION';
 
 export const _getUserNotifications = () => {
 
-    return async (dispatch) => {
-        const authData = await AsyncStorage.getItem('authData');
-        const parseAuthData = JSON.parse(authData);
-        const id = parseAuthData.user;
+    return async (dispatch, getState) => {
+        const user = getState().auth.user;
 
         database()
-            .ref('/notifications/' + id)
+            .ref('/notifications/' + user)
             .on('value', snapshot => {
                 const data = snapshot.val();
 
                 if (data !== null) {
-
-                    console.log(data);
 
                     const ids = Object.keys(data);
                     let userNotification = [];
@@ -30,8 +26,12 @@ export const _getUserNotifications = () => {
                         obj.id = key;
 
                         userNotification.push(obj)
+
+                            dispatch({type: GET_NOTIFICATION, notification: userNotification});
                     });
-                    dispatch({type: GET_NOTIFICATION, notification: userNotification});
+
+                } else {
+                    dispatch({type: GET_NOTIFICATION, notification: []});
                 }
             })
     }
@@ -79,8 +79,6 @@ export const setNotification = (title, message, orderId) => {
                         }
                     })
             });
-
-
     }
 };
 
@@ -103,8 +101,5 @@ export const readNotification = (title, message, date, id, orderId) => {
             .then(() => {
                 dispatch({type: READ_NOTIFICATION, notification: date })
             });
-
-
-
     }
 }

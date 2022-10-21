@@ -194,8 +194,59 @@ export const signin = (email, password) => {
 
             auth()
                 .signInWithEmailAndPassword(email, password)
-                .then(() => {
+                .then(async () => {
                     console.log('User account signed in!');
+
+
+                    const resData = await response.json();
+
+                    const userDataResponse = await fetch(
+                        `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
+                    );
+
+                    const userResData = await userDataResponse.json();
+
+                    const personalUserData = {
+                        name: '',
+                        surname: '',
+                        phone: '',
+                        avatar: '',
+                        key: ''
+
+                    };
+
+                    for (const key in userResData) {
+                        if (userResData[key].userId === resData.localId) {
+                            personalUserData.name = userResData[key].name;
+                            personalUserData.surname = userResData[key].surname;
+                            personalUserData.phone = userResData[key].phone;
+                            personalUserData.avatar = userResData[key].avatar.uri;
+                            personalUserData.avatarPath = userResData[key].avatar.imageUri;
+                            personalUserData.key = key;
+                        }else {
+                            personalUserData.avatar = userResData.avatar.uri;
+                        }
+                    }
+
+                    if (resData.localId !== prevUserId) {
+                        dispatch({type: 'RESET_USER_LOG'})
+                    }
+
+                    dispatch({
+                        type: LOGIN,
+                        token: resData.idToken,
+                        email: email,
+                        user: resData.localId,
+                        name: personalUserData.name,
+                        surname: personalUserData.surname,
+                        phone: personalUserData.phone,
+                        avatar: personalUserData.avatar,
+                        avatarPath: personalUserData.avatarPath,
+                        key: personalUserData.key
+                    });
+                    const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
+                    setDataToStorage(resData.idToken, resData.localId, expireDate, email, personalUserData.name, personalUserData.surname,
+                        personalUserData.phone, personalUserData.avatar, personalUserData.key);
                 })
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
@@ -209,52 +260,6 @@ export const signin = (email, password) => {
                     console.error(error);
                 });
 
-            const resData = await response.json();
-
-            const userDataResponse = await fetch(
-                `https://rnecommerce-3bc8a-default-rtdb.europe-west1.firebasedatabase.app/users/${resData.localId}.json`
-            );
-
-            const userResData = await userDataResponse.json();
-
-            const personalUserData = {
-                name: '',
-                surname: '',
-                phone: '',
-                avatar: '',
-                key: ''
-
-            };
-
-            for (const key in userResData) {
-                if (userResData[key].userId === resData.localId) {
-                    personalUserData.name = userResData[key].name;
-                    personalUserData.surname = userResData[key].surname;
-                    personalUserData.phone = userResData[key].phone;
-                    personalUserData.avatar = userResData[key].avatar.uri;
-                    personalUserData.avatarPath = userResData[key].avatar.imageUri;
-                    personalUserData.key = key;
-                }
-            }
-            if (resData.localId !== prevUserId) {
-                dispatch({type: 'RESET_USER_LOG'})
-            }
-
-            dispatch({
-                type: LOGIN,
-                token: resData.idToken,
-                email: email,
-                user: resData.localId,
-                name: personalUserData.name,
-                surname: personalUserData.surname,
-                phone: personalUserData.phone,
-                avatar: personalUserData.avatar,
-                avatarPath: personalUserData.avatarPath,
-                key: personalUserData.key
-            });
-            const expireDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-            setDataToStorage(resData.idToken, resData.localId, expireDate, email, personalUserData.name, personalUserData.surname,
-                personalUserData.phone, personalUserData.avatar, personalUserData.key);
         }
     }
 }
@@ -369,8 +374,6 @@ export const setAvatar = (uri, imageUri) => {
         dispatch({type: SET_USER_AVATAR_TO_STORAGE, uri: uri, imageUri: imageUri})
     }
 };
-// service-rnecommerce-3bc8a@gcp-sa-firebasestorage.iam.gserviceaccount.com
-//Cloud Storage for Firebase
 
 export const deleteAvatar = (url) => {
 

@@ -55,13 +55,17 @@ export default (state = initialState, action) => {
 
             let favouriteProducts = [];
 
-            const favourite = favouriteFromStore.map(
-                prodId => {
-                    const favProd = state.availableProducts.find(product => product.id === prodId);
+            if (state.availableProducts.length > 0 ) {
 
-                    favouriteProducts.push(favProd);
-                }
-            );
+                const favourite = favouriteFromStore.map(
+                    prodId => {
+                        const favProd = state.availableProducts.find(product => product.id === prodId);
+                        favouriteProducts.push(favProd);
+                    }
+                );
+            }else  {
+                favouriteProducts = []
+            }
 
             return {
                 ...state,
