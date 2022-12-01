@@ -15,6 +15,7 @@ const NotificationDetailsScreen = ({navigation, route}) => {
         const onValueChange = async () =>
         {
             const { notificationId, notificationTitle, notificationMessage, orderId } = route.params;
+
             await setNotificationId(notificationId);
             await setNotificationTitle(notificationTitle);
             await setNotificationMessage(notificationMessage);

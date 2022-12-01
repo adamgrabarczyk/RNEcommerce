@@ -17,7 +17,7 @@ const persistConfig = {
     storage: AsyncStorage
 };
 
-export const reducers = combineReducers({
+const reducers = combineReducers({
     counter: reducer,
     products: productReducer,
     cart: persistReducer(persistConfig, cartReducer),
@@ -32,3 +32,12 @@ export const reducers = combineReducers({
     repositories: (state = {}) => state
 })
 
+export const rootReducer = (state, action) => {
+    if (action.type === 'LOGOUT') {
+        setTimeout(() => {
+            return reducers(undefined, action)
+        }, 1000)
+    }
+
+    return reducers(state, action)
+}

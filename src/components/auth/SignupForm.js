@@ -6,14 +6,11 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import Colors from '../../constans/Colors';
 
 
 
 const SignupForm = (props) => {
-
-    const email = useSelector(state => state.auth.userEmail);
-    const password = useSelector(state => state.auth.userPassword);
 
     return(
         <View style={styles.container}>
@@ -46,6 +43,8 @@ const SignupForm = (props) => {
                        underlineColorAndroid='rgba(0,0,0,0)'
                        autoCapitalize = 'none'
                        selectionColor='#ffffff'
+                       keyboardType="numeric"
+                       maxLength={12}
                        onChangeText={
                            props.phone
                        }
@@ -63,7 +62,6 @@ const SignupForm = (props) => {
                        }
 
             />
-            <Text style={{color: 'black'}}>{email}</Text>
             <TextInput style={styles.inputBox}
                        placeholder='Hasło'
                        placeholderTextColor='#ffffff'
@@ -75,8 +73,6 @@ const SignupForm = (props) => {
                            props.password
                        }
             />
-
-            <Text style={{color: 'black'}}>{password}</Text>
             <View style={props.spinnerContainer}>
                 {props.spinner}
             </View>
@@ -89,7 +85,7 @@ const SignupForm = (props) => {
 
             <TouchableOpacity  onPress={props.changeToLogin}>
 
-                <Text style={styles.buttonText}>Masz już konto? Zaloguj się!</Text>
+                <Text style={styles.buttonChangeText}>Masz już konto? Zaloguj się!</Text>
             </TouchableOpacity>
 
         </View>
@@ -118,17 +114,25 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
-        color: 'lightgrey',
+        color: 'white',
         textAlign: 'center',
         marginVertical: 10
     },
     button: {
         width: 320,
         height: 40,
-        backgroundColor: "#3e8a6f",
+        backgroundColor: Colors.primary,
         borderRadius: 25,
         paddingHorizontal: 16,
         marginVertical: 10,
+    },
+
+    buttonChangeText: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: Colors.primary,
+        textAlign: 'center',
+        marginVertical: 10
     }
 
 

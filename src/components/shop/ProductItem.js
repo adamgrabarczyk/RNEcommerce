@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 300,
         width: 350,
-        margin: 20,
-        // overflow: 'hidden'
+        margin: 20
     },
     touchable: {
 
