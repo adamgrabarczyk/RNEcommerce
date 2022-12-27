@@ -6,13 +6,8 @@ import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import React, { useEffect, useState } from 'react';
-import {
-  useStripe,
-  initPaymentSheet,
-  presentPaymentSheet,
-} from '@stripe/stripe-react-native';
+import { useStripe } from '@stripe/stripe-react-native';
 import Spinner from '../../components/UI/Spinner';
-import Colors from '../../constans/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const OrderSummaryScreen = ({ navigation, route }, props) => {
@@ -30,9 +25,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   const publishableKey =
     'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
 
-  const { confirmPayment, initPaymentSheet, presentPaymentSheet } = useStripe();
-  const [clientSecret, setClientSecret] = useState('');
-
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const userEmail = useSelector((state) => state.auth.userEmail);
   const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
 
@@ -48,15 +41,11 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
           amount: amountString,
           email: userEmail,
           currency: 'pln',
-          payment_method_types: ['p24'],
+          payment_method_types: ['card', 'p24'],
         }),
       },
     );
     const { paymentIntent, ephemeralKey, customer } = await response.json();
-    console.log(paymentIntent);
-    console.log(ephemeralKey);
-    console.log(customer);
-
     return {
       paymentIntent,
       ephemeralKey,
@@ -73,8 +62,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
-      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-      //methods that complete payment after a delay, like SEPA Debit and Sofort.
       allowsDelayedPaymentMethods: true,
       applePay: {
         merchantCountryCode: 'PL',
@@ -88,9 +75,9 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
         name: 'Jane Doe',
       },
     });
-    // if (!error) {
-    //   setLoading(true);
-    // }
+    if (error) {
+      setPaymentError('Wystąpił błąd. Spróbuj za chwilę.');
+    }
   };
 
   const openPaymentSheet = async () => {
@@ -118,42 +105,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   useEffect(() => {
     setLoading(true);
     setPaymentMethod(selectedPaymentMethod.method);
-
-    const fetchPaymentIntentClientSecret = async () => {
-      const response = await fetch(
-        'https://adamgrabarczyk.pl/show/StripeAPI/PaymentIntent.php',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: amountString,
-            email: userEmail,
-            currency: 'eur',
-            payment_method_types: ['p24'],
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      setClientSecret(data[0].client_secret);
-      const { error } = await initPaymentSheet({
-        paymentIntentClientSecret: data[0].client_secret,
-        customerId: data[0].customer,
-        googlePay: true,
-        merchantDisplayName: 'Merchant Name',
-        applePay: true,
-        merchantCountryCode: 'PL',
-        testEnv: true,
-      });
-
-      // console.log(error);
-      console.log('blah');
-      console.log(data);
-    };
-    // initializePaymentSheet();
     initializePaymentSheet().then(() => {
       setLoading(false);
     });
@@ -162,80 +113,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   if (loading) {
     return <Spinner spinnerSize={'fullScreen'} />;
   }
-
-  const handlePayment = async () => {
-    const { error } = await confirmPayment(clientSecret, {
-      type: 'card',
-      billingDetails: {
-        email: userEmail,
-      },
-    });
-    if (error) {
-      alert(error.message);
-    } else {
-      alert('payment succes');
-    }
-  };
-
-  const handleTransferSheet = async () => {
-    const { error } = await presentPaymentSheet({
-      clientSecret: clientSecret,
-      allowsDelayedPaymentMethods: true,
-    });
-
-    if (error) {
-      console.log(`Error code: ${error.code}` + 'lazoe' + error.message);
-      console.log(error);
-      alert(`Error code: ${error.code}` + 'lazoe' + error.message);
-      setPaymentError('Twoja płatność nie powiodła się. Sprubój ponownie.');
-    } else {
-      console.log('The payment was confirmed successfully! currency: eur');
-      setPaymentError('');
-      dispatch(
-        ordersActions.addOrder(
-          cartItems,
-          totalAmount,
-          selectedAddress,
-          selectedDeliveryMethod,
-          selectedPaymentMethod,
-          'Opłacone',
-        ),
-      );
-      navigation.navigate('SuccessScreen');
-    }
-  };
-
-  const handlePayCardPress = async () => {
-    const { error, paymentIntent } = await confirmPayment(clientSecret, {
-      payment_method_types: 'P24',
-      billingDetails: {
-        email: userEmail,
-      },
-    });
-
-    if (error) {
-      console.log(`Error code: ${error.code}`, error.message);
-      console.log(error);
-      setPaymentError('Twoja płatność nie powiodła się. Sprubój ponownie.');
-    } else if (paymentIntent) {
-      console.log(
-        `The payment was confirmed successfully! currency: ${paymentIntent.currency}`,
-      );
-      setPaymentError('');
-      dispatch(
-        ordersActions.addOrder(
-          cartItems,
-          totalAmount,
-          selectedAddress,
-          selectedDeliveryMethod,
-          selectedPaymentMethod,
-          'Opłacone',
-        ),
-      );
-      navigation.navigate('SuccessScreen');
-    }
-  };
-
   const handlePayOnDelivery = () => {
     dispatch(
       ordersActions.addOrder(
