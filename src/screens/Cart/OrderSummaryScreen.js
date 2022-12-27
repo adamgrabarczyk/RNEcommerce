@@ -30,16 +30,94 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   const publishableKey =
     'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
 
-  const { confirmPayment } = useStripe();
+  const { confirmPayment, initPaymentSheet, presentPaymentSheet } = useStripe();
   const [clientSecret, setClientSecret] = useState('');
 
   const userEmail = useSelector((state) => state.auth.userEmail);
+  const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
+
+  const fetchPaymentSheetParams = async () => {
+    const response = await fetch(
+      'https://adamgrabarczyk.pl/show/apiStripe/session.php',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amountString,
+          email: userEmail,
+          currency: 'pln',
+          payment_method_types: ['p24'],
+        }),
+      },
+    );
+    const { paymentIntent, ephemeralKey, customer } = await response.json();
+    console.log(paymentIntent);
+    console.log(ephemeralKey);
+    console.log(customer);
+
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const { paymentIntent, ephemeralKey, customer, publishableKey } =
+      await fetchPaymentSheetParams();
+
+    const { error } = await initPaymentSheet({
+      merchantDisplayName: 'Example, Inc.',
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
+      //methods that complete payment after a delay, like SEPA Debit and Sofort.
+      allowsDelayedPaymentMethods: true,
+      applePay: {
+        merchantCountryCode: 'PL',
+      },
+      googlePay: {
+        merchantCountryCode: 'PL',
+        testEnv: true,
+        currencyCode: 'pln',
+      },
+      defaultBillingDetails: {
+        name: 'Jane Doe',
+      },
+    });
+    // if (!error) {
+    //   setLoading(true);
+    // }
+  };
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      console.log(`Error code: ${error.code}`, error.message);
+    } else {
+      console.log('The payment was confirmed successfully! currency: eur');
+      setPaymentError('');
+      dispatch(
+        ordersActions.addOrder(
+          cartItems,
+          totalAmount,
+          selectedAddress,
+          selectedDeliveryMethod,
+          selectedPaymentMethod,
+          'Opłacone',
+        ),
+      );
+      navigation.navigate('SuccessScreen');
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
     setPaymentMethod(selectedPaymentMethod.method);
-
-    const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
 
     const fetchPaymentIntentClientSecret = async () => {
       const response = await fetch(
@@ -75,8 +153,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       console.log('blah');
       console.log(data);
     };
-
-    fetchPaymentIntentClientSecret().then(() => {
+    // initializePaymentSheet();
+    initializePaymentSheet().then(() => {
       setLoading(false);
     });
   }, []);
@@ -176,7 +254,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
     <StripeProvider
       publishableKey={publishableKey}
       urlScheme="https://nba.com"
-      merchantIdentifier="merchant.identifier">
+      merchantIdentifier="merchant.com.{{RNEcommerce}}">
       <View style={styles.container}>
         <View style={styles.catItemsContainer}>
           <ScrollView>
@@ -245,10 +323,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
           <View style={styles.actionsButtonContainer}>
             <ActionButton
               action={
-                paymentMethod === 'Karta płatnicza'
-                  ? handleTransferSheet
-                  : null || paymentMethod === 'Przelew bankowy'
-                  ? handlePayCardPress
+                paymentMethod === 'Płatność online'
+                  ? openPaymentSheet
                   : null || paymentMethod === 'Płatność przy odbiorze'
                   ? handlePayOnDelivery
                   : null
