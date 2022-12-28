@@ -26,7 +26,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   const publishableKey =
     'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
 
-  const { initPaymentSheet, presentPaymentSheet, confirmPayment } = useStripe();
+  const { initPaymentSheet, presentPaymentSheet, confirmPayment, isApplePaySupported} = useStripe();
+  // const { isApplePaySupported } = useApplePay();
   const userEmail = useSelector((state) => state.auth.userEmail);
   const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
 
@@ -272,6 +273,10 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
                   : null
               }
               actionName={'Zamawiam i płacę'}
+            />
+            <ActionButton
+                action={() => alert(isApplePaySupported)}
+                actionName={'blah'}
             />
           </View>
           {paymentError !== '' ? (
