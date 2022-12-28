@@ -6,7 +6,7 @@ import CartSummary from '../../components/UI/CartSummary';
 import CartStepHeader from '../../components/UI/CartStepHeader';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import React, { useEffect, useState } from 'react';
-import { useStripe } from '@stripe/stripe-react-native';
+import { useStripe, useApplePay } from '@stripe/stripe-react-native';
 import Spinner from '../../components/UI/Spinner';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -26,7 +26,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   const publishableKey =
     'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
 
-  const { initPaymentSheet, presentPaymentSheet, confirmPayment, isApplePaySupported} = useStripe();
+  const { initPaymentSheet, presentPaymentSheet, confirmPayment } = useStripe();
+  const { presentApplePay, isApplePaySupported } = useApplePay();
   // const { isApplePaySupported } = useApplePay();
   const userEmail = useSelector((state) => state.auth.userEmail);
   const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
@@ -59,6 +60,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
     const { paymentIntent, ephemeralKey, customer } =
       await fetchPaymentSheetParams();
 
+    //
+
     const { error } = await initPaymentSheet({
       merchantDisplayName: 'Example, Inc.',
       customerId: customer,
@@ -83,6 +86,31 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   };
 
   const openPaymentSheet = async () => {
+    // const { er } = await presentApplePay({
+    //   cartItems: [
+    //     {
+    //       label: 'Example item name',
+    //       amount: '14.00',
+    //       paymentType: 'Immediate',
+    //     },
+    //   ],
+    //   country: 'PL',
+    //   currency: 'PLN',
+    //   shippingMethods: [
+    //     {
+    //       amount: '20.00',
+    //       identifier: 'DPS',
+    //       label: 'Courier',
+    //       detail: 'Delivery',
+    //     },
+    //   ],
+    //   requiredShippingAddressFields: ['emailAddress', 'phoneNumber'],
+    //   requiredBillingContactFields: ['phoneNumber', 'name'],
+    // });
+    // if (er) {
+    //   alert(er);
+    // }
+
     const { error } = await presentPaymentSheet();
 
     if (error) {
@@ -195,7 +223,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
     <StripeProvider
       publishableKey={publishableKey}
       urlScheme="https://nba.com"
-      merchantIdentifier="merchant.com.{{RNEcommerce}}">
+      merchantIdentifier="merchant.RNEcommerce">
       <View style={styles.container}>
         <View style={styles.catItemsContainer}>
           <ScrollView>
@@ -275,8 +303,8 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
               actionName={'Zamawiam i płacę'}
             />
             <ActionButton
-                action={() => alert(isApplePaySupported)}
-                actionName={'blah'}
+              action={() => alert(isApplePaySupported)}
+              actionName={'blah'}
             />
           </View>
           {paymentError !== '' ? (
