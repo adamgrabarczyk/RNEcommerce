@@ -20,12 +20,13 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [paymentError, setPaymentError] = useState('');
+  const [clientSecretKey, setClientSecretKey] = useState('');
   const dispatch = useDispatch();
 
   const publishableKey =
     'pk_test_51KKV1XLiqKk5uVnEZ9PZrhRmaJ8q5IMfIxiXerehoYXTL2fAohNPKOwgXbTULVq1oFTbPmKcHakpzYzH7r3iUJMr00PfEYhNLx';
 
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const { initPaymentSheet, presentPaymentSheet, confirmPayment } = useStripe();
   const userEmail = useSelector((state) => state.auth.userEmail);
   const amountString = totalAmount.toFixed(2).toString().replace(/\./g, '');
 
@@ -41,10 +42,11 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
           amount: amountString,
           email: userEmail,
           currency: 'pln',
-          payment_method_types: ['card', 'p24'],
+          payment_method_types: ['card'],
         }),
       },
     );
+    // console.log(await response.json());
     const { paymentIntent, ephemeralKey, customer } = await response.json();
     return {
       paymentIntent,
@@ -102,12 +104,82 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
     }
   };
 
+  const fetchPaymentIntentClientSecret = async () => {
+    console.log('start');
+    const response = await fetch(
+      'https://adamgrabarczyk.pl/show/apiStripe/p24session.php',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          currency: 'pln',
+          payment_method_types: ['p24'],
+        }),
+      },
+    );
+    const { clientSecret, error } = await response.json();
+    // console.log(await response.json());
+    console.log(clientSecret);
+    console.log('blah');
+    console.log(error);
+    setClientSecretKey(clientSecret);
+
+    return { clientSecret, error };
+  };
+
+  const handlePayPress = async () => {
+    console.log(clientSecretKey);
+    // const billingDetails: PaymentMethodCreateParams.BillingDetails = {
+    //   userEmail,
+    // };
+
+    const { error, paymentIntent } = await confirmPayment(clientSecretKey, {
+      paymentMethodType: 'P24',
+      paymentMethodData: {
+        billingDetails: {
+          name: 'joe',
+          email: userEmail,
+        },
+      },
+    });
+
+    if (error) {
+      console.log(`Error code: ${error.code}`, error.message);
+    } else if (paymentIntent) {
+      console.log('The payment was confirmed successfully! currency: eur');
+      setPaymentError('');
+      dispatch(
+        ordersActions.addOrder(
+          cartItems,
+          totalAmount,
+          selectedAddress,
+          selectedDeliveryMethod,
+          selectedPaymentMethod,
+          'Opłacone',
+        ),
+      );
+      navigation.navigate('SuccessScreen');
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     setPaymentMethod(selectedPaymentMethod.method);
-    initializePaymentSheet().then(() => {
+    if (selectedPaymentMethod.method === 'Karta płatnicza') {
+      initializePaymentSheet().then(() => {
+        console.log('done');
+        setLoading(false);
+      });
+    } else if (selectedPaymentMethod.method === 'Przelew bankowy') {
+      fetchPaymentIntentClientSecret().then(() => {
+        setLoading(false);
+      });
+    } else {
       setLoading(false);
-    });
+    }
   }, []);
 
   if (loading) {
@@ -200,8 +272,10 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
           <View style={styles.actionsButtonContainer}>
             <ActionButton
               action={
-                paymentMethod === 'Płatność online'
+                paymentMethod === 'Karta płatnicza'
                   ? openPaymentSheet
+                  : null || paymentMethod === 'Przelew bankowy'
+                  ? handlePayPress
                   : null || paymentMethod === 'Płatność przy odbiorze'
                   ? handlePayOnDelivery
                   : null

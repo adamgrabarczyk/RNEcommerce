@@ -7,15 +7,21 @@ import ItemFrame from '../../components/UI/ItemFrame';
 
 const paymentMethods = [
   {
-    method: 'Płatność online',
-    icon: '',
+    method: 'Karta płatnicza',
+    icon: 'card',
     id: '1',
+  },
+
+  {
+    method: 'Przelew bankowy',
+    icon: '',
+    id: '2',
   },
 
   {
     method: 'Płatność przy odbiorze',
     icon: '',
-    id: '2',
+    id: '3',
   },
 ];
 
