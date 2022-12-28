@@ -113,6 +113,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          amount: amountString,
           email: userEmail,
           currency: 'pln',
           payment_method_types: ['p24'],
