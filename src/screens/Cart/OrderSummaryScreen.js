@@ -46,7 +46,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
         }),
       },
     );
-    // console.log(await response.json());
     const { paymentIntent, ephemeralKey, customer } = await response.json();
     return {
       paymentIntent,
@@ -56,7 +55,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   };
 
   const initializePaymentSheet = async () => {
-    const { paymentIntent, ephemeralKey, customer, publishableKey } =
+    const { paymentIntent, ephemeralKey, customer } =
       await fetchPaymentSheetParams();
 
     const { error } = await initPaymentSheet({
@@ -121,21 +120,12 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       },
     );
     const { clientSecret, error } = await response.json();
-    // console.log(await response.json());
-    console.log(clientSecret);
-    console.log('blah');
-    console.log(error);
     setClientSecretKey(clientSecret);
 
     return { clientSecret, error };
   };
 
   const handlePayPress = async () => {
-    console.log(clientSecretKey);
-    // const billingDetails: PaymentMethodCreateParams.BillingDetails = {
-    //   userEmail,
-    // };
-
     const { error, paymentIntent } = await confirmPayment(clientSecretKey, {
       paymentMethodType: 'P24',
       paymentMethodData: {
