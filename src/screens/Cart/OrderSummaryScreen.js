@@ -86,31 +86,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
   };
 
   const openPaymentSheet = async () => {
-    // const { er } = await presentApplePay({
-    //   cartItems: [
-    //     {
-    //       label: 'Example item name',
-    //       amount: '14.00',
-    //       paymentType: 'Immediate',
-    //     },
-    //   ],
-    //   country: 'PL',
-    //   currency: 'PLN',
-    //   shippingMethods: [
-    //     {
-    //       amount: '20.00',
-    //       identifier: 'DPS',
-    //       label: 'Courier',
-    //       detail: 'Delivery',
-    //     },
-    //   ],
-    //   requiredShippingAddressFields: ['emailAddress', 'phoneNumber'],
-    //   requiredBillingContactFields: ['phoneNumber', 'name'],
-    // });
-    // if (er) {
-    //   alert(er);
-    // }
-
     const { error } = await presentPaymentSheet();
 
     if (error) {
@@ -201,6 +176,10 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       setLoading(false);
     }
   }, []);
+
+  if (!isApplePaySupported) {
+    console.log('apple pay is not supported');
+  }
 
   if (loading) {
     return <Spinner spinnerSize={'fullScreen'} />;
@@ -301,10 +280,6 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
                   : null
               }
               actionName={'Zamawiam i płacę'}
-            />
-            <ActionButton
-              action={() => alert(isApplePaySupported)}
-              actionName={'blah'}
             />
           </View>
           {paymentError !== '' ? (
