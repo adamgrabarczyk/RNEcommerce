@@ -96,7 +96,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       dispatch(
         ordersActions.addOrder(
           cartItems,
-          totalAmount,
+          totalAmount.toFixed(2),
           selectedAddress,
           selectedDeliveryMethod,
           selectedPaymentMethod,
@@ -149,7 +149,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
       dispatch(
         ordersActions.addOrder(
           cartItems,
-          totalAmount,
+          totalAmount.toFixed(2),
           selectedAddress,
           selectedDeliveryMethod,
           selectedPaymentMethod,
