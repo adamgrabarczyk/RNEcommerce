@@ -227,7 +227,7 @@ const OrderSummaryScreen = ({ navigation, route }, props) => {
                       </View>
                       <View style={styles.cartItemSummaryBox}>
                         <Text style={styles.cartItemSummary}>
-                          Razem: {item.sum} PLN
+                          Razem: {item.sum.toFixed(2)} PLN
                         </Text>
                       </View>
                     </View>
