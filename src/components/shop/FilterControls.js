@@ -726,7 +726,7 @@ const styles = StyleSheet.create({
     buttonClose: {
         textAlign: 'center',
         alignItems: 'center',
-        backgroundColor: "#3e8a6f",
+        backgroundColor: '#4b49bf',
         marginTop: 45,
         marginLeft: 15,
         width: 40,
@@ -791,7 +791,7 @@ const styles = StyleSheet.create({
     label: {
         padding: 10,
         borderColor: Colors.primary,
-        backgroundColor: '#3e8a6f',
+        backgroundColor: '#4b49bf',
         borderWidth: 1,
         width: 350,
         flexDirection: 'row',

@@ -156,7 +156,7 @@ export function HomeStackScreen({navigation}) {
 
 const CartStack = createStackNavigator();
 
-function CartStackScreen({navigation}) {
+export function CartStackScreen({navigation}) {
     return (
         <CartStack.Navigator>
             <CartStack.Screen

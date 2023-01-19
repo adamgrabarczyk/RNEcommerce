@@ -11,7 +11,8 @@ import Spinner from '../../components/UI/Spinner';
 
 const OrderScreen = props => {
     const dispatch = useDispatch();
-    const orders = useSelector(state => state.orders.orders);
+    const ordersData = useSelector(state => state.orders.orders);
+    const orders = ordersData.sort((a,b) => {return new Date(b.date) - new Date(a.date)});
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

@@ -22,8 +22,8 @@ const PriceSlider = props => {
                 minimumValue={50}
                 maximumValue={10000}
                 step={1}
-                minimumTrackTintColor="#3e8a6f"
-                maximumTrackTintColor="#3e8a6f"
+                minimumTrackTintColor="#4b49bf"
+                maximumTrackTintColor="#4b49bf"
                 onValueChange={value => {
                     dispatch(searchActions.priceFilter(value, slideCompletionValue))
                 }}

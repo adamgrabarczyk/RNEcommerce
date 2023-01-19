@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
-    View,ScrollView, Image
+    View,ScrollView, Image,
 } from 'react-native';
 import { useScrollToTop } from '@react-navigation/native';
 
@@ -16,6 +16,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constans/Colors';
 import {categoryFilters, markFilters} from '../components/shop/FilterControls';
 import MarksSuggestions from '../components/Home/MarksSuggestions';
+import * as notificationActions from '../store/actions/notifications';
+import * as permissionActions from '../store/actions/permissions';
+import * as orderActioncs from '../store/actions/orders';
+import Spinner from '../components/UI/Spinner';
 
 
 const Home = ({navigation}, props) => {
@@ -26,7 +30,6 @@ const Home = ({navigation}, props) => {
     useScrollToTop(ref);
 
     const products = useSelector(state => state.products.availableProducts);
-
     const bestDealsData = products.filter(
         product => parseInt(product.price) < 2500
     );
@@ -39,19 +42,19 @@ const Home = ({navigation}, props) => {
         product => product.subcategory[0].subcategory_id === '3'
     );
 
-
-    const [bestDeals, setBestDeals] = useState([]);
     const [randomCategoryLabel, setRandomCategoryLabel] = useState([]);
     const [randomSubcategoryLabel, setRandomSubcategoryLabel] = useState([]);
-    const [refrigerators, setRefrigerators] = useState([]);
 
     let iconName;
 
     useEffect(() => {
-        dispatch(productActioncs.fetchFavs());
+        dispatch(productActioncs.fetchProducts()).then(() =>
+            dispatch(productActioncs.fetchFavs())
+        );
         dispatch(userActions._getUserAddresses());
-        setBestDeals(bestDealsData);
-        setRefrigerators(refrigeratorsData);
+        dispatch(notificationActions._getUserNotifications());
+        dispatch(permissionActions._getUserPermissions());
+        dispatch(orderActioncs.fetchOrders());
 
         const getRandom = (arr, n) => {
             let result = new Array(n),
@@ -78,9 +81,9 @@ const Home = ({navigation}, props) => {
 
     }, [dispatch]);
 
-
-
-
+    if (products.length < 1 || refrigeratorsData.length < 1 ) {
+       return <Spinner spinnerSize={'fullScreen'} />
+    }
 
     return(
         <ScrollView ref={ref} style={styles.container}>
@@ -94,7 +97,7 @@ const Home = ({navigation}, props) => {
                 <BestDeals
                     headerTitle={'Sprawdź najlepsze oferty'}
                     suggestions={
-                        bestDeals.map(product=>(
+                        bestDealsData.map(product=>(
                                 <Suggestions
                                     key={product.id.toString()}
                                     imageUri={{uri: product.image}}
@@ -156,7 +159,7 @@ const Home = ({navigation}, props) => {
                 <BestDeals
                     headerTitle={'Lodówki najlepszej jakości'}
                     suggestions={
-                        refrigerators.map(product=>(
+                        refrigeratorsData.map(product=>(
                                 <Suggestions
                                     key={product.id.toString()}
                                     imageUri={{uri: product.image}}

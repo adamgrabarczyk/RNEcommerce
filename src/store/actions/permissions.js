@@ -9,10 +9,8 @@ export const CHANGE_PERMISSIONS = 'CHANGE_PERMISSIONS';
 
 export const _getUserPermissions = () => {
 
-    return async (dispatch) => {
-        const authData = await AsyncStorage.getItem('authData');
-        const parseAuthData = JSON.parse(authData);
-        const id = parseAuthData.user;
+    return async (dispatch, getState) => {
+        const id = getState().auth.user;
 
         database()
             .ref('/permissions/' + id)
@@ -87,8 +85,6 @@ export const _setPermission = (title, status) => {
 
                         if (data !== null) {
 
-                            console.log(data);
-
                             const ids = Object.keys(data);
                             let userPermissions = [];
 
@@ -105,7 +101,6 @@ export const _setPermission = (title, status) => {
                         }
                     })
             });
-
     }
 };
 
@@ -125,8 +120,5 @@ export const _changePermission = (title, status, category, key, permission) => {
             .then(() => {
                 dispatch({type: CHANGE_PERMISSIONS})
             });
-
-
-
     }
 }
