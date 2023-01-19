@@ -133,7 +133,7 @@ const Home = ({ navigation }, props) => {
             <Cutscene
               key={category.name}
               icon={
-                <Ionicons name={iconName} size={40} color={Colors.accent} />
+                <Ionicons name={iconName} size={41} color={Colors.accent} />
               }
               iconWrapperText={category.label}
               action={() =>
