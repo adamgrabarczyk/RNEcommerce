@@ -8,18 +8,27 @@ React Native app fulfills the functions of an online store. It supports, among o
 
 **Server:** Firebase, PHP
 
-<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-LoginScreen.png" width ="28%" style="margin: 2%" /> 
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-HomeScreen.png" width ="28%" style="margin: 2%"  />
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-SearchScreen.png" width ="28%" style="margin: 2%"  />
+<div>
+<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-LoginScreen.png" width ="28%" style="margin: 2%" /> 
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-HomeScreen.png" width ="28%" style="margin: 2%"  />
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-SearchScreen.png" width ="28%" style="margin: 2%"  />
+</div>
 
-<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-FiltersScreen.png" width ="28%" style="margin: 2%" /> 
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-OrderScreen.png" width ="28%" style="margin: 2%"  />
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-PaymentScreen.png" width ="28%" style="margin: 2%"  />
 
-<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-ApplePayScreen.png" width ="28%" style="margin: 2%" /> 
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-ProfileScreen.png" width ="28%" style="margin: 2%"  />
-<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/ScreenShots/ScreenShot-OrdersScreen.png" width ="28%" style="margin: 2%"  />
 
+<div>
+<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-FiltersScreen.png" width ="28%" style="margin: 2%" /> 
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-OrderScreen.png" width ="28%" style="margin: 2%"  />
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-PaymentScreen.png" width ="28%" style="margin: 2%"  />
+</div>
+
+
+
+<div>
+<img src="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-ApplePayScreen.png" width ="28%" style="margin: 2%" /> 
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-ProfileScreen.png" width ="28%" style="margin: 2%"  />
+<img src ="https://github.com/adamgrabarczyk/RNEcommerce/blob/master/src/images/screenShots/ScreenShot-OrdersScreen.png" width ="28%" style="margin: 2%"  />
+</div>
 
 ## Run Locally
 
